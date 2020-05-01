@@ -61,10 +61,11 @@
                 if(user.email == email.value){
                     firestore.collection("Users").doc(user.uid).set({
                     username: username.value,
-                    email: email.value})
-                    textbox.reset();
-                    message ="";
-                    window.location = "./home";
+                    email: email.value}).then((x) =>{
+                        textbox.reset();
+                        message ="";
+                        window.location = "./home";
+                    });
                 }
             }});
         }
