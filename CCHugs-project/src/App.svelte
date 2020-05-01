@@ -5,6 +5,11 @@
 
     let page;
     let params;
+	import Chat from "./chat/Chat.svelte";
+	export let name;
+</script>
+
+<Chat />
 
 	router('/signup',() => page = signup);
 	router('/login',() => page = login);
