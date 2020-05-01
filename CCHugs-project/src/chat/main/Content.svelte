@@ -1,0 +1,14 @@
+<script>
+
+</script>
+
+<main>
+  <p>Content </p>
+</main>
+
+<style>
+  main {
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+  }
+</style>

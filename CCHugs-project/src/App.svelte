@@ -3,9 +3,7 @@
 	export let name;
 </script>
 
-<main>
-	<Chat />
-</main>
+<Chat />
 
 <style>
 	main {
