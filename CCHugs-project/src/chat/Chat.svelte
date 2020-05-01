@@ -8,12 +8,17 @@
     {username: 'Claire', id: 1}
   ];
 
+  let chatLogs = [
+    { message: 'Hi there', sender: 'Jenny', reciever: 'currentUser', id: '0' },
+    { message: 'Hello!', sender: 'currentUser', reciever: 'Jenny', id: '1' }
+  ];
+
 </script>
 
 <main>
   <Navbar />
-  <Sidebar users={users} />
-  <Content />
+  <Sidebar users={users} activeChat={users[0]}/>
+  <Content chatLogs={chatLogs}/>
 </main>
 
 <style>

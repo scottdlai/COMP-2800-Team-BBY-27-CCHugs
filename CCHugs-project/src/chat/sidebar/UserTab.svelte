@@ -4,7 +4,11 @@
 </script>
 
 <main class:active={activeChat} on:click>
-  <h3>{user.username}</h3>
+  {#if activeChat}
+    <h2>{user.username}</h2>
+  {:else}
+    <h3>{user.username}</h3>
+  {/if}
 </main>
 
 <style>
@@ -16,6 +20,6 @@
   main {
     display: flex;
     align-items: center;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
   }
 </style>

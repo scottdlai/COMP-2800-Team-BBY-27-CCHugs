@@ -1,7 +1,7 @@
 <script>
   import UserTab from './UserTab.svelte';
   export let users = [];
-  let activeChat = users[0];
+  export let activeChat = users[0];
 
   function updateActive(user) {
     activeChat = user;
@@ -22,5 +22,7 @@
     grid-row: 2 / span 1;
     border-radius: 4px;
     border: 1px solid black;
+    border-left: none;
+    border-top: none;
   }
 </style>
