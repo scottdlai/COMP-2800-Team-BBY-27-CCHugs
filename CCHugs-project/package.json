@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public"
+    "start": "sirv public --single"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "11.0.2",
@@ -17,6 +17,10 @@
   },
   "dependencies": {
     "firebase": "^7.14.2",
-    "sirv-cli": "^0.4.4"
+    "firebase-admin": "^8.11.0",
+    "idb": "^5.0.2",
+    "page": "^1.11.6",
+    "sirv-cli": "^0.4.4",
+    "svelte-routing": "^1.4.2"
   }
 }

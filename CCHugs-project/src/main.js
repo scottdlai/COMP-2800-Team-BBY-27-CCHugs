@@ -1,6 +1,6 @@
-import login from './signup.svelte';
+import App from './App.svelte';
 
-const app = new login
+const app = new App
 ({
 	target: document.body,
 });
