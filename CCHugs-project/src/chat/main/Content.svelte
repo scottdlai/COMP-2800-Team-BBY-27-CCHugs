@@ -4,26 +4,30 @@
   import SendButton from './SendButton.svelte';
 
   export let user = {};
-  export let chatLogs = [];
+  export let conversation = [];
+
   let message = '';
 
   function sendMessage(event) {
-    console.log('sent');
-    chatLogs.push({
+    if (message === '') // Can't send empty message
+      return;
+    
+    conversation.push({
       message: message,
       sender: 'currentUser',
       reciever: 'Jenny',
       id: Math.random().toString(),
     });
     message = '';
-    chatLogs = chatLogs;
+    conversation = conversation;
   } 
+  
 </script>
 
 <main>
   <div id="chat-log-container">
-    {#each chatLogs as chatLog (chatLog.id)}
-      <ChatBubble chatLog={chatLog} />
+    {#each conversation as text (text.id)}
+      <ChatBubble chatLog={text} />
     {/each}
   </div>
   <div id="input-container">
@@ -39,12 +43,15 @@
     display: grid;
     grid-template-rows: auto 20vh;
     grid-template-columns: auto;
+    row-gap: 12px;
+    overflow-y: scroll;
   }
 
   #chat-log-container {
     display: flex;
     flex-direction: column;
     padding: 0 24px;
+    overflow-y: auto;
   }
 
   #input-container {

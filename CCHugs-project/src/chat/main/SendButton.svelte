@@ -12,5 +12,11 @@
     border: none;
     border-radius: 4px;
     font-size: 2em;
+    outline: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    border: 4px solid black;
   }
 </style>

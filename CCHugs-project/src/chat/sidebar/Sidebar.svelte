@@ -1,17 +1,17 @@
 <script>
   import UserTab from './UserTab.svelte';
   export let users = [];
-  export let activeChat = users[0];
+  export let activeUser = users[0];
 
   function updateActive(user) {
-    activeChat = user;
+    activeUser = user;
   }
 
 </script>
 
 <main>
   {#each users as user (user.id)}
-    <UserTab user={user} activeChat={activeChat === user} 
+    <UserTab user={user} isActive={user === activeUser} 
     on:click={() => updateActive(user)}/>
   {/each}
 </main>

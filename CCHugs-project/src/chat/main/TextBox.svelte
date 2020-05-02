@@ -2,24 +2,23 @@
   export let message;
 </script>
 
-<input type="text" bind:value={message} placeholder="type here..."/>
+<textarea type="text" bind:value={message} placeholder="type here..."/>
 
 <style>
-  input {
+  textarea {
     width: 56.25vw;
     height: 15vh;
     border-radius: 4px;
-    border: none;
-    background-color: #c4c4c4;
-    color: white;
+    border: 4px solid black;
+    background-color: white;
     font-size: 1em;
     outline: none;
     resize: none;
-    padding-left: 12px;
+    padding: 4px 12px;
     font-size: 2em;
   }
 
-  input:focus::placeholder {
+  textarea:focus::placeholder {
     color: transparent;
   }
 </style>

@@ -1,20 +1,15 @@
 <script>
   export let user = {};
-  export let activeChat = false;
+  export let isActive = false;
 </script>
 
-<main class:active={activeChat} on:click>
-  {#if activeChat}
-    <h2>{user.username}</h2>
-  {:else}
-    <h3>{user.username}</h3>
-  {/if}
+<main class:active={isActive} on:click>
+  <h3>{user.username}</h3>
 </main>
 
 <style>
   .active {
     background-color: #ff9e6d;
-    color: white;
   }
 
   main {
