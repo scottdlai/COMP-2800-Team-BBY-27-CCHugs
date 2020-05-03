@@ -1,11 +1,5 @@
 <script>
   export let message = {};
-
-  function isAuthor() {
-    console.log(message);
-    return message.author.username === 'currentUser';
-  }
-
 </script>
 
 <div id="message-container" class:active={message.author.username === 'currentUser'}>
@@ -32,5 +26,7 @@
   #message-container p {
     padding: 0 12px;
     font-size: 1em;
+    width: 100%;
+    word-break: break-word;
   }
 </style>
