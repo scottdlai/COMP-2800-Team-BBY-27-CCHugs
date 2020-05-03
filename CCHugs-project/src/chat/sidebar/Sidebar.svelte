@@ -1,10 +1,15 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import UserTab from './UserTab.svelte';
+
   export let users = [];
   export let activeUser = users[0];
 
+  let dispatch = createEventDispatcher();
+
   function updateActive(user) {
-    activeUser = user;
+
+    dispatch('updateActiveUser', user);
   }
 
 </script>
@@ -21,7 +26,7 @@
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
     border-radius: 4px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-left: none;
     border-top: none;
   }

@@ -1,39 +1,49 @@
 <script>
   import ChatBubble from './ChatBubble.svelte';
-  import TextBox from './TextBox.svelte';
-  import SendButton from './SendButton.svelte';
 
-  export let user = {};
-  export let conversation = [];
+  export let currentUser = {};
+  export let conversation = {};
 
-  let message = '';
+  let sentMessage = '';
+
+  $: messages = conversation['messages'];
 
   function sendMessage(event) {
-    if (message === '') // Can't send empty message
+    if (sentMessage === '') // Can't send empty message
       return;
     
-    conversation.push({
-      message: message,
-      sender: 'currentUser',
-      reciever: 'Jenny',
+    messages.push({
+      content: sentMessage,
+      author: currentUser,
       id: Math.random().toString(),
     });
-    message = '';
-    conversation = conversation;
-  } 
+
+    sentMessage = '';
+    messages = messages;
+    scrollDown();
+  }
+
+  function scrollDown() {
+    // TODO: Automatically scrolls down when the user send a message
+  }
   
 </script>
 
 <main>
-  <div id="chat-log-container">
-    {#each conversation as text (text.id)}
-      <ChatBubble chatLog={text} />
-    {/each}
+  <div id="messages-wrapper">
+    <div id="messages-container">
+      {#each messages as message (message.id)}
+        <ChatBubble message={message} />
+      {:else}
+        <h1>Starts your conversation...</h1>
+      {/each}
+    </div>
   </div>
-  <div id="input-container">
-    <TextBox bind:message={message}/>
-    <SendButton on:click={sendMessage}/>
-  </div>
+  <form id="input-container" on:submit|preventDefault={sendMessage}>
+    <textarea type="text" bind:value={sentMessage} placeholder="type here..."/>
+
+    <button>Send</button>
+  </form>
 </main>
 
 <style>
@@ -46,12 +56,23 @@
     row-gap: 12px;
     overflow-y: scroll;
   }
+  /* 
+    BUG FIX:
+    https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-
+    and-to-have-vertical-scrollbar
+  */
+  #messages-wrapper {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
 
-  #chat-log-container {
+  #messages-container {
     display: flex;
+    flex: 1;
     flex-direction: column;
+    justify-content: flex-end;
     padding: 0 24px;
-    overflow-y: auto;
+    min-height: 100%;
   }
 
   #input-container {
@@ -59,6 +80,38 @@
     grid-column: 1 / span 1;
     display: flex;
     justify-content: space-evenly;
+    
+  }
+
+  textarea {
+    width: 56.25vw;
+    height: 15vh;
+    border-radius: 4px;
+    border: 4px solid black;
+    background-color: white;
+    outline: none;
+    resize: none;
+    padding: 4px 12px;
+    font-size: 2em;
+  }
+
+  textarea:focus::placeholder {
+    color: transparent;
+  }
+
+  button {
+    background-color: #ffe66d;
+    width: 12.5vw;
+    height: 15vh;
+    border: none;
+    border-radius: 4px;
+    font-size: 2em;
+    outline: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    border: 4px solid black;
   }
 
 </style>

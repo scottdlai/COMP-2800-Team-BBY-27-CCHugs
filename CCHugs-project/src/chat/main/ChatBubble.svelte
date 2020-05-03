@@ -1,9 +1,15 @@
 <script>
-  export let chatLog = {};
+  export let message = {};
+
+  function isAuthor() {
+    console.log(message);
+    return message.author.username === 'currentUser';
+  }
+
 </script>
 
-<div id="message-container" class:active={chatLog.sender==='currentUser'}>
-  <p>{chatLog.message}</p>
+<div id="message-container" class:active={message.author.username === 'currentUser'}>
+  <p>{message.content}</p>
 </div>
 
 <style>
@@ -19,7 +25,7 @@
     display: flex;
     justify-content: flex-start;
     background-color: #ff9e6d;
-    max-width: 12.5vw;
+    width: 12.5vw;
     margin-top: 12px;
   }
 
