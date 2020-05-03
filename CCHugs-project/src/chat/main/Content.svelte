@@ -1,4 +1,5 @@
 <script>
+  import { afterUpdate } from 'svelte';
   import ChatBubble from './ChatBubble.svelte';
 
   export let currentUser = {};
@@ -8,23 +9,25 @@
 
   $: messages = conversation['messages'];
 
+  afterUpdate(scrollDown);
+
   function sendMessage(event) {
-    if (sentMessage === '') // Can't send empty message
+    if (!sentMessage) // Can't send empty message
       return;
-    
-    messages.push({
+
+    conversation.messages = [...messages, {
       content: sentMessage,
       author: currentUser,
       id: Math.random().toString(),
-    });
+    }];
 
     sentMessage = '';
-    messages = messages;
-    scrollDown();
   }
 
   function scrollDown() {
-    // TODO: Automatically scrolls down when the user send a message
+    const messagesWrapper = document.getElementById('messages-wrapper');
+
+    messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   }
   
 </script>
@@ -64,6 +67,7 @@
   #messages-wrapper {
     overflow-y: scroll;
     scroll-behavior: smooth;
+    height: 100%;
   }
 
   #messages-container {
@@ -73,6 +77,7 @@
     justify-content: flex-end;
     padding: 0 24px;
     min-height: 100%;
+    overflow-y: scroll;
   }
 
   #input-container {

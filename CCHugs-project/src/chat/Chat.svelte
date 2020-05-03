@@ -75,6 +75,9 @@
     };
   }
 
+  /**
+   * Updates the conversation shown on the windows. 
+   */
   function updateConversation(event) {
     activeUser = event.detail;
     activeConversation = getConversationWith(activeUser);
