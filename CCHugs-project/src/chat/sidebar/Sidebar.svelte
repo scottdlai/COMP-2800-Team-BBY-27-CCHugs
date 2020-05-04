@@ -8,7 +8,6 @@
   let dispatch = createEventDispatcher();
 
   function updateActive(user) {
-
     dispatch('updateActiveUser', user);
   }
 
@@ -25,7 +24,6 @@
   main {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
-    border-radius: 4px;
     border: 2px solid black;
     border-left: none;
     border-top: none;
