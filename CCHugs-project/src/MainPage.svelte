@@ -1,5 +1,6 @@
 <script>
 	let name = '.....'
+
 		let button = [
 		{buttonName: 'Profile', handle: function () {
 		name = 'Profile'}},
@@ -10,16 +11,16 @@
 		{buttonName:'Send A Hug', handle: function () {
 		name = "Send A Hug"}},
 
-				{buttonName: 'Check Hugs', handle: function () {
+		{buttonName: 'Check Hugs', handle: function () {
 		name = "Check Hugs"}},
 
-						{buttonName:'Fiends List', handle: function () {
+		{buttonName:'Fiends List', handle: function () {
 		name = "Friends List"}},
 
-								{buttonName:'Chats', handle: function () {
+		{buttonName:'Chats', handle: function () {
 		name = "Chats"}},
 
-										{buttonName:'Feedback', handle: function () {
+		{buttonName:'Feedback', handle: function () {
 		name = "Feedback"}},
 	];
 	console.log(button);
@@ -27,8 +28,8 @@
 
 <main>
 	<header>
-	<h1>Going to {name}!</h1>
-	<hr>
+		<h1>Going to {name}!</h1>
+		<hr>
 	</header>
 
 	<section>
@@ -40,7 +41,7 @@
 	</section>
 
 	<footer>
-	<h1>This is a footer</h1>
+		<h1>This is a footer</h1>
 	</footer>
 </main>
 
