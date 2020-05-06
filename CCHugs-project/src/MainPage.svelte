@@ -1,27 +1,42 @@
 <script>
 	let name = '.....'
 
-		let button = [
+	let button = [
 		{buttonName: 'Profile', handle: function () {
-		name = 'Profile'}},
-
-		{buttonName:'Self Awareness & Mental Help', handle: function () {
-		name = "Self Awareness & Mental help"}},
+		name = 'Profile'}, color: "background-color: #6dffe7"},
 
 		{buttonName:'Send A Hug', handle: function () {
-		name = "Send A Hug"}},
+		name = "Send A Hug"}, color: "background-color: #6dffe7"},
 
 		{buttonName: 'Check Hugs', handle: function () {
-		name = "Check Hugs"}},
-
-		{buttonName:'Fiends List', handle: function () {
-		name = "Friends List"}},
+		name = "Check Hugs"}, color: "background-color: #6dffe7"},
+		{buttonName:'Friends List', handle: function () {
+		name = "Friends List"}, color: "background-color: #6dffe7"},
 
 		{buttonName:'Chats', handle: function () {
-		name = "Chats"}},
+		name = "Chats"}, color: "background-color: #6dffe7"},
 
-		{buttonName:'Feedback', handle: function () {
-		name = "Feedback"}},
+		{buttonName:'Self Awareness' + ' & ' + 'Mental Help', handle: function () {
+		name = "Self Awareness & Mental help"}, color: "background-color: #FF9E6D"},
+
+
+		{buttonName:'Feedback 1.', handle: function () {
+		name = "Feedback 1."}, color: "background-color: #FFE66D"},
+
+				{buttonName:'Feedback 2.', handle: function () {
+		name = "Feedback 2."}, color: "background-color: #C4C4C4"},
+
+				{buttonName:'Feedback 3.', handle: function () {
+		name = "Feedback 3."}, color: "background-color: #FF9E6D"},
+
+				{buttonName:'Feedback 4.', handle: function () {
+		name = "Feedback 4."}, color: "background-color: #448FFF"},
+
+				{buttonName:'Feedback 5.', handle: function () {
+		name = "Feedback 5."}, color: "background-color: #FF6B6B"},
+
+						{buttonName:'Feedback 6.', handle: function () {
+		name = "Feedback 5."}, color: "background-color: #6dffe7"},
 	];
 	console.log(button);
 </script>
@@ -29,13 +44,12 @@
 <main>
 	<header>
 		<h1>Going to {name}!</h1>
-		<hr>
 	</header>
 
 	<section>
 		<div class="buttonDisplay">
 		{#each button as button}
-		<button on:click={button.handle}>{button.buttonName}</button>
+		<button style={button.color} on:click={button.handle}>{button.buttonName}</button>
 		{/each}
 		</div>
 	</section>
@@ -68,11 +82,11 @@
 
 		@media (min-width: 1024px) {
 		main {
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-areas:
-		"header header header"
-		"section section section"
-		"footer footer footer";
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-areas:
+			"header header header"
+			"section section section"
+			"footer footer footer";
 		}
 
 		.buttonDisplay {
@@ -89,9 +103,9 @@
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-		"header header"
-		"section section"
-		"footer footer";
+			"header header"
+			"section section"
+			"footer footer";
 		}
 
 				.buttonDisplay {
@@ -107,11 +121,11 @@
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-		"header"
-		"section"
-		"footer";
+			"header"
+			"section"
+			"footer";
 		}
-						.buttonDisplay {
+		.buttonDisplay {
 			display:grid;
 			grid-gap: 50px 50px;
 			grid-template-columns: repeat(1, 1fr);
@@ -121,16 +135,20 @@
 	}
 
 		button {
-		width: 100%;
-		height: 250px;
-		background-color: #ff9e6d;
+			width: 100%;
+			height: 250px;
+			border-radius: 25px;
+			font-size: 250%;
+			border: 2px solid black;
+			font-weight: bold;
+
 		}
 		
 		h1 {
-		text-align: center;
-		color: #ff3e00;
-		text-transform: capitalize;
-		font-size: 4em;
-		font-weight: 100;
+			text-align: center;
+			color: black;
+			text-transform: capitalize;
+			font-size: 4em;
+			font-weight: 100;
 		}
 </style>
