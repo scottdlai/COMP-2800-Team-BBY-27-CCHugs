@@ -3,40 +3,39 @@
 
 	let button = [
 		{buttonName: 'Profile', handle: function () {
-		name = 'Profile'}, color: "background-color: #6dffe7"},
+		name = 'Profile'}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Send A Hug', handle: function () {
-		name = "Send A Hug"}, color: "background-color: #6dffe7"},
+		name = "Send A Hug"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName: 'Check Hugs', handle: function () {
-		name = "Check Hugs"}, color: "background-color: #6dffe7"},
+		name = "Check Hugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 		{buttonName:'Friends List', handle: function () {
-		name = "Friends List"}, color: "background-color: #6dffe7"},
+		name = "Friends List"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Chats', handle: function () {
-		name = "Chats"}, color: "background-color: #6dffe7"},
+		name = "Chats"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Self Awareness' + ' & ' + 'Mental Help', handle: function () {
 		name = "Self Awareness & Mental help"}, color: "background-color: #FF9E6D"},
 
+		{buttonName:'Feedback', handle: function () {
+		name = "Feedback"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
-		{buttonName:'Feedback 1.', handle: function () {
-		name = "Feedback 1."}, color: "background-color: #FFE66D"},
+		// 		{buttonName:'Feedback 2.', handle: function () {
+		// name = "Feedback 2."}, color: "background-color: #C4C4C4"},
 
-				{buttonName:'Feedback 2.', handle: function () {
-		name = "Feedback 2."}, color: "background-color: #C4C4C4"},
+		// 		{buttonName:'Feedback 3.', handle: function () {
+		// name = "Feedback 3."}, color: "background-color: #FF9E6D"},
 
-				{buttonName:'Feedback 3.', handle: function () {
-		name = "Feedback 3."}, color: "background-color: #FF9E6D"},
+		// 		{buttonName:'Feedback 4.', handle: function () {
+		// name = "Feedback 4."}, color: "background-color: #448FFF"},
 
-				{buttonName:'Feedback 4.', handle: function () {
-		name = "Feedback 4."}, color: "background-color: #448FFF"},
+		// 		{buttonName:'Feedback 5.', handle: function () {
+		// name = "Feedback 5."}, color: "background-color: #FF6B6B"},
 
-				{buttonName:'Feedback 5.', handle: function () {
-		name = "Feedback 5."}, color: "background-color: #FF6B6B"},
-
-						{buttonName:'Feedback 6.', handle: function () {
-		name = "Feedback 5."}, color: "background-color: #6dffe7"},
+		// 				{buttonName:'Feedback 6.', handle: function () {
+		// name = "Feedback 5."}, color: "background-color: #6dffe7"},
 	];
 	console.log(button);
 </script>
@@ -73,6 +72,8 @@
 	}
 
 	section {
+		margin-left: auto;
+		margin-right: auto;
 		grid-area: section;
 	}
 
@@ -90,6 +91,7 @@
 		}
 
 		.buttonDisplay {
+			font-size: 250%;
 			display:grid;
 			grid-gap: 50px 50px;
 			grid-template-columns:repeat(3, 1fr);
@@ -99,7 +101,7 @@
 
 	}
 
-	@media (min-width: 440px) and (max-width: 1024px) {
+	@media (min-width: 520px) and (max-width: 1024px) {
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
@@ -108,7 +110,8 @@
 			"footer footer";
 		}
 
-				.buttonDisplay {
+			.buttonDisplay {
+			font-size: 250%;
 			display:grid;
 			grid-gap: 50px 50px;
 			grid-template-columns: repeat(2, 1fr);
@@ -117,20 +120,21 @@
 		}
 	}
 
-	@media (max-width: 440px) {
+	@media (max-width: 520px) {
 		main {
-			grid-template-columns: repeat(1, 1fr);
+			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"header"
-			"section"
-			"footer";
+			"header header"
+			"section section"
+			"footer footer";
 		}
 		.buttonDisplay {
-			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns: repeat(1, 1fr);
+			font-size: 150%;
+			display: grid;
+			grid-gap: 25px 25px;
+			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"section"
+			"section section"
 		}
 	}
 
@@ -138,10 +142,8 @@
 			width: 100%;
 			height: 250px;
 			border-radius: 25px;
-			font-size: 250%;
 			border: 2px solid black;
 			font-weight: bold;
-
 		}
 		
 		h1 {
