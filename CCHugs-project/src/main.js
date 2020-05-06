@@ -1,5 +1,5 @@
-// import App from './App.svelte';
-import App from './MainPage.svelte';
+import App from './App.svelte';
+// import App from './MainPage.svelte';
 
 const app = new App
 ({

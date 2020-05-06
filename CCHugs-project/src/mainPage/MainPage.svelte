@@ -10,16 +10,16 @@
 		{buttonName:'Send A Hug', handle: function () {
 		name = "Send A Hug"}},
 
-				{buttonName: 'Check Hugs', handle: function () {
+		{buttonName: 'Check Hugs', handle: function () {
 		name = "Check Hugs"}},
 
-						{buttonName:'Fiends List', handle: function () {
+		{buttonName:'Fiends List', handle: function () {
 		name = "Friends List"}},
 
-								{buttonName:'Chats', handle: function () {
-		name = "Chats"}},
+		{buttonName:'Chats', handle: function () {
+		location.href = '/chat'}},
 
-										{buttonName:'Feedback', handle: function () {
+		{buttonName:'Feedback', handle: function () {
 		name = "Feedback"}},
 	];
 	console.log(button);
