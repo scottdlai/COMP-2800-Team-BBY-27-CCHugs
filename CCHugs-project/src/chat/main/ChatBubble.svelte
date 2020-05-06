@@ -18,7 +18,7 @@
     border-radius: 4px;
     display: flex;
     justify-content: flex-start;
-    background-color: #ff9e6d;
+    background-color: #c4c4c4;
     width: 12.5vw;
     margin-top: 12px;
   }
