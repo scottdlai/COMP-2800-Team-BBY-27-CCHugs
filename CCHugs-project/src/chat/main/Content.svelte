@@ -9,7 +9,11 @@
 
   $: messages = conversation['messages'];
 
-  afterUpdate(scrollDown);
+  afterUpdate(() => {
+    const messagesWrapper = document.getElementById('messages-wrapper');
+
+    messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
+  });
 
   function sendMessage(event) {
     if (!sentMessage) // Can't send empty message
@@ -22,12 +26,6 @@
     }];
 
     sentMessage = '';
-  }
-
-  function scrollDown() {
-    const messagesWrapper = document.getElementById('messages-wrapper');
-
-    messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   }
   
 </script>
