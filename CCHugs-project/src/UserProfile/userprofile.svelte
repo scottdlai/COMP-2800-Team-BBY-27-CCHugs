@@ -1,7 +1,16 @@
 <script>
-import Navbar from '../components/Navbar.svelte'
+import Navbar from '../components/Navbar.svelte';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 let editProfile = function () {
-	location.href="/userprofileEdit";
+		location.href="/userprofileEdit";
+}
+
+let displayName = function() {
+	auth.onAuthStateChanged( function (user) {
+		document.getElementById("username").innerHTML = user.displayName;
+	})
 }
 
 </script>
@@ -16,12 +25,12 @@ let editProfile = function () {
 <div class="buttonDisplay">
 <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
 
-<button on:click={() => {editProfile}}>Edit Profile</button>
+<button on:click={editProfile} >Edit Profile</button>
 </div>
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-<p>Claire</p>
+<p id="username">{displayName}</p>
 
 <h2>Quotes:</h2>
 <p>Just A Hugger</p>

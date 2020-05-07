@@ -1,7 +1,31 @@
 <script>
-import Navbar from '../components/Navbar.svelte'
+import Navbar from '../components/Navbar.svelte';
+import 'firebase/auth';
+import 'firebase/firestore';
 
+let backToProfile = function () {
+		location.href="/userprofile";
+}
 
+function setAddListner() {
+    document.getElementById("submit2").addEventListener("click", function (e) {
+        let profileDisplayName = document.getElementById("dname").value;
+        let profileQuote = document.getElementById("quote").value;
+console.log(profileDisplayName);
+
+        auth.onAuthStateChanged(function (user){
+            firebase.collection("users").doc(user.id)
+            .collection("Profile")
+            .add(profileDisplayName)
+            .add(profileQuote)
+            .then(function(){
+                location.href="/userprofile-edit";
+            })
+        })
+    })
+}
+
+console.log(user.id);
 </script>
 
 <main>
@@ -15,7 +39,7 @@ import Navbar from '../components/Navbar.svelte'
 <button> Click to change your picture </button>
 
 
-<form>
+<form on:submit|preventDefault="{setAddListner}">
     <fieldset>
         <legend>Edit Profile:</legend>
         <label for='dname'>Display Name:</label>
@@ -28,10 +52,11 @@ import Navbar from '../components/Navbar.svelte'
         <input type="text" id='password' name='password'>
     </fieldset>
     <button id="submit1">Cancel</button> 
-    <input id="submit1" type="submit" value="Send">
+    <input id="submit2" type="submit" value="Save">
     
 </form>
 
+<button on:click={backToProfile}>Back to profile</button>
 </section>
 
 <footer>
