@@ -16,7 +16,7 @@
 		name = "Friends List"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Chats', handle: function () {
-		location.href="/Chats"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/Chat"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Self Awareness' + ' & ' + 'Mental Help', handle: function () {
 		name = "Self Awareness & Mental help"}, color: "background-color: #FF9E6D"},
@@ -26,6 +26,7 @@
 	];
 	console.log(button);
 </script>
+
 <Navbar>
 </Navbar>
 
@@ -128,6 +129,7 @@
 	}
 
 		button {
+			font-size:100%;
 			width: 100%;
 			height: 250px;
 			border-radius: 25px;
@@ -141,5 +143,10 @@
 			text-transform: capitalize;
 			font-size: 4em;
 			font-weight: 100;
+		}
+
+		footer {
+			margin-top: 25px;
+			background-color: #FFE66D;
 		}
 </style>

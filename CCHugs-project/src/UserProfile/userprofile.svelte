@@ -1,14 +1,16 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
-
+let name = '.....'
 
 </script>
 
-<main>
-<header>
 <Navbar>
 </Navbar>
-</header>
+
+<main>
+	<header>
+		<h1>Going to {name}!</h1>
+	</header>
 
 <section>
 <div class="buttonDisplay">
