@@ -4,8 +4,8 @@
 
     let src = "../DifferentLogo2.svg";
     
-    const handleClick = () => {
-        href="/signup"
+    let handleClick = () => {
+        location.href="/signup"
     };
 
 </script>
@@ -22,8 +22,11 @@
         <div id="mission">
             <h1>Mission Statement</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer blandit justo et nulla varius, quis tempor ligula ullamcorper. Nam vitae egestas mauris. Morbi eu convallis augue, nec lacinia nisi. Vivamus sed eleifend odio. Quisque lobortis enim ligula, volutpat efficitur velit porttitor ac. Maecenas iaculis nisl leo, sit amet commodo erat maximus eget. Nunc cursus nisl in consectetur rhoncus. In hac habitasse platea dictumst. Sed sit amet vehicula enim, eget volutpat ex. Vivamus ligula turpis, vestibulum ut hendrerit ac, egestas fringilla odio. Nam ut molestie urna. Mauris at cursus mi. Donec viverra vehicula erat, at condimentum dui condimentum ac. Nunc id suscipit libero. Vivamus non lacinia tortor, vel molestie nisl.</p>
-            <button on:click={handleClick}>Click here to start hugging</button>
+                                    <button on:click={handleClick}>Click here to start hugging</button>
+
         </div>
+
+
     </section>
 
     <hr>
@@ -68,7 +71,7 @@
             <br>Sometimes we need some extra help.
             <br>Or perhaps you know someone who is in need of extra help.
             <br>Or maybe you just need to do a quick check-in on your own mental well-being.
-            <br>Click <a href="/resources">here</a> to get more inforation.
+            <br>Click <a href="../resources">here</a> to get more inforation.
             </p>
             
         </div>
@@ -162,7 +165,7 @@
         position: relative;
         padding: 25px;
         margin: auto;
-        z-index: -20;
+        /* z-index: -2; */
     
     }
     
@@ -171,11 +174,11 @@
         position: relative;
         padding: 25px;
         margin: auto;
-        z-index: -20; 
+        /* z-index: -20;  */
     }
 
     .feature-list {
-        z-index:-10;
+        /* z-index:-10; */
     }
 
  
@@ -184,7 +187,7 @@
         text-align: center;       
         width: 400px;
         margin: auto;
-        z-index: -20;
+        /* z-index: -20; */
 }
 
     p {
@@ -237,7 +240,7 @@
             text-align: center;       
             width: 300px;
             margin: auto;
-            z-index: -20;
+            /* z-index: -20; */
         }
         .feature-list li {
             counter-increment: step-counter;
