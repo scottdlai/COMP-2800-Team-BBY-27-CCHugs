@@ -1,9 +1,11 @@
 <script>
+	import Navbar from '../components/Navbar.svelte';
+
 	let name = '.....'
 
 	let button = [
 		{buttonName: 'Profile', handle: function () {
-		name = 'Profile'}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/userprofile"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Send A Hug', handle: function () {
 		name = "Send A Hug"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
@@ -14,7 +16,7 @@
 		name = "Friends List"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Chats', handle: function () {
-		name = "Chats"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/Chats"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Self Awareness' + ' & ' + 'Mental Help', handle: function () {
 		name = "Self Awareness & Mental help"}, color: "background-color: #FF9E6D"},
@@ -24,6 +26,8 @@
 	];
 	console.log(button);
 </script>
+<Navbar>
+</Navbar>
 
 <main>
 	<header>
@@ -81,7 +85,7 @@
 			grid-gap: 50px 50px;
 			grid-template-columns:repeat(3, 1fr);
 			grid-template-areas:
-			"section section section"
+			"section section section";
 		}
 
 	}
@@ -101,7 +105,7 @@
 			grid-gap: 50px 50px;
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"section section"
+			"section section";
 		}
 	}
 
@@ -119,7 +123,7 @@
 			grid-gap: 25px 25px;
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"section section"
+			"section section";
 		}
 	}
 
