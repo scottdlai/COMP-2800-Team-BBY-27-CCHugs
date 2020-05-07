@@ -60,6 +60,7 @@ const handleScrolldown = () => {
         position: relative;
         top: 0;
         width: 100%;
+        z-index: 1;
     }
 
     .sticky {
