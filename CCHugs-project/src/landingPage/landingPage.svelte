@@ -22,7 +22,7 @@
         <div id="mission">
             <h1>Mission Statement</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer blandit justo et nulla varius, quis tempor ligula ullamcorper. Nam vitae egestas mauris. Morbi eu convallis augue, nec lacinia nisi. Vivamus sed eleifend odio. Quisque lobortis enim ligula, volutpat efficitur velit porttitor ac. Maecenas iaculis nisl leo, sit amet commodo erat maximus eget. Nunc cursus nisl in consectetur rhoncus. In hac habitasse platea dictumst. Sed sit amet vehicula enim, eget volutpat ex. Vivamus ligula turpis, vestibulum ut hendrerit ac, egestas fringilla odio. Nam ut molestie urna. Mauris at cursus mi. Donec viverra vehicula erat, at condimentum dui condimentum ac. Nunc id suscipit libero. Vivamus non lacinia tortor, vel molestie nisl.</p>
-            <button on:click={handleClick}>update belt colour</button>
+            <button on:click={handleClick}>Click here to start hugging</button>
         </div>
     </section>
 
@@ -61,14 +61,17 @@
     <hr>
 
     <section id="resources-a">
-        <h1> Resources</h1>
+        <div id="resources">
+            <h1> Resources</h1>
 
-        <p>https://www.stopoverdose.gov.bc.ca/theweekly/get-mental-health-help-home-during-covid-19
-        https://www.stopoverdose.gov.bc.ca/theweekly/covid-19-mental-health-supports-social-distancing-self-isolation
-        https://www2.gov.bc.ca/gov/content/health/managing-your-health/mental-health-substance-use/virtual-supports-covid-19
-        https://www.canada.ca/en/public-health/services/publications/diseases-conditions/taking-care-mental-health.html
-        https://www.canada.ca/en/government/publicservice/covid-19/protect-mental-health.html#toc1
-        https://cmha.ca/mental-health-meter</p>
+            <p>Sometimes things can be too much for us to handle on our own.
+            <br>Sometimes we need some extra help.
+            <br>Or perhaps you know someone who is in need of extra help.
+            <br>Or maybe you just need to do a quick check-in on your own mental well-being.
+            <br>Click <a href="/resources">here</a> to get more inforation.
+            </p>
+            
+        </div>
     </section>  
 
     </main>
@@ -162,6 +165,14 @@
         z-index: -20;
     
     }
+    
+    #resources {
+        text-align: center;
+        position: relative;
+        padding: 25px;
+        margin: auto;
+        z-index: -20; 
+    }
 
     .feature-list {
         z-index:-10;
@@ -208,7 +219,7 @@
         
     }
 
-    header h1 {
+    header h1, p{
         font-size:5vw;
     }
 
