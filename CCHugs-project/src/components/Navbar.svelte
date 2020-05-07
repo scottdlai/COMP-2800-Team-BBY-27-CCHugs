@@ -3,7 +3,10 @@
 </script>
 
 <main>
+  <a href="/MainPage">
   <h2 id="home">Home</h2>
+  </a>
+  
   <h2 id="how-to-hug">How to hug</h2>
   <h2 id="logout">Logout</h2>
 </main>
