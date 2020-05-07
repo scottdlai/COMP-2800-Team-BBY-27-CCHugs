@@ -1,6 +1,8 @@
 <script>
 import Navbar from '../components/Navbar.svelte'
-
+let editProfile = function () {
+	location.href="/userprofileEdit";
+}
 
 </script>
 
@@ -14,7 +16,7 @@ import Navbar from '../components/Navbar.svelte'
 <div class="buttonDisplay">
 <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
 
-<button>Edit Profile</button>
+<button on:click={() => {editProfile}}>Edit Profile</button>
 </div>
 
 <div class="backgroundContainer">
