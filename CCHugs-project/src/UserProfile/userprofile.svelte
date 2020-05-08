@@ -1,6 +1,12 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
-let name = '.....'
+import {auth} from "./../Firebase.js";
+import {firestore} from "./../Firebase.js";
+
+let editProfile = function () {
+		location.href="/userprofileEdit";
+}
+
 
 </script>
 
@@ -16,12 +22,12 @@ let name = '.....'
 <div class="buttonDisplay">
 <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
 
-<button>Edit Profile</button>
+<button on:click={editProfile} >Edit Profile</button>
 </div>
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-<p>Claire</p>
+
 
 <h2>Quotes:</h2>
 <p>Just A Hugger</p>

@@ -5,8 +5,9 @@
 	import login from './signup-login/login.svelte'
 	import Chat from "./chat/Chat.svelte"
 	import landingPage from './landingPage/landingPage.svelte'
-	import userprofile from "./UserProfile/userprofile.svelte"
-	import resources from './resources/resources.svelte'
+	import userprofile from "./UserProfile/userprofile.svelte";
+	import userprofileEdit from "./UserProfile/userprofile-edit.svelte";
+	import resources from './resources/resources.svelte';
 	import aboutUs from './aboutUs/aboutUs.svelte';
 
     let page;
@@ -19,6 +20,7 @@
 	router('/landing', () => page = landingPage);
 	router('/userprofile', () => page = userprofile);
 	router('/resources', () => page = resources);
+	router('/userprofileEdit', () => page = userprofileEdit);
 	router('/aboutus', () => page = aboutUs);
     router.start();
 </script>
