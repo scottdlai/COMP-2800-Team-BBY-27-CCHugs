@@ -15,9 +15,9 @@ console.log(profileDisplayName);
                 displayName: profileDisplayName,
                 quote: profileQuote
             })
-            .then(
-                location.href="/userprofile"
-            )
+		.then ( function () {
+			location.replace("/userprofile");
+		});
         })
 }
 
