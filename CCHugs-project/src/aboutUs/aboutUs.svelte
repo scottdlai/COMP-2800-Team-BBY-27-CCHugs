@@ -2,10 +2,10 @@
 import Navbar from '../components/Navbar.svelte';
 import Footer from './../components/Footer.svelte';
 
-let src1 = "https://via.placeholder.com/350";
-let src2 = "https://via.placeholder.com/350";
-let src3 = "../IMG_0317-square.jpg";
-let src4 = "https://via.placeholder.com/350";
+let src1 = "../images/Sean-square.jpg";
+let src2 = "../images/Scott-square.jpg";
+let src3 = "../images/IMG_0317-square.jpg";
+let src4 = "../images/victor-square.jpg";
 
 </script>
 
