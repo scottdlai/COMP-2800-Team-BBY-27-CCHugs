@@ -16,10 +16,14 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "@popperjs/core": "^2.4.0",
+    "bootstrap": "^4.4.1",
     "firebase": "^7.14.2",
     "firebase-admin": "^8.11.0",
     "idb": "^5.0.2",
+    "jquery": "^3.5.1",
     "page": "^1.11.6",
+    "popper.js": "^1.16.1",
     "sirv-cli": "^0.4.4",
     "svelte-routing": "^1.4.2"
   }

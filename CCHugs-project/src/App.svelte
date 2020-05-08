@@ -9,6 +9,8 @@
 	import userprofileEdit from "./UserProfile/userprofile-edit.svelte";
 	import resources from './resources/resources.svelte';
 	import aboutUs from './aboutUs/aboutUs.svelte';
+	import friendAtt from "./friends/FriendAtt.svelte";
+	import friends from "./friends/FriendList.svelte"
 
     let page;
     let params;
@@ -22,6 +24,9 @@
 	router('/resources', () => page = resources);
 	router('/userprofileEdit', () => page = userprofileEdit);
 	router('/aboutus', () => page = aboutUs);
+	router('/att', () => page = friendAtt);
+	router('/friends', () => page = friends);
+
     router.start();
 </script>
 
