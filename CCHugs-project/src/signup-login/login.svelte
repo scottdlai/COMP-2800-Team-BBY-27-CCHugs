@@ -1,6 +1,6 @@
 <script>
-    import {auth} from "./Firebase.js";
-    import {firestore} from "./Firebase.js";
+    import {auth} from "./../Firebase.js";
+    import {firestore} from "./../Firebase.js";
     
 
     let message ="";
@@ -56,7 +56,7 @@
         check.then((x)=>{
             if(x==1){
                  auth.signInWithEmailAndPassword(email,password.value).then((y)=>{
-                    window.location = "./home";
+                    window.location = "./MainPage";
                 }).catch(function(error) {
                     message= "Login is invalid";
                     var errorCode = error.code;
@@ -66,7 +66,7 @@
             else{
                 
                 auth.signInWithEmailAndPassword(username.value,password.value).then((y)=>{
-                    window.location = "./home";
+                    window.location = "./MainPage";
                 }).catch(function(error) {
                 message= "Login is invalid";
                 var errorCode = error.code;
@@ -104,7 +104,7 @@
 
                 <label style="word-wrap:brak-word"><input id="checkBox" type="checkbox" on:click={showPass}>Show Password</label>
 
-                <button id="login">Sign-up</button>
+                <button id="login">Login</button>
                 <span class="err">{message}</span>
                 <a id="signup" href="./signup">Dont have an account? Sign-up</a>
             
@@ -169,5 +169,15 @@
         padding: 0;
         font-size: 8pt;
         
+    }
+
+    input, button {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 2px;
     }
 </style>
