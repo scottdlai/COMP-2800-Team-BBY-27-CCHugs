@@ -1,8 +1,5 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
-<<<<<<< HEAD
-let name = '.....'
-=======
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 
@@ -10,7 +7,6 @@ let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
->>>>>>> userprofile
 
 </script>
 
