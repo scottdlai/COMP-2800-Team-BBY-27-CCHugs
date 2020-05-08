@@ -13,13 +13,13 @@
 		{buttonName: 'Check Hugs', handle: function () {
 		name = "Check Hugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 		{buttonName:'Friends List', handle: function () {
-		name = "Friends List"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/friends"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Chats', handle: function () {
 		location.href="/Chat"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Self Awareness' + ' & ' + 'Mental Help', handle: function () {
-		name = "Self Awareness & Mental help"}, color: "background-color: #FF9E6D"},
+		location.href="/resources"}, color: "background-color: #FF9E6D"},
 
 		{buttonName:'Feedback', handle: function () {
 		name = "Feedback"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},

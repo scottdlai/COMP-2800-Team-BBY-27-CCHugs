@@ -19,7 +19,7 @@
 	router('/signup',() => page = signup);
 	router('/login',() => page = login);
 	router('/chat', () => page = Chat);
-	router('/landing', () => page = landingPage);
+	router('/', () => page = landingPage);
 	router('/userprofile', () => page = userprofile);
 	router('/resources', () => page = resources);
 	router('/userprofileEdit', () => page = userprofileEdit);

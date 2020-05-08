@@ -2,6 +2,7 @@
 import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
+import Att from '../friends/FriendAtt.svelte'
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
@@ -33,16 +34,9 @@ let editProfile = function () {
 <p>Just A Hugger</p>
 </div>
 
-
+<Att>
+</Att>
 <div>
-<button>remove friend</button>
-<button>block</button>
-<button>report</button>
-</div>
-
-<button>
-Send Request for friendship
-</button>
 
 <div class="backgroundContainer">
 <h2>Status</h2>

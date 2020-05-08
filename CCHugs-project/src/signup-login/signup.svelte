@@ -66,7 +66,7 @@
                     email: email.value}).then((x) =>{
                         textbox.reset();
                         message ="";
-                        window.location = "./home";
+                        window.location = "./MainPage";
                     });
                 }
             }});

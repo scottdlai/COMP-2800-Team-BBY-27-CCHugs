@@ -56,7 +56,7 @@
         check.then((x)=>{
             if(x==1){
                  auth.signInWithEmailAndPassword(email,password.value).then((y)=>{
-                    window.location = "./home";
+                    window.location = "./MainPage";
                 }).catch(function(error) {
                     message= "Login is invalid";
                     var errorCode = error.code;
@@ -66,7 +66,7 @@
             else{
                 
                 auth.signInWithEmailAndPassword(username.value,password.value).then((y)=>{
-                    window.location = "./home";
+                    window.location = "./MainPage";
                 }).catch(function(error) {
                 message= "Login is invalid";
                 var errorCode = error.code;
