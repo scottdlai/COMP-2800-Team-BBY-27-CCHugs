@@ -1,6 +1,6 @@
 <script>
-    import {auth} from "./Firebase.js";
-    import {firestore} from "./Firebase.js";
+    import {auth} from "./../Firebase.js";
+    import {firestore} from "./../Firebase.js";
 
     let un = false;
     let pass = false;
@@ -55,16 +55,18 @@
             console.log('Error Getting Usernames', err);
         });
 
-
         auth.onAuthStateChanged((user) => {
             if (user) {
                 if(user.email == email.value){
                     firestore.collection("Users").doc(user.uid).set({
                     username: username.value,
+                    displayName: username.value,
+                    quote: "Just A Hugger.",
+                    displayPicture: user.photoURL,
                     email: email.value}).then((x) =>{
                         textbox.reset();
                         message ="";
-                        window.location = "./home";
+                        window.location = "./MainPage";
                     });
                 }
             }});
@@ -137,6 +139,15 @@
         padding: 0;
         font-size: 8pt;
         
+    }
+    input, button {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 2px;
     }
     
 </style>
