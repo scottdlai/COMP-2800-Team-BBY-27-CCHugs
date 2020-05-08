@@ -1,31 +1,27 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
-import 'firebase/auth';
-import 'firebase/firestore';
-
-let backToProfile = function () {
-		location.href="/userprofile";
-}
+import {auth} from "./../Firebase.js";
+import {firestore} from "./../Firebase.js";
 
 function setAddListner() {
-    document.getElementById("submit2").addEventListener("click", function (e) {
+    document.getElementById("submit2")
         let profileDisplayName = document.getElementById("dname").value;
         let profileQuote = document.getElementById("quote").value;
 console.log(profileDisplayName);
 
         auth.onAuthStateChanged(function (user){
-            firebase.collection("users").doc(user.id)
-            .collection("Profile")
-            .add(profileDisplayName)
-            .add(profileQuote)
-            .then(function(){
-                location.href="/userprofile-edit";
+            firestore.collection("Users").doc(user.uid)
+            .update({
+                displayName: profileDisplayName,
+                quote: profileQuote
             })
+            .then(
+                location.href="/userprofile"
+            )
         })
-    })
 }
 
-console.log(user.id);
+
 </script>
 
 <main>
@@ -51,12 +47,10 @@ console.log(user.id);
         <label for='password'>Password:</label>
         <input type="text" id='password' name='password'>
     </fieldset>
-    <button id="submit1">Cancel</button> 
-    <input id="submit2" type="submit" value="Save">
+    <button class="submit1">Cancel</button> 
+    <input class="submit1" id="submit2" type="submit" value="Save">
     
 </form>
-
-<button on:click={backToProfile}>Back to profile</button>
 </section>
 
 <footer>
@@ -139,7 +133,7 @@ This is a footer
         border-radius: 25px;
 		}
 
-        #submit1 {
+        .submit1 {
         margin: 15px auto;
         float: left;
 		width: 50%;

@@ -55,12 +55,14 @@
             console.log('Error Getting Usernames', err);
         });
 
-
         auth.onAuthStateChanged((user) => {
             if (user) {
                 if(user.email == email.value){
                     firestore.collection("Users").doc(user.uid).set({
                     username: username.value,
+                    displayName: username.value,
+                    quote: "Just A Hugger.",
+                    displayPicture: user.photoURL,
                     email: email.value}).then((x) =>{
                         textbox.reset();
                         message ="";

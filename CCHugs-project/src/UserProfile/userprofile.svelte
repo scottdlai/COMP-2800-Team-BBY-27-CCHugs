@@ -1,17 +1,12 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
-import 'firebase/auth';
-import 'firebase/firestore';
+import {auth} from "./../Firebase.js";
+import {firestore} from "./../Firebase.js";
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
-let displayName = function() {
-	auth.onAuthStateChanged( function (user) {
-		document.getElementById("username").innerHTML = user.displayName;
-	})
-}
 
 </script>
 
@@ -30,7 +25,7 @@ let displayName = function() {
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-<p id="username">{displayName}</p>
+
 
 <h2>Quotes:</h2>
 <p>Just A Hugger</p>
