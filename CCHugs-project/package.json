@@ -16,10 +16,12 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "firebase": "^7.14.2",
+    "firebase": "^7.14.3",
     "firebase-admin": "^8.11.0",
     "idb": "^5.0.2",
     "page": "^1.11.6",
+    "rxfire": "^3.12.3",
+    "rxjs": "^6.5.5",
     "sirv-cli": "^0.4.4",
     "svelte-routing": "^1.4.2"
   }
