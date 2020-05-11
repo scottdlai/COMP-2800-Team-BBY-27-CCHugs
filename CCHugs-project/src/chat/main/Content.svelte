@@ -1,51 +1,120 @@
 <script>
-  import { afterUpdate } from 'svelte';
+  import { onMount, afterUpdate, onDestroy } from 'svelte';
+  import { firestore } from '../../Firebase.js';
+  import firebase from 'firebase/app';
+
   import ChatBubble from './ChatBubble.svelte';
 
-  export let currentUser = {};
-  export let conversation = {};
+  export let userIDs;
+  export let uid;
+  export let partnerIndex;
+
+  let conversationDocSnapshotID;
+
+  $: partnerID = userIDs[partnerIndex];
+  $: conversationPromise = getConversationDB(partnerID);
+
 
   let sentMessage = '';
-
-  $: messages = conversation['messages'];
 
   afterUpdate(() => {
     const messagesWrapper = document.getElementById('messages-wrapper');
 
     messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   });
+  
+  async function getConversationDB(partner) {
+    const query = firestore
+      .collection('Conversations')
+      .where('participants', 'array-contains', uid);    
 
-  function sendMessage(event) {
-    if (!sentMessage) // Can't send empty message
+    const querySnapshot = await query.get();
+
+    const conversationDocSnapshot = getConversationWithPartner(querySnapshot);
+
+    const participants = conversationDocSnapshot.get('participants');
+
+    const messages = await getMessagesOf(conversationDocSnapshot);
+
+    return { participants: participants, messages: messages };
+  }
+
+  function getConversationWithPartner(querySnapshot) {
+    let conversation;
+
+    querySnapshot.forEach(queryDocSnapshot => {
+      if (queryDocSnapshot.get('participants').includes(partnerID)) {
+        conversation = queryDocSnapshot;
+      }
+    });
+
+    return conversation;
+  }
+
+  async function getMessagesOf(conversationDocSnapshot) {
+    conversationDocSnapshotID = conversationDocSnapshot.id;
+
+    const messagesQuery = firestore
+      .collection('Conversations')
+      .doc(conversationDocSnapshotID)
+      .collection('Messages')
+      .orderBy('time');
+
+    const messagesSnapshot = await messagesQuery.get();
+
+    return messagesSnapshot.docs.map(messageDoc => {
+      return { ...messageDoc.data(), id: messageDoc.id };
+    });
+  }
+
+  function sendMessage(event) { 
+    if (!sentMessage)
       return;
 
-    conversation.messages = [...messages, {
-      content: sentMessage,
-      author: currentUser,
-      id: Math.random().toString(),
-    }];
+    const newMessageQuery = firestore
+      .collection('Conversations')
+      .doc(conversationDocSnapshotID)
+      .collection('Messages')
+      .doc();
 
+    const message = {
+      author: uid,
+      content: sentMessage,
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+    }
+    
+    newMessageQuery.set(message);
+
+    conversationPromise.then(conversations => {
+        conversations.messages = [...conversations.messages, {...message, id: newMessageQuery.id}];
+    });
+
+    conversationPromise = conversationPromise;
     sentMessage = '';
   }
-  
 </script>
 
-<main>
-  <div id="messages-wrapper">
-    <div id="messages-container">
-      {#each messages as message (message.id)}
-        <ChatBubble message={message} />
-      {:else}
-        <h1>Starts your conversation...</h1>
-      {/each}
+  <main>
+    <div id="messages-wrapper">
+      <div id="messages-container">
+        {#await conversationPromise}
+          <h1>loading...</h1>
+        {:then conversation}
+          {#each conversation.messages as message (message.id)}
+            <ChatBubble {message} {uid}/>
+          {:else}
+            <h1>Starts your conversation...</h1>
+          {/each}
+        {/await}
+      </div>
     </div>
-  </div>
-  <form id="input-container" on:submit|preventDefault={sendMessage}>
-    <textarea type="text" bind:value={sentMessage} placeholder="type here..."/>
 
-    <button>Send</button>
-  </form>
-</main>
+    <form id="input-container" on:submit|preventDefault={sendMessage}>
+      <textarea type="text" bind:value={sentMessage} placeholder="type here..."/>
+
+      <button>Send</button>
+    </form>
+  </main>
 
 <style>
   main {
