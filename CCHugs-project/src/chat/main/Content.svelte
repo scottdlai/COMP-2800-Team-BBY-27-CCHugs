@@ -14,7 +14,6 @@
   $: partnerID = userIDs[partnerIndex];
   $: conversationPromise = getConversationDB(partnerID);
 
-
   let sentMessage = '';
 
   afterUpdate(() => {
