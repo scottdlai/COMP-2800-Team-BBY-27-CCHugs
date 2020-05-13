@@ -248,7 +248,6 @@
     }
 </style>
 <main>
-
     <div id="popup" style="display: none;">
         <button id="close" on:click="{togglePU}">close <b>X</b></button>
         <div id="inside"></div>
