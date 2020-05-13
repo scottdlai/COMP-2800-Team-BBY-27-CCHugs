@@ -2,14 +2,71 @@
   import NavbarLanding from "./../components/NavbarLanding.svelte";
   import Footer from "./../components/Footer.svelte";
 
+    import { fade } from 'svelte/transition';
+	import { elasticOut } from 'svelte/easing';
+
   let src = "../DifferentLogo2.svg";
+  let easterEgg ="../hug.png";
 
   let handleClick = () => {
     location.href = "/login";
   };
+
+  let count = 0;
+  let visible = false;
+
+	$: if (count >= 10) {
+    alert(`count is dangerously high!`);
+    visible = true;
+		count = 0;
+	}
+
+  function egg() {
+    count += 1;
+    visible = false;
+  };
+
+	function spin(node, { duration }) {
+		return {
+			duration,
+			css: t => {
+				const eased = elasticOut(t);
+				return `
+					transform: scale(${eased}) rotate(${eased * 1080}deg);
+					);`
+			}
+		};
+	}
 </script>
 
+
 <style>
+#mission button {
+  background-color: #ff9e6d;
+  border-radius: 15px;
+  border: none;
+  transition-duration: 0.4s
+}
+
+#mission button:hover {
+  background-color: #ffe66d;
+}
+
+
+.centered {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%,-50%);
+	}
+
+	span {
+		position: absolute;
+		transform: translate(-50%,-50%);
+		font-size: 3em;
+	}
+
+
   :target:before {
     content: "";
     display: block;
@@ -20,10 +77,6 @@
   h1 {
     margin: 0px;
     text-align: center;
-  }
-
-  p {
-    font-size: 24px;
   }
 
   header {
@@ -38,12 +91,12 @@
   #mission {
     text-align: center;
     position: relative;
-    padding: 25px;
+    padding: 50px 250px;
     margin: auto;
   }
 
   #features {
-    text-align: center;
+    text-align: left;
     width: 400px;
     margin: auto;
   }
@@ -51,6 +104,7 @@
   .feature-list {
     padding-left: 0;
     position: relative;
+    
   }
 
   .feature-list:before {
@@ -69,9 +123,9 @@
     list-style: none;
     padding-bottom: 30px;
     position: relative;
-    padding-left: 25px;
+    padding-left: 100px;
     overflow: hidden;
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .feature-list li:before {
@@ -90,7 +144,7 @@
   }
 
   #howto {
-    padding: 5px;
+    padding: 50px 250px;
     display: flex;
     justify-content: space-around;
 
@@ -100,7 +154,6 @@
     background: #ff9e6d;
     margin: 20px;
     flex: 1;
-    height: 600px;
     border-radius: 25px;
     padding: 25px;
     border: none;
@@ -113,23 +166,35 @@
   }
 
   #resources {
-    text-align: center;
-    position: relative;
-    padding: 25px;
-    margin: auto;
+    padding: 50px 250px;
+    margin: 20px;
   }
 
   /** tablet*/
   @media (max-width: 1024px) {
+
+    header h1, p {
+      font-size: 3vw;
+    }
+
+      #mission {
+    text-align: center;
+    position: relative;
+    padding: 50px 100px;
+    margin: auto;
+  }
     #howto {
-      padding: 5px;
+    padding: 50px 100px;
       display: flex;
       flex-direction: column;
     }
 
-    #howto > div {
-      height: 250px;
-    }
+    #resources {
+    padding: 50px 100px;
+    margin: 20px;
+  }
+
+
   }
 
   /** mobile */
@@ -143,19 +208,21 @@
       width: 80%;
     }
 
-    header h1,
-    p {
-      font-size: 5vw;
+      #mission {
+    text-align: center;
+    position: relative;
+    padding: 25px;
+    margin: auto;
+  }
+
+    header h1, p {
+      font-size: 4vw;
     }
 
     #howto {
       padding: 5px;
       display: flex;
       flex-direction: column;
-    }
-
-    #howto > div {
-      height: 250px;
     }
 
     #features {
@@ -171,7 +238,7 @@
       position: relative;
       padding-left: 25px;
       overflow: hidden;
-      font-size: 16px;
+      font-size: 4vw;
     }
 
     .feature-list li:before {
@@ -199,14 +266,25 @@
       width: 25px;
       background: #ff9e6d;
     }
+
+        #resources {
+    padding: 25px;
+  }
   }
 </style>
 
+{#if visible}
+	<div class="centered" in:spin="{{duration: 8000}}" out:fade>
+		<span><img src={easterEgg} alt="easteregg" width="250"/></span>
+	</div>
+{/if}
+
 <main>
-  <header>
+  <header on:click={egg}>
     <img {src} alt="logo" id="logo" />
     <h1>CCHugs - Send a virtual hug today</h1>
   </header>
+
 
   <NavbarLanding />
 
@@ -215,8 +293,8 @@
       <h1>Mission Statement</h1>
       <br />
       <p>
-        Our mission at CCHugs is to invite everyone to create small, but
-        potentially impactful connections with others and spread joy and
+        Our mission at CCHugs is to invite everyone to create <em>small, but
+        potentially impactful connections with others</em> and spread joy and
         positivity.
       </p>
       <p>
@@ -224,9 +302,9 @@
         and friends alike, during the COVID-19 pandemic where physical
         distancing and self-isolation are the new norm. There may be underlying
         effects of loneliness and disconnection as humans are wired to be social
-        and connected with other human beings. Through a simple click of a
+        and connected with other human beings. <strong>Through a simple click of a
         button, you can send a hug to another person to brighten up their day,
-        and perhaps even spark a conversation.
+        and perhaps even spark a conversation.</strong>
       </p>
       <button on:click={handleClick}>Start Hugging Now!</button>
     </div>
@@ -236,14 +314,11 @@
 
   <section id="features-a">
     <div id="features">
-      <h1>Features</h1>
+      <h1>Features</h1><br>
       <div id="feature-box">
         <ol class="feature-list">
-          <li>
-            Send an anonymous hug.
-            <br />
-            Add a positive message.
-          </li>
+          <li>Send an anonymous hug.</li>
+          <li>Add a positive message.</li>
           <li>Receive unexpected hugs.</li>
           <li>Add fellow Hugsers as a friend.</li>
           <li>Keep the conversation going.</li>
@@ -256,28 +331,11 @@
 
   <section id="howto-a">
     <h1>How-To Guide</h1>
-    <!-- 
-        <p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Send a hug
-  </a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button>
-</p>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-                <p>1. Sign up</p>
-                <p>2. Choose to “Send a hug”</p>
-                <p>3. dd an optional positive message for the Huggee (the recipient - you won’t know who it is!)</p>
-                <p>4. Click “Send”!</p>  </div>
-</div> -->
     <div id="howto">
-
 
     <div id="accordion">
   <div class="card" style="background-color:#ff9e6d;border:none">
-    <div class="card-header" id="headingOne">
+    <div class="card-header" id="headingOne" style="background-color:#ffaf87"> 
       <h5 class="mb-0">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
           Send a hug
@@ -298,7 +356,7 @@
     </div>
   </div>
   <div class="card" style="background-color:#ff9e6d;border:none">
-    <div class="card-header" id="headingTwo">
+    <div class="card-header" id="headingTwo" style="background-color:#ffaf87">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
           Receive a hug
@@ -314,7 +372,7 @@
     </div>
   </div>
   <div class="card" style="background-color:#ff9e6d;border:none">
-    <div class="card-header" id="headingThree">
+    <div class="card-header" id="headingThree" style="background-color:#ffaf87"> 
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
           Add a friend
@@ -333,98 +391,6 @@
   </div>
 </div>
 
-<!-- 
-
-      <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="#collapseStep1" role="button" aria-expanded="false" aria-controls="collapseStep1">
-          Send a hug
-        </a>
-        <a class="btn btn-primary" data-toggle="collapse" href="#collapseStep2" role="button" aria-expanded="false" aria-controls="collapseStep2">
-          Receive a hug
-        </a>
-        <a class="btn btn-primary" data-toggle="collapse" href="#collapseStep3" role="button" aria-expanded="false" aria-controls="collapseStep3">
-          Add a friend
-        </a>
-        
-
-      </p>
-      <div class="collapse" id="collapseStep1">
-        <div class="card card-body">
-          <p>1. Sign up</p>
-          <p>2. Choose to “Send a hug”</p>
-          <p>
-            3. dd an optional positive message for the Huggee (the recipient -
-            you won’t know who it is!)
-          </p>
-          <p>4. Click “Send”!</p>
-        </div>
-      </div>
-
-      <div class="collapse" id="collapseStep2">
-        <div class="card card-body">
-        <p>1. Check your hug notifications</p>
-        <p>2. Open the hug</p>
-        <p>3. See if the Hugser (the sender) sent you a message with the hug</p>
-        </div>
-      </div>
-
-      <div class="collapse" id="collapseStep3">
-        <div class="card card-body">
-        <p>1. Send a friend request to fellow Hugser</p>
-        <p>
-          2. Once accepted, keep the conversation going with more hugs and chats
-        </p>
-        <p>3. Add personal friends. You can send hugs to them too</p>
-        </div>
-      </div> -->
-
-
-
-      <!-- <div id="step1">
-                <h2>Send a hug</h2>
-                <p>1. Sign up</p>
-                <p>2. Choose to “Send a hug”</p>
-                <p>3. dd an optional positive message for the Huggee (the recipient - you won’t know who it is!)</p>
-                <p>4. Click “Send”!</p>               
-            </div> -->
-
-
-                  
-
-        <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button> -->
-     
-
-
-      
-      <!-- <div id="step2">
-        <h2>Receive a hug</h2>
-        <p>1. Check your hug notifications</p>
-        <p>2. Open the hug</p>
-        <p>3. See if the Hugser (the sender) sent you a message with the hug</p>
-      </div> -->
-
-
-
-                  
-
-        <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button> -->
-      
-
-
-
-
-      <!-- <div id="step3">
-        <h2>Add a friend</h2>
-        <p>1. Send a friend request to fellow Hugser</p>
-        <p>
-          2. Once accepted, keep the conversation going with more hugs and chats
-        </p>
-        <p>3. Add personal friends. You can send hugs to them too</p>
-      </div> -->
     </div>
   </section>
 
@@ -433,17 +399,17 @@
   <section id="resources-a">
     <div id="resources">
       <h1>Resources</h1>
-
+      <br />
       <p>
         Sometimes things can be too much for us to handle on our own.
-        <br />
+        <br /><br />
         Sometimes we need some extra help.
-        <br />
+        <br /><br />
         Or perhaps you know someone who is in need of extra help.
-        <br />
+        <br /><br />
         Or maybe you just need to do a quick check-in on your own mental
         well-being.
-        <br />
+        <br /><br />
         Click
         <a href="../resources">here</a>
         to get more information.
