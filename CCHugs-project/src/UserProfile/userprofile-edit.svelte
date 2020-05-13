@@ -3,23 +3,68 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 
+let returnToProfile = function () {
+		location.href="/userprofile";
+}
+
+let editDisplayPicture = function () {
+		location.href="/displaypicture";
+}
+
 function setAddListner() {
     document.getElementById("submit2")
         let profileDisplayName = document.getElementById("dname").value;
-        let profileQuote = document.getElementById("quote").value;
+		let profileQuote = document.getElementById("quote").value;
+		let profileEmail = document.getElementById("email").value;
 console.log(profileDisplayName);
+
+	if (!profileDisplayName || !profileQuote || !profileEmail === "") {
+		alert("Values cannot be null")
+	}else{
 
         auth.onAuthStateChanged(function (user){
             firestore.collection("Users").doc(user.uid)
             .update({
                 displayName: profileDisplayName,
-                quote: profileQuote
-            })
-		.then ( function () {
-			location.replace("/userprofile");
-		});
-        })
+				quote: profileQuote,
+				email: profileEmail
+						})
+			.then(function () {
+				location.replace("/userprofile");
+			})
+
+			});
+			
+
+			}
+
 }
+
+function showNameValue() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  let userName = snap.data().displayName;
+			  let userQuote = snap.data().quote;
+			  let emailAddress = snap.data().email;
+			  document.getElementById("dname").value = userName;
+			  document.getElementById("quote").value = userQuote;
+			  document.getElementById("email").value = emailAddress;
+		  })
+  });
+}
+
+function showPicture() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  let userPicture = snap.data().displayPicture;
+			  document.getElementById("profilePicture").src = userPicture;
+		  })
+  });
+}
+showPicture();
+showNameValue();
 
 
 </script>
@@ -31,26 +76,26 @@ console.log(profileDisplayName);
 </header>
 
 <section class = "buttonDisplay backgroundContainer">
-<a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
-<button> Click to change your picture </button>
-
+<img id="profilePicture" alt="profile picture">
+<button on:click={editDisplayPicture}> Click to change your picture </button>
 
 <form on:submit|preventDefault="{setAddListner}">
     <fieldset>
         <legend>Edit Profile:</legend>
         <label for='dname'>Display Name:</label>
-        <input type="text" id='dname' name='dname'>
+        <input type="text" id='dname' name='dname' value="">
         <label for='quote'>Quote:</label>
-        <input type="text" id='quote' name='quote'>
+        <input type="text" id='quote' name='quote' value= "">
         <label for='email'>E-mail Address:</label>
         <input type="text" id='email' name='email'>
         <label for='password'>Password:</label>
         <input type="text" id='password' name='password'>
+		<input id="submit2" type="submit" value="Save">
     </fieldset>
-    <button class="submit1">Cancel</button> 
-    <input class="submit1" id="submit2" type="submit" value="Save">
-    
-</form>
+  
+    </form>
+	<button on:click={returnToProfile} class="submit1">Cancel</button> 
+
 </section>
 
 <footer>
@@ -133,9 +178,8 @@ This is a footer
         border-radius: 25px;
 		}
 
-        .submit1 {
-        margin: 15px auto;
-        float: left;
+        .submit1, #submit2 {
+        margin-top: 15px;
 		width: 50%;
 		height: 50px;
 		background-color: #ff9e6d;
@@ -150,9 +194,11 @@ This is a footer
 		font-weight: 100;
 		}
 
-        a{
+    	#profilePicture{
         margin-left:auto;
         margin-right:auto;
+		margin-bottom: 15px;
+		border-radius: 50%;
         }
 
         fieldset{

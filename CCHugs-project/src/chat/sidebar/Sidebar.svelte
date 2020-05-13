@@ -2,21 +2,23 @@
   import { createEventDispatcher } from 'svelte';
   import UserTab from './UserTab.svelte';
 
-  export let users = [];
-  export let activeUser = users[0];
+  export let userIDs = [];
+  export let partnerIndex;
+
+  let activeUser = userIDs[partnerIndex];
 
   let dispatch = createEventDispatcher();
 
-  function updateActive(user) {
-    dispatch('updateActiveUser', user);
+  function updateActive(index) {
+    dispatch('updateActive', index);
   }
 
 </script>
 
 <main>
-  {#each users as user (user.id)}
-    <UserTab user={user} isActive={user === activeUser} 
-    on:click={() => updateActive(user)}/>
+  {#each userIDs as userID, index (userID)}
+    <UserTab userID={userID} isActive={partnerIndex === index} 
+    on:click={() => updateActive(index)}/>
   {/each}
 </main>
 
