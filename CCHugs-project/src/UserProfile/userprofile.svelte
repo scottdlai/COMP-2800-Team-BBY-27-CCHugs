@@ -7,15 +7,6 @@ let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
-function showPicture() {
-  auth.onAuthStateChanged(function (user) {
-		  firestore.collection("Users").doc(user.uid)
-		  .onSnapshot(function (snap) {
-			  let userPicture = snap.data().displayPicture;
-			  document.getElementById("profilePicture").src = userPicture;
-		  })
-  });
-}
 
 function showNameValue() {
   auth.onAuthStateChanged(function (user) {
@@ -24,14 +15,21 @@ function showNameValue() {
 			  let userName = snap.data().displayName;
 			  let userQuote = snap.data().quote;
 			  let emailAddress = snap.data().email;
+			  let userPicture = snap.data().displayPicture;
 			  document.getElementById("dname").innerHTML= userName;
 			  document.getElementById("quote").innerHTML = userQuote;
+			  document.getElementById("profilePicture").src = userPicture;
 		  })
   });
 }
-showNameValue();
-showPicture();
 
+auth.onAuthStateChanged(function(user) {
+	if(user) {
+		showNameValue()
+	} else {
+		console.log('not sweeeet');
+	}
+});
 
 </script>
 
