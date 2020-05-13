@@ -10,7 +10,7 @@
   export let uid;
 
   let userIDsPromise = getAllUsersDB();
-  let activeChatIndex = 1;
+  let activeChatIndex = 0;
 
   async function getAllUsersDB() {
     const query = firestore
@@ -19,7 +19,7 @@
     
     const querySnapshot = await query.get();
 
-    let participantsFromDB = await querySnapshot.docs.flatMap(doc => doc.get('participants'));
+    let participantsFromDB = querySnapshot.docs.flatMap(doc => doc.get('participants'));
 
     return participantsFromDB.filter(p => p !== uid);
   }
