@@ -17,7 +17,6 @@ const handleScrolldown = () => {
 
    <nav class="navbar navbar-expand-lg navbar-light bg-default sticky" class:sticky={isSticky}>
 
-    <a class="navbar-brand" href="#"> Menu</a>
 
     <button class="navbar-toggler collapsed " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
