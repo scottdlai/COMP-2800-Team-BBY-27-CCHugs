@@ -8,6 +8,31 @@ let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
+function showPicture() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  let userPicture = snap.data().displayPicture;
+			  document.getElementById("profilePicture").src = userPicture;
+		  })
+  });
+}
+
+function showNameValue() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  let userName = snap.data().displayName;
+			  let userQuote = snap.data().quote;
+			  let emailAddress = snap.data().email;
+			  document.getElementById("dname").innerHTML= userName;
+			  document.getElementById("quote").innerHTML = userQuote;
+		  })
+  });
+}
+showNameValue();
+showPicture();
+
 
 </script>
 
@@ -21,22 +46,32 @@ let editProfile = function () {
 
 <section>
 <div class="buttonDisplay">
-<a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
+<img id="profilePicture" alt="profile picture">
 
 <button on:click={editProfile} >Edit Profile</button>
 </div>
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-
+<p id="dname">Hello</p>
 
 <h2>Quotes:</h2>
-<p>Just A Hugger</p>
+<p id="quote">Just A Hugger</p>
 </div>
 
 <Att>
 </Att>
 <div>
+
+<!-- <div>
+<button>remove friend</button>
+<button>block</button>
+<button>report</button>
+</div> -->
+
+<!-- <button>
+Send Request for friendship
+</button> -->
 
 <div class="backgroundContainer">
 <h2>Status</h2>
@@ -87,38 +122,37 @@ This is a footer
 
 		@media (min-width: 1024px) {
 		main {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
-		"header header header"
-		"section section section"
-		"footer footer footer";
+		"header"
+		"section"
+		"footer";
 		}
 
 		.buttonDisplay {
 			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns:repeat(3, 1fr);
+			grid-gap: 0px 50px;
+			grid-template-columns:repeat(1, 1fr);
 			grid-template-areas:
-			"section section section"
+			"section"
 		}
-
 	}
 
 	@media (min-width: 440px) and (max-width: 1024px) {
 		main {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-		"header header"
-		"section section"
-		"footer footer";
+		"header"
+		"section"
+		"footer";
 		}
 
 		.buttonDisplay {
 			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns: repeat(2, 1fr);
+			grid-gap: 0px 50px;
+			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-			"section section"
+			"section"
 		}
 	}
 
@@ -162,9 +196,11 @@ This is a footer
 		font-weight: 100;
 		}
 
-        a{
+        #profilePicture{
         margin-left:auto;
         margin-right:auto;
+		margin-bottom: 15px;
+	border-radius: 50%;
         }
 
         .backgroundContainer {
@@ -174,6 +210,11 @@ This is a footer
             border-radius: 25px;
             border: 2px solid black;
         }
+
+		a{
+			margin-left:auto;
+			margin-right:auto;
+		}
 
 
 </style>
