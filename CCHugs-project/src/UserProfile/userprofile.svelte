@@ -8,7 +8,7 @@ let editProfile = function () {
 }
 
 
-function showNameValue() {
+function showProfile() {
   auth.onAuthStateChanged(function (user) {
 		  firestore.collection("Users").doc(user.uid)
 		  .onSnapshot(function (snap) {
@@ -23,13 +23,7 @@ function showNameValue() {
   });
 }
 
-auth.onAuthStateChanged(function(user) {
-	if(user) {
-		showNameValue()
-	} else {
-		console.log('not sweeeet');
-	}
-});
+showProfile();
 
 </script>
 
