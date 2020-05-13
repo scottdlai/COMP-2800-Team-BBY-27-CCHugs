@@ -3,9 +3,9 @@
   import UserTab from './UserTab.svelte';
 
   export let userIDs = [];
-  export let activeChatIndex;
+  export let partnerIndex;
 
-  let activeUser = userIDs[activeChatIndex];
+  let activeUser = userIDs[partnerIndex];
 
   let dispatch = createEventDispatcher();
 
@@ -17,7 +17,7 @@
 
 <main>
   {#each userIDs as userID, index (userID)}
-    <UserTab userID={userID} isActive={activeChatIndex === index} 
+    <UserTab userID={userID} isActive={partnerIndex === index} 
     on:click={() => updateActive(index)}/>
   {/each}
 </main>

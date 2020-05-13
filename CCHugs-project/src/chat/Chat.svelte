@@ -10,7 +10,7 @@
   export let uid;
 
   let userIDsPromise = getAllUsersDB();
-  let activeChatIndex = 0;
+  let partnerIndex = 0;
 
   async function getAllUsersDB() {
     const query = firestore
@@ -25,7 +25,7 @@
   }
 
   function updateActive(event) {
-    activeChatIndex = event.detail;
+    partnerIndex = event.detail;
   }
 
 </script>
@@ -33,8 +33,8 @@
 <main>
   <Navbar />
   {#await userIDsPromise then userIDs}
-    <Sidebar {userIDs} {activeChatIndex} on:updateActive={updateActive}/>
-    <Content {userIDs} {uid} partnerIndex={activeChatIndex}/>
+    <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+    <Content {userIDs} {uid} {partnerIndex}/>
   {/await}
 </main>
 
