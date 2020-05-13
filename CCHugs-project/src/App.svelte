@@ -7,14 +7,11 @@
 	import landingPage from './landingPage/landingPage.svelte'
 	import userprofile from "./UserProfile/userprofile.svelte";
 	import userprofileEdit from "./UserProfile/userprofile-edit.svelte";
-<<<<<<< HEAD
 	import resources from './resources/resources.svelte';
 	import aboutUs from './aboutUs/aboutUs.svelte';
 	import friendAtt from "./friends/FriendAtt.svelte";
 	import friends from "./friends/FriendList.svelte"
-=======
 	import editdisplaypicture from "./Userprofile/pictures.svelte";
->>>>>>> userprofile
 
     let page;
     let params;
@@ -27,14 +24,11 @@
 	router('/userprofile', () => page = userprofile);
 	router('/resources', () => page = resources);
 	router('/userprofileEdit', () => page = userprofileEdit);
-<<<<<<< HEAD
 	router('/aboutus', () => page = aboutUs);
 	router('/att', () => page = friendAtt);
 	router('/friends', () => page = friends);
 
-=======
 	router('/displaypicture', () => page = editdisplaypicture);
->>>>>>> userprofile
     router.start();
 </script>
 

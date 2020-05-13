@@ -59,11 +59,9 @@ showPicture();
 <p id="quote">Just A Hugger</p>
 </div>
 
-<<<<<<< HEAD
 <Att>
 </Att>
 <div>
-=======
 
 <!-- <div>
 <button>remove friend</button>
@@ -74,7 +72,6 @@ showPicture();
 <!-- <button>
 Send Request for friendship
 </button> -->
->>>>>>> userprofile
 
 <div class="backgroundContainer">
 <h2>Status</h2>
