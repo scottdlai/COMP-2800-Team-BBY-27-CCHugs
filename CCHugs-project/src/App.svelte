@@ -35,10 +35,9 @@
   router("/att", () => (page = friendAtt));
   router("/friends", () => (page = friends));
   router("/checkhugs", () => (page = checkhugs));
-
+  router('/displaypicture', () => page = editdisplaypicture);
+  
   router.start();
-	router('/displaypicture', () => page = editdisplaypicture);
-    router.start();
 </script>
 
 {#if params}
