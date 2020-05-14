@@ -11,7 +11,7 @@
 		name = "Send A Hug"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName: 'Check Hugs', handle: function () {
-		name = "Check Hugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/checkhugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 		{buttonName:'Friends List', handle: function () {
 		location.href="/friends"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 

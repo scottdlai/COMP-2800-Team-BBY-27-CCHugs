@@ -13,7 +13,8 @@
 	import aboutUs from './aboutUs/aboutUs.svelte';
 	import friendAtt from "./friends/FriendAtt.svelte";
 	import friends from "./friends/FriendList.svelte"
-	import editdisplaypicture from "./Userprofile/pictures.svelte";
+  import editdisplaypicture from "./Userprofile/pictures.svelte";
+  import checkhugs from "./checkhugs/checkhugs.svelte";
 
   let page;
   let params;
@@ -33,6 +34,7 @@
   router("/aboutus", () => (page = aboutUs));
   router("/att", () => (page = friendAtt));
   router("/friends", () => (page = friends));
+  router("/checkhugs", () => (page = checkhugs));
 
   router.start();
 	router('/displaypicture', () => page = editdisplaypicture);
