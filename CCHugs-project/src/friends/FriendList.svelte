@@ -36,11 +36,11 @@ let getFnd = new Promise((resolve, reject)=> {
             reject();
         });
 });
-//Make the data from the database eligable for the user.
-onMount(()=>{
-    getUsers();
-    //Make the reqests eligible.
+
+function getData(){
+     //Make the reqests eligible.
     getReq.then(()=>{
+            let tmp = [];
             firestore.collection("Users").get().then((snapshot) => {
             if(!snapshot.empty){
 
@@ -48,10 +48,11 @@ onMount(()=>{
                     snapshot.forEach((doc)=>{
                         if(doc.id == reqId.user ){
                             //add more to this push list if you want to display more stuff to the user.
-                            finRequests.push({name: doc.data().username,message: reqId.message, date: reqId.date, user: reqId.user});
+                            tmp.push({name: doc.data().username,message: reqId.message, date: reqId.date, user: reqId.user});
                         }
                     });
                 })
+                finRequests = tmp;
             }
             }).catch((err) =>{
                 console.log('Error Getting Usernames', err);
@@ -80,9 +81,17 @@ onMount(()=>{
             })
 
     });
+}
 
-
+//Make the data from the database eligable for the user.
+onMount(()=>{
+    getUsers();
+    getData();
 });
+
+function refreash(){
+    getData();
+}
 
 //Adds a doc in each of the users friends list in the database.
 function acceptRequest(profile){
@@ -108,6 +117,7 @@ function denyRequest(profile){
             console.error("Error removing document: ", error);
         });
         document.getElementById(profile).outerHTML="";
+        refreash();
 }
 
 //Send the user to the profile of the person that was clicked on.
@@ -140,12 +150,6 @@ function updateSearch(){
         if(algo.name.toLowerCase().indexOf(query.toLowerCase()) != -1){
                 sprofiles= [...sprofiles, {name: algo.name}];
             }
-        // query.split(" ").map(function(word){
-        //     if(algo.name != undefined)
-        //     if(algo.name.toLowerCase().indexOf(word.toLowerCase()) != -1){
-        //         sprofiles= [...sprofiles, {name: algo.name}];
-        //     }
-        // })
     })
 }
 
@@ -153,40 +157,71 @@ function updateSearch(){
 <style>
     .friend{
         background: #FF9E6D;
-        border: 12px solid #FFE66D;
+        background-image: linear-gradient(65deg, #6dffe7, #ffffff);
+        border: 2px solid black;
         box-sizing: border-box;
-        border-radius: 28px;
+        border-radius: 15px;
+        text-align: center;
+        display: grid;
+        gap: 5px;
+        padding: 10px;
+
+    }
+    .request{
+        display: grid;
+        background: #FF9E6D;
+        background-image: linear-gradient(65deg, #6dffe7, #ffffff);
+        border: 2px solid black;
+        box-sizing: border-box;
+        border-radius: 15px;
+        text-align: center;
+        padding: 10px;
+        gap: 5px;
+    }
+    .request button{
+        margin: 0 auto;
+        background-color: #FFE66D;
+        border-radius: 15px;
+        padding: 0.4em;
+        box-sizing: border-box;
+        border: 2px solid black;
+        /* #d48259 */
     }
     #search{
         background: #FFE66D;
-        border: 2px solid #FF9E6D;
+        border: 2px solid black;
         box-sizing: border-box;
         border-radius: 17px;
+        padding-left: 5px;
     }
-    #friendsList{
+    #friendsList , #requestList, #searchList{
         display: grid;
-        grid-template-columns: 35vw;
-        column-gap: 10vw;
-        row-gap: 5vh;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr;
+    }
+    #searchList{
+        margin-top: 5px;
     }
 </style>
 <main>
     <Navbar></Navbar>
     <div id="top"><h1>Friends</h1>
-    <div id="search"><input  bind:value={query} on:input={updateSearch} 
-    type="search" placeholder="search..."/></div></div>
-    {#if search}
-        {#each sprofiles as pfl}
-             <div class="friend" on:click="{()=> gotoProfile(pfl.name)}">
-                <span>{pfl.name}</span>
-            </div>
-        {/each}
-    {:else}
-        <div id="requestList">
+    <input id="search"  bind:value={query} on:input={updateSearch} 
+    type="search" placeholder="search..."/></div>
+        {#if search}
+         <div id="searchList">
+            {#each sprofiles as pfl}
+                <div class="friend" on:click="{()=> gotoProfile(pfl.name)}">
+                    <span>{pfl.name}</span>
+                </div>
+            {/each}
+        </div>
+        {:else}
         <h2>Requests</h2>
+        <div id="requestList">
         {#each finRequests as req}
             <div id="{req.user}" class="request" on:click="{()=> gotoProfile(req.name)}">
-                <span>{req.name}</span>
+                <span style="font-size: large;">{req.name}</span>
                 <span>{req.date}</span>
                 <span>{req.message}</span>
                 <button class ="accept" on:click="{() => acceptRequest(req.user)}">Accept
@@ -196,10 +231,11 @@ function updateSearch(){
             </div>
         {/each}
         </div>
+        <h2>Friends</h2>
         <div id="friendsList">
         {#each friends as fnd}
             <div class="friend" on:click="{()=> gotoProfile(fnd.name)}">
-                <span>{fnd.name}</span>
+                <span style="font-size: large;">{fnd.name}</span>
                 <span>Added on {fnd.date}</span>
             </div>
         {/each}
