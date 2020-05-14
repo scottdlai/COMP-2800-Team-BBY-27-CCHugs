@@ -22,7 +22,7 @@
 		location.href="/resources"}, color: "background-color: #FF9E6D"},
 
 		{buttonName:'Feedback', handle: function () {
-		name = "Feedback"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/feedback"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 	];
 	console.log(button);
 </script>
