@@ -53,10 +53,10 @@ Name:
 <input id="nameField" type="text">
 </label>
 <textarea id="feedback" placeholder="Please type feedback here...."></textarea>
+</fieldset>
 <input id="submit" type="submit" value="Submit">
 </form>
 <button on:click={toMainPage}> Cancel</button>
-
 </section>
 
 <footer>
@@ -156,27 +156,37 @@ Name:
             height: 200px;
             border-radius: 25px;
             font-size:1em;
-            border: 2px dotted black;
+            border: 2px solid black;
             background-image: linear-gradient(180deg, #6DFFE7, #ffffff);
         }
 
         #nameField {
-            border: 2px dotted black;
+            border: 2px solid black;
             border-radius: 25px;
             padding: 5px 5px 5px 15px;
             background-image: linear-gradient(90deg, #6DFFE7, #ffffff);
         }
 
         #submit{
-            
+            background-color: #ff9e6d;
             border-radius: 25px;
             width: 50%;
             float: right;
+            height: 50px;
+            font-weight: bold;
+            border: 2px solid black;
         }
 
         button{
+            background-color: #ff9e6d;
             border-radius: 25px;
             float: left;
             width: 50%;
+            font-size:100%;
+			border-radius: 25px;
+			border: 2px solid black;
+			font-weight: bold;
+            margin-top: 15px;
+		    height: 50px;
         }
 </style>

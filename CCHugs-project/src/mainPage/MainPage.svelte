@@ -62,8 +62,8 @@
 	}
 
 	section {
-		margin-left: auto;
-		margin-right: auto;
+		margin-left: 25px;
+		margin-right: 25px;
 		grid-area: section;
 	}
 
@@ -81,7 +81,7 @@
 		}
 
 		.buttonDisplay {
-			font-size: 250%;
+			font-size: 225%;
 			display:grid;
 			grid-gap: 50px 50px;
 			grid-template-columns:repeat(3, 1fr);
@@ -101,7 +101,7 @@
 		}
 
 			.buttonDisplay {
-			font-size: 250%;
+			font-size: 200%;
 			display:grid;
 			grid-gap: 50px 50px;
 			grid-template-columns: repeat(2, 1fr);
@@ -119,7 +119,7 @@
 			"footer footer";
 		}
 		.buttonDisplay {
-			font-size: 150%;
+			font-size: 125%;
 			display: grid;
 			grid-gap: 25px 25px;
 			grid-template-columns: repeat(2, 1fr);
@@ -131,7 +131,7 @@
 		button {
 			font-size:100%;
 			width: 100%;
-			height: 250px;
+			height: 150px;
 			border-radius: 25px;
 			border: 2px solid black;
 			font-weight: bold;
