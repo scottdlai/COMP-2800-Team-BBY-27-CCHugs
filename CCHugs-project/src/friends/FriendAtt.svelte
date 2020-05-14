@@ -104,12 +104,13 @@
 
     function removeClick(){
         //Are you sure button
-        overText = "<h2>Are you sure you want to remove " +{profile}+"</..h2><button on:click='{removeFriend}'>REMOVE</button>";
+        overText = "<h2>Are you sure you want to remove " +{profile}+"</..h2><button id='modBtn' on:click='{removeFriend}'>REMOVE</button>";
         var div = document.getElementById("inside");
         div.innerHTML = "";
-        var h2 = document.createElement("h2");
+        var h2 = document.createElement("h3");
         h2.textContent = "Are your sure you want to remove " + profile;
         var button = document.createElement("button");
+        button.style.cssText= "background-color: #ff9e6d; border-radius: 25px;padding: 0.4em; margin: 0 0 0.5em 0; box-sizing: border-box; border: 2px solid black;"
         button.textContent = "REMOVE";
         button.onclick = removeFriend;
         div.appendChild(h2);
@@ -120,13 +121,15 @@
         //Send a message and send button
         var div = document.getElementById("inside");
         div.innerHTML = "";
-        var h2 = document.createElement("h2");
+        var h2 = document.createElement("h3");
         h2.textContent = "Send " + profile +" a message with your friend request!";
         var text = document.createElement("textarea");
+        text.style.cssText ="border: 2px solid orange; height: 50px;";
         text.placeholder = "Your message";
         text.id = "msg";
         var button = document.createElement("button");
-        button.textContent = "SEND";
+        button.style.cssText= "background-color: #ff9e6d; border-radius: 25px;padding: 0.4em; margin: 0 0 0.5em 0; box-sizing: border-box; border: 2px solid black;"
+        button.textContent = "SEND REQUEST";
         button.onclick = addFriend;
         div.appendChild(h2);
         div.appendChild(text);
@@ -138,9 +141,10 @@
         // overText = "<h2>Are you sure you want to block " + profile +"</h2><button id='btn'>BLOCK</button>";
         var div = document.getElementById("inside");
         div.innerHTML = "";
-        var h2 = document.createElement("h2");
+        var h2 = document.createElement("h3");
         h2.textContent = "Are your sure you want to block " + profile;
         var button = document.createElement("button");
+        button.style.cssText= "background-color: #ff9e6d; border-radius: 25px;padding: 0.4em; margin: 0 0 0.5em 0; box-sizing: border-box; border: 2px solid black;"
         button.textContent = "BLOCK";
         button.onclick = block;
         div.appendChild(h2);
@@ -151,7 +155,7 @@
         overText ="This is not implemented yet";
         var div = document.getElementById("inside");
         div.innerHTML = "";
-        var h2 = document.createElement("h2");
+        var h2 = document.createElement("h3");
         h2.textContent = "This is not implemented yet";
         div.appendChild(h2);
         togglePU();
@@ -204,13 +208,12 @@
         height: 60px
     } 
     button {
-        font-family: inherit;
-        font-size: inherit;
+        background-color: #ff9e6d;
+        border-radius: 25px;
         padding: 0.4em;
         margin: 0 0 0.5em 0;
         box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 2px;
+        border: 2px solid black;
     }
     img{
         width: 60px;
@@ -227,12 +230,13 @@
         top: 50%;
         left: 50%;
         width: 300px;
-        height: 200px;
+        /* height: 200px; */
+        padding: 10px;
+        margin: 0 auto;
         margin-left: -150px;
         margin-top: -100px;
-        background-color: #f1c40f;
+        background-color: #FFE66D;
         border-radius: 5px;
-    
         /* needed styles for the overlay */
         z-index: 10; /* keep on top of other elements on the page */
         box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
@@ -245,6 +249,15 @@
     }
     #close:hover{
         color: darkgoldenrod;
+    }
+    #inside{
+        display: grid;
+        gap: 5px;
+        grid-template-columns: 1fr; 
+    }
+    #inside textarea{
+        border: orange;
+        height: 25px;
     }
 </style>
 <main>
