@@ -1,6 +1,6 @@
 
 <script>
-import {Navbar} from '../components/Navbar.svelte';
+import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 
