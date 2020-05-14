@@ -43,5 +43,5 @@
 {#if params}
   <svelte:component this={page} uid={params.uid} />
 {:else}
-  <svelte:component this={login} />
+  <svelte:component this={page} />
 {/if}

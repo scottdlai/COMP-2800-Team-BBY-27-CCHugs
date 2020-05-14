@@ -2,6 +2,7 @@
 import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
+import Footer from "./../components/Footer.svelte";
 
 let toMainPage = function () {
     location.replace('/mainpage');
@@ -37,10 +38,11 @@ function writeFeedback() {
 
 
 </script>
-<Navbar>
-</Navbar>
 
 <main>
+<navbar>
+<Navbar></Navbar>
+</navbar>
 <header>
 <h1>This is a header</h1>
 </header>
@@ -60,17 +62,23 @@ Name:
 </section>
 
 <footer>
-<h1> this is a foooter</h1>
+<Footer></Footer>
 </footer>
 </main>
 
 <style>
 	main {
+        height: 100%;
 		display: grid;
 		grid-template-areas:
+        "navbar"
 		"header"
 		"section"
-		"footer";
+        "footer";
+	}
+
+    navbar {
+	grid-area: navbar;
 	}
 
 	header {
@@ -83,17 +91,19 @@ Name:
 		grid-area: section;
 	}
 
-	footer {
-		grid-area: footer;
-	}
+    footer{
+        margin-top: auto;
+        grid-area: footer;
+    }
 
 		@media (min-width: 1024px) {
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+            "navbar"
 			"header"
 			"section"
-			"footer";
+            "footer";
 		}
 
 		.buttonDisplay {
@@ -109,9 +119,10 @@ Name:
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-			"header"
+			"navbar"
+            "header"
 			"section"
-			"footer";
+            "footer";
 		}
 
 			.buttonDisplay {
@@ -126,9 +137,10 @@ Name:
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+            "navbar"
 			"header"
 			"section"
-			"footer";
+            "footer";
 		}
 		.buttonDisplay {
 			display: grid;
@@ -144,12 +156,6 @@ Name:
 			font-size: 200%;
 			font-weight: 100;
 		}
-
-		footer {
-			margin-top: 25px;
-			background-color: #FFE66D;
-		}
-
         #feedback{
             padding: 15px;
             width: 100%;

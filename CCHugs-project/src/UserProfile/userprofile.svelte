@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Att from '../friends/FriendAtt.svelte'
+import Footer from "./../components/Footer.svelte";
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
@@ -28,10 +29,11 @@ showProfile();
 
 </script>
 
-<Navbar>
-</Navbar>
-
 <main>
+<navbar>
+<Navbar></Navbar>
+</navbar>
+
 	<header>
 		<h1>Going to {name}!</h1>
 	</header>
@@ -84,16 +86,24 @@ Send Request for friendship
     </section>
 
 <footer>
-This is a footer
+<Footer></Footer>
 </footer>
+
 </main>
+
 <style>
 	main {
+		height:100%;
 		display: grid;
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
+	}
+
+	navbar	{
+		grid-area: navbar;
 	}
 
 	header {
@@ -107,8 +117,8 @@ This is a footer
 		grid-area: section;
 	}
 
-	footer {
-        background-color: #FFE66D; 
+	footer	{
+		margin-top: auto;
 		grid-area: footer;
 	}
 
@@ -116,6 +126,7 @@ This is a footer
 		main {
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -134,6 +145,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -152,6 +164,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";

@@ -1,5 +1,6 @@
 <script>
 	import Navbar from '../components/Navbar.svelte';
+	import FootLoose from "./../components/Footer.svelte";
 
 	let name = '.....'
 
@@ -27,10 +28,12 @@
 	console.log(button);
 </script>
 
-<Navbar>
-</Navbar>
-
 <main>
+<navbar>
+	<Navbar>
+</Navbar>
+</navbar>
+
 	<header>
 		<h1>Going to {name}!</h1>
 	</header>
@@ -43,18 +46,23 @@
 		</div>
 	</section>
 
-	<footer>
-		<h1>This is a footer</h1>
-	</footer>
+<footer>
+<FootLoose></FootLoose>
+</footer>
 </main>
+
 
 <style>
 	main {
+		height: 100%;
 		display: grid;
 		grid-template-areas:
 		"header"
-		"section"
-		"footer";
+		"section";
+	}
+	
+	navbar{
+		grid-area: navbar;
 	}
 
 	header {
@@ -67,7 +75,8 @@
 		grid-area: section;
 	}
 
-	footer {
+	footer{
+		margin-top: auto;
 		grid-area: footer;
 	}
 
@@ -75,6 +84,7 @@
 		main {
 			grid-template-columns: repeat(3, 1fr);
 			grid-template-areas:
+			"navbar navbar navbar"
 			"header header header"
 			"section section section"
 			"footer footer footer";
@@ -95,6 +105,7 @@
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
+			"navbar navbar"
 			"header header"
 			"section section"
 			"footer footer";
@@ -114,6 +125,7 @@
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
+			"navbar navbar"
 			"header header"
 			"section section"
 			"footer footer";
@@ -143,10 +155,5 @@
 			text-transform: capitalize;
 			font-size: 4em;
 			font-weight: 100;
-		}
-
-		footer {
-			margin-top: 25px;
-			background-color: #FFE66D;
 		}
 </style>

@@ -3,6 +3,7 @@
 import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
+import Footer from "./../components/Footer.svelte";
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
@@ -34,8 +35,15 @@ let click = function () {
 
 </script>
 
+<Navbar></Navbar>
+
+<header>
+<h1>
+This is a header</h1></header>
+
 
 <img id="profilePicture" src="" alt='your profile pciture'>
+<p>Current Photo</p>
 <div>
 <input type="image" src="https://firebasestorage.googleapis.com/v0/b/cchugs-bd4ee.appspot.com/o/1.png?alt=media&token=757df37d-dbda-4e4b-a645-6070d666d16d" 
 alt="profile" on:click={click}>
@@ -81,6 +89,7 @@ alt="profile" on:click={click}>
 alt="profile" on:click={click}>
 
 </div>
+<Footer></Footer>
 
 <style>
 input {

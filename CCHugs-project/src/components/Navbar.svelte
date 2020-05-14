@@ -1,13 +1,7 @@
 <script>
     import {auth} from "./../Firebase.js";
     import {firestore} from "./../Firebase.js";
-
-    function logOut() {
-      auth.signOut()
-      .then(
-        location.replace('/')
-      );
-    }
+    import Signout from "./../signup-login/signout.svelte"
 
     function homeR() {
       location.replace('/mainpage');
@@ -42,10 +36,7 @@ const handleScrolldown = () => {
         <li class="nav-item" >
             <h4 style="color:black">How To Hug</h4>
         </li>
-        <li class="nav-item" on:click={logOut}>
-           <h4 style="color:black;">Log-Out</h4>
-        </li>
-        
+        <Signout class="nav-item"></Signout>
       </ul>
     </div>
   </nav>
