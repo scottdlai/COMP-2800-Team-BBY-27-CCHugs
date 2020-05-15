@@ -11,23 +11,6 @@ let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
-// function showProfile() {
-//   auth.onAuthStateChanged(function (user) {
-// 		  firestore.collection("Users").doc(user.uid)
-// 		  .onSnapshot(function (snap) {
-// 			  let userName = snap.data().displayName;
-// 			  let userQuote = snap.data().quote;
-// 			  let emailAddress = snap.data().email;
-// 			  let userPicture = snap.data().displayPicture;
-// 			  document.getElementById("dname").innerHTML= userName;
-// 			  document.getElementById("quote").innerHTML = userQuote;
-// 			  document.getElementById("profilePicture").src = userPicture;
-// 		  })
-//   });
-// }
-
-// showProfile();
-
 let newUser;
 
 let getUser = new Promise ((resolve, reject) => {
@@ -107,16 +90,6 @@ onMount(() => {
 <Att uid={uid} profile={newUser}/>
 {/if}
 <div>
-
-<!-- <div>
-<button>remove friend</button>
-<button>block</button>
-<button>report</button>
-</div> -->
-
-<!-- <button>
-Send Request for friendship
-</button> -->
 
 <div class="backgroundContainer">
 <h2>Status</h2>

@@ -3,9 +3,27 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Footer from "./../components/Footer.svelte";
+let name;
+
+function showProfile() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  name = snap.data().username;
+			  let userPicture = snap.data().displayPicture;
+			  let userName = snap.data().displayName;
+			  let userQuote = snap.data().quote;
+			  let emailAddress = snap.data().email;
+			  document.getElementById("dname").value = userName;
+			  document.getElementById("quote").value = userQuote;
+			  document.getElementById("email").value = emailAddress;
+			  document.getElementById("profilePicture").src = userPicture;
+		  })
+  });
+}
 
 let returnToProfile = function () {
-		location.href="/userprofile";
+		location.href="/userprofile?user="+name;
 }
 
 let editDisplayPicture = function () {
@@ -20,7 +38,7 @@ function setAddListner() {
 console.log(profileDisplayName);
 
 	if (!profileDisplayName || !profileQuote || !profileEmail === "") {
-		alert("Values cannot be null")
+		alert("DisplayName, ProfileQuote, Profile Email cannot be null")
 	}else{
 
         auth.onAuthStateChanged(function (user){
@@ -31,28 +49,11 @@ console.log(profileDisplayName);
 				email: profileEmail
 						})
 			.then(function () {
-				location.replace("/userprofile");
+				location.replace("/userprofile?user="+name);
 			})
 
 			});
 			}
-
-}
-
-function showProfile() {
-  auth.onAuthStateChanged(function (user) {
-		  firestore.collection("Users").doc(user.uid)
-		  .onSnapshot(function (snap) {
-			  let userPicture = snap.data().displayPicture;
-			  let userName = snap.data().displayName;
-			  let userQuote = snap.data().quote;
-			  let emailAddress = snap.data().email;
-			  document.getElementById("dname").value = userName;
-			  document.getElementById("quote").value = userQuote;
-			  document.getElementById("email").value = emailAddress;
-			  document.getElementById("profilePicture").src = userPicture;
-		  })
-  });
 }
 
 showProfile();
@@ -70,7 +71,12 @@ showProfile();
 
 <section class = "buttonDisplay backgroundContainer">
 <img id="profilePicture" alt="profile picture">
-<button id="edit" on:click={editDisplayPicture}> Click to change your picture </button>
+
+<div id="">
+<button class="edit" on:click={editDisplayPicture}> Click to change your picture </button>
+<button class="edit">Change Password</button>
+</div>
+<br>
 
 <form on:submit|preventDefault="{setAddListner}">
     <fieldset>
@@ -81,8 +87,6 @@ showProfile();
         <input type="text" id='quote' name='quote' value= "">
         <label for='email'>E-mail Address:</label>
         <input type="text" id='email' name='email'>
-        <label for='password'>Password:</label>
-        <input type="text" id='password' name='password'>
     </fieldset>
 	<input id="submit2" type="submit" value="Save">
     </form>
@@ -171,12 +175,12 @@ showProfile();
         border: 2px solid black;
 		}
 
-		#edit {
-        margin: auto;
-		width: 50%;
+		div .edit {
+		width: 100%;
 		height: 50px;
 		background-color: #ff9e6d;
         border-radius: 25px;
+		float: left;
 		}
 
         #submit2 {
@@ -216,5 +220,6 @@ showProfile();
             padding: 25px;
             display: grid; 
         }
+
 
 </style>

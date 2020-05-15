@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar.svelte";
 import {onMount} from 'svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
+import Footer from "../components/Footer.svelte";
 
 export let uid;
 
@@ -271,3 +272,5 @@ function updateSearch(){
         </div>
     {/if}
 </main>
+
+<Footer></Footer>
