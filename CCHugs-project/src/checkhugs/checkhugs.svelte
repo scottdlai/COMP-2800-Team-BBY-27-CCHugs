@@ -2,58 +2,37 @@
 import Navbar from '../components/Navbar.svelte';
 import Footer from '../components/Footer.svelte';
 import { auth, firestore } from '../Firebase.js';
+import { authState } from 'rxfire/auth';
+import { collectionData } from 'rxfire/firestore';
+
+export let uid;
 
 let src = "../DifferentLogo2.svg";
 
-let count = 0;
+let count = 0; 
 
-//create element and render hugs
-function renderHug(doc){
+let hugPromise = getHugs();
 
-    let hugList = document.getElementById('hugs-list');
-
-    let div = document.createElement('div')
-    let li = document.createElement('li');
-    let author = document.createElement('span');
-    let content = document.createElement('span');
-    let time = document.createElement('span');
-    
-    let sheet = document.createElement('style')
-    sheet.innerHTML = "li { margin: 15px 0px; padding: 10px; background-image: linear-gradient(135deg, #6DFFE7, #ffffff); border-radius: 25px; border: 2px solid black;}";
-    document.body.appendChild(sheet);
-
-    div.classList.add('backgroundContainer');
-
-    li.setAttribute('data-id', doc.id);
-    author = doc.data().author;
-    content = doc.data().content;
-    time = doc.data().time.toDate();
-
-    let author1 = document.createTextNode(`<b>From: </b>`  + author);
-    let content1 = document.createTextNode("Message: " + content);
-    let time1 = document.createTextNode("Time: " + time);
-
-    li.appendChild(author1);
-    li.appendChild(document.createElement('br'));
-    li.appendChild(content1);
-    li.appendChild(document.createElement('br'));
-    li.appendChild(time1);
-    li.appendChild(document.createElement('br'));
-    div.appendChild(li)
-    hugList.appendChild(div);
+async function getHugs() {
+    let snapshot = await firestore.collection('Hugs').where("receiver", "==", uid)
+        .get();
+        console.log(snapshot.docs);
+        return snapshot.docs.map(doc => doc.data());    
 }
 
-firestore.collection('Hugs').get().then((snapshot) => {
-    snapshot.docs.forEach(doc => {
-        renderHug(doc);
-        count += 1;
-    })
-})
+function showProfile() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  let userName = snap.data().displayName;
+			  document.getElementById("dname").innerHTML= userName;
+		  })
+  });
+}
+showProfile(); 
 </script>
 
-
 <style>
-
 header {
     overflow: hidden;
     text-align: center;
@@ -62,56 +41,71 @@ header {
     top: 0;
     width: 100%;
 }
-
 #logo {
     width: 80%;
 }
-
 main {
     margin: 0% 20%;
 }
-
-h1 {
+h3 {
     margin: 10px;
     padding: 10px;
     text-align: center;
 }
-
-ul {
-    list-style: none;
+ #hugs-list {
     padding: 0px;
+    margin-bottom: 50px;
+    
+}
+p { 
+    margin: 15px 0px; 
+    padding: 10px; 
+    background-image: linear-gradient(135deg, #6DFFE7, #ffffff); 
+    border-radius: 25px; 
+    border: 2px solid black;
 }
 
   /** tablet*/
   @media (max-width: 1024px) {
     main{
-    /* padding: 50px 100px; */
     margin: 0% 10%;
+    font-size:3vw;
     }
   }
 
   @media (max-width:440px)  {
     main{
-        margin: 0% 5%;
-        
+        margin: 0% 5%;     
+        font-size:4vw;
+   
     }
   }
 
 </style>
 
+
 <header>
-    <img {src} alt=logo id="logo">
+    <img {src} alt="logo" id="logo">
 </header>
 
 <Navbar />
-
+          
 <main>
-    <h1>Hugs Received</h1>
-    <h3>You've recieved <b>{count}</b> {count === 1 ? 'hug' : 'hugs'}!</h3>
-    <div>
-        <ul id="hugs-list"></ul>
-    <div>  
+    <h3><span id="dname"></span>'s <br>Recieved Hugs</h3>
 
-</main>
+        <div id="hugs-list">
+            {#await hugPromise then hugReceived}
+                {#each hugReceived as hugs, i}
+                <!-- <div>{i + 1} {i === 0 ? 'hug' : 'hugs'} recieved<br> -->
+                    <p>
+                        <b>From: </b>{hugs.author}<br>
+                        <b>Message: </b>{hugs.content}<br>
+                        <b>Time: </b>{hugs.time.toDate()} 
+                    </p>
+                <!-- </div> -->
+                {/each}
+            {/await}               
+        </div>
+</main> 
 
 <Footer />
