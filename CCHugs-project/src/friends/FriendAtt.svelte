@@ -4,6 +4,7 @@
     import {onMount} from 'svelte';
 
     export let profile = null;
+    export let uid;
     let profileId;
     let friends;
     let added = false;
@@ -11,12 +12,13 @@
     let overText ="";
 
     //Promise that gets the uid of the profile page to be used later.
-    let check = new Promise((resolve,reject) =>{
+    let c = new Promise((resolve,reject) =>{
             firestore.collection("Users").where("username",'==',profile).get().then((snapshot) => {
                 console.log(snapshot);
+                console.log(uid);
             if(!snapshot.empty){
                snapshot.forEach((doc)=>{
-                   profileId = doc.id();
+                   profileId = doc.id;
                });
                resolve(1);
             }
@@ -32,18 +34,21 @@
 
 
     onMount(()=> {
-        //find if this profile is a friend
-        check.then(()=>{
-            friends = firestore.collection("Users").doc(auth.currentUser.uid).collection("Friends");
-            friends.doc(profileId).get().then((snapshot) => {
-                 if(!snapshot.empty){
-                     added = true;
-                 }
-               });
-            }).catch((err) =>{
-                console.log('Error checking friend status', err);
-                // message ="That username is already taken";
-            });;
+             //find if this profile is a friend
+            c.then(()=>{
+                console.log(profileId);
+                firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).get().then((snapshot) => {
+                    console.log(snapshot);
+                    if(snapshot.data() !== undefined){
+                        added = true;
+                        console.log("CHANGED");
+                    }
+                    console.log(added);
+                });
+                }).catch((err) =>{
+                    console.log('Error checking friend status', err);
+                    // message ="That username is already taken";
+                });;
     });
     
     //Adds the profile to the requests collection with a message a time and a sender.
@@ -51,16 +56,16 @@
         togglePU();
         var message = document.getElementById("msg").value;
         //updates clients collections
-        firestore.collection("Users").doc(auth.currentUser.uid).collection("Requested").doc(profileId).set({
+        firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).set({
             dateRequested: d.toUTCString(),
             to: profileId,
             message: message
         });
 
         //updates profiles collection
-        firestore.collection("Users").doc(profileId).collection("Requests").doc(auth.currentUser.uid).set({
+        firestore.collection("Users").doc(profileId).collection("Requests").doc(uid).set({
             dateRequested: d.toUTCString(),
-            from: auth.currentUser.uid,
+            from: uid,
             message: message
         });
         
@@ -68,12 +73,12 @@
     //removes the profile from each users collections.
     function removeFriend(){
         togglePU();
-        friends.doc(profileId).delete().then(function() {
+        firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).delete().then(function() {
             console.log("Document successfully deleted! from user");
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
-        firestore.collection("Users").doc(profileId).collection("Friends").doc(auth.currentUser.uid).delete().then(function() {
+        firestore.collection("Users").doc(profileId).collection("Friends").doc(uid).delete().then(function() {
             console.log("Document successfully deleted! from other user");
         }).catch(function(error) {
             console.error("Error removing document: ", error);
@@ -83,7 +88,7 @@
     //puts the profile into the users blocked collection.
     function block(){
         togglePU();
-        firestore.collection("Users").doc(auth.currentUser.uid).collection("Blocked").doc(profileId).set({
+        firestore.collection("Users").doc(uid).collection("Blocked").doc(profileId).set({
             dateBlocked: d.toUTCString()
         });
     }

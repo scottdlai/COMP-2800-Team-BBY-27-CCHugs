@@ -102,9 +102,9 @@ onMount(() => {
 <p id="quote">{userQuote}</p>
 </div>
 
+
 {#if !yourProfile}
-<Att>
-</Att>
+<Att uid={uid} profile={newUser}/>
 {/if}
 <div>
 
