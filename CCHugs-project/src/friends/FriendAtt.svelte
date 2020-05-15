@@ -12,12 +12,13 @@
     let overText ="";
 
     //Promise that gets the uid of the profile page to be used later.
-    let check = new Promise((resolve,reject) =>{
+    let c = new Promise((resolve,reject) =>{
             firestore.collection("Users").where("username",'==',profile).get().then((snapshot) => {
                 console.log(snapshot);
+                console.log(uid);
             if(!snapshot.empty){
                snapshot.forEach((doc)=>{
-                   profileId = doc.id();
+                   profileId = doc.id;
                });
                resolve(1);
             }
@@ -33,18 +34,21 @@
 
 
     onMount(()=> {
-        //find if this profile is a friend
-        check.then(()=>{
-            friends = firestore.collection("Users").doc(uid).collection("Friends");
-            friends.doc(profileId).get().then((snapshot) => {
-                 if(!snapshot.empty){
-                     added = true;
-                 }
-               });
-            }).catch((err) =>{
-                console.log('Error checking friend status', err);
-                // message ="That username is already taken";
-            });;
+             //find if this profile is a friend
+            c.then(()=>{
+                console.log(profileId);
+                firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).get().then((snapshot) => {
+                    console.log(snapshot);
+                    if(snapshot.data() !== undefined){
+                        added = true;
+                        console.log("CHANGED");
+                    }
+                    console.log(added);
+                });
+                }).catch((err) =>{
+                    console.log('Error checking friend status', err);
+                    // message ="That username is already taken";
+                });;
     });
     
     //Adds the profile to the requests collection with a message a time and a sender.
@@ -69,7 +73,7 @@
     //removes the profile from each users collections.
     function removeFriend(){
         togglePU();
-        friends.doc(profileId).delete().then(function() {
+        firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).delete().then(function() {
             console.log("Document successfully deleted! from user");
         }).catch(function(error) {
             console.error("Error removing document: ", error);

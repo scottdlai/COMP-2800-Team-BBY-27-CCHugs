@@ -104,8 +104,7 @@ onMount(() => {
 
 
 {#if !yourProfile}
-<Att uid={uid} profile={newUser}>
-</Att>
+<Att uid={uid} profile={newUser}/>
 {/if}
 <div>
 

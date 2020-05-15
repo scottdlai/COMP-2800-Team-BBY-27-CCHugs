@@ -128,7 +128,7 @@ function denyRequest(profile){
 
 //Send the user to the profile of the person that was clicked on.
 function gotoProfile(name){
-    window.location = "./profile?user="+name;
+    window.location = "./userprofile?user="+name;
 }
 //Get all the users that could be searched up.
 function getUsers(){
@@ -219,7 +219,7 @@ function updateSearch(){
             {#each sprofiles as pfl}
                 {#if pfl.status === "Request"}
                      <div id="{pfl.user}" class="request">
-                        <span on:click="{()=> gotoProfile(req.name)}" style="font-size: large;">{pfl.dname}</span>
+                        <span on:click="{()=> gotoProfile(pfl.name)}" style="font-size: large;">{pfl.dname}</span>
                         <span>{pfl.date}</span>
                         <span>{pfl.message}</span>
                         <div>
