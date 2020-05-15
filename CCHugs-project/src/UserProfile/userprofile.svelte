@@ -7,8 +7,6 @@ import Footer from "./../components/Footer.svelte";
 export let uid;
 import {onMount} from "svelte";
 
-export let uid;
-
 let editProfile = function () {
 		location.href="/userprofileEdit";
 }
