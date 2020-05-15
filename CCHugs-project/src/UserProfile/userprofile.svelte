@@ -4,6 +4,8 @@ import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Att from '../friends/FriendAtt.svelte'
 
+export let uid;
+
 let editProfile = function () {
 		location.href="/userprofileEdit";
 }
@@ -51,7 +53,7 @@ showProfile();
 <p id="quote">Just A Hugger</p>
 </div>
 
-<Att>
+<Att uid = {uid}>
 </Att>
 <div>
 

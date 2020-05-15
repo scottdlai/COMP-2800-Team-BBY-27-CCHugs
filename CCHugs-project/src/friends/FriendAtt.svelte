@@ -4,6 +4,7 @@
     import {onMount} from 'svelte';
 
     export let profile = null;
+    export let uid;
     let profileId;
     let friends;
     let added = false;
@@ -34,7 +35,7 @@
     onMount(()=> {
         //find if this profile is a friend
         check.then(()=>{
-            friends = firestore.collection("Users").doc(auth.currentUser.uid).collection("Friends");
+            friends = firestore.collection("Users").doc(uid).collection("Friends");
             friends.doc(profileId).get().then((snapshot) => {
                  if(!snapshot.empty){
                      added = true;
@@ -51,16 +52,16 @@
         togglePU();
         var message = document.getElementById("msg").value;
         //updates clients collections
-        firestore.collection("Users").doc(auth.currentUser.uid).collection("Requested").doc(profileId).set({
+        firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).set({
             dateRequested: d.toUTCString(),
             to: profileId,
             message: message
         });
 
         //updates profiles collection
-        firestore.collection("Users").doc(profileId).collection("Requests").doc(auth.currentUser.uid).set({
+        firestore.collection("Users").doc(profileId).collection("Requests").doc(uid).set({
             dateRequested: d.toUTCString(),
-            from: auth.currentUser.uid,
+            from: uid,
             message: message
         });
         
@@ -73,7 +74,7 @@
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
-        firestore.collection("Users").doc(profileId).collection("Friends").doc(auth.currentUser.uid).delete().then(function() {
+        firestore.collection("Users").doc(profileId).collection("Friends").doc(uid).delete().then(function() {
             console.log("Document successfully deleted! from other user");
         }).catch(function(error) {
             console.error("Error removing document: ", error);
@@ -83,7 +84,7 @@
     //puts the profile into the users blocked collection.
     function block(){
         togglePU();
-        firestore.collection("Users").doc(auth.currentUser.uid).collection("Blocked").doc(profileId).set({
+        firestore.collection("Users").doc(uid).collection("Blocked").doc(profileId).set({
             dateBlocked: d.toUTCString()
         });
     }
