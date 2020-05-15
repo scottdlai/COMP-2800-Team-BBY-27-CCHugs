@@ -19,6 +19,8 @@
   {#each userIDs as userID, index (userID)}
     <UserTab userID={userID} isActive={partnerIndex === index} 
     on:click={() => updateActive(index)}/>
+  {:else}
+    <p>Start connecting with people :)</p> 
   {/each}
 </main>
 

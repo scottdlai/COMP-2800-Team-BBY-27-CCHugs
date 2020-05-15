@@ -33,7 +33,11 @@
 <main>
   {#await userIDsPromise then userIDs}
     <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
-    <Content {userIDs} {uid} {partnerIndex}/>
+    {#if userIDs}
+      <Content {userIDs} {uid} {partnerIndex}/>
+    {:else}
+      <h1>You current don't have any conversations :(</h1>
+    {/if}
   {/await}
 </main>
 
