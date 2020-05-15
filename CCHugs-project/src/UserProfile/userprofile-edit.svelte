@@ -2,6 +2,7 @@
 import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
+import Footer from "./../components/Footer.svelte";
 
 let returnToProfile = function () {
 		location.href="/userprofile";
@@ -34,50 +35,42 @@ console.log(profileDisplayName);
 			})
 
 			});
-			
-
 			}
 
 }
 
-function showNameValue() {
+function showProfile() {
   auth.onAuthStateChanged(function (user) {
 		  firestore.collection("Users").doc(user.uid)
 		  .onSnapshot(function (snap) {
+			  let userPicture = snap.data().displayPicture;
 			  let userName = snap.data().displayName;
 			  let userQuote = snap.data().quote;
 			  let emailAddress = snap.data().email;
 			  document.getElementById("dname").value = userName;
 			  document.getElementById("quote").value = userQuote;
 			  document.getElementById("email").value = emailAddress;
-		  })
-  });
-}
-
-function showPicture() {
-  auth.onAuthStateChanged(function (user) {
-		  firestore.collection("Users").doc(user.uid)
-		  .onSnapshot(function (snap) {
-			  let userPicture = snap.data().displayPicture;
 			  document.getElementById("profilePicture").src = userPicture;
 		  })
   });
 }
-showPicture();
-showNameValue();
 
+showProfile();
 
 </script>
 
 <main>
+<navbar>
+<Navbar></Navbar>
+</navbar>
+
 <header>
-<Navbar>
-</Navbar>
+<h1>This is a header</h1>
 </header>
 
 <section class = "buttonDisplay backgroundContainer">
 <img id="profilePicture" alt="profile picture">
-<button on:click={editDisplayPicture}> Click to change your picture </button>
+<button id="edit" on:click={editDisplayPicture}> Click to change your picture </button>
 
 <form on:submit|preventDefault="{setAddListner}">
     <fieldset>
@@ -90,26 +83,32 @@ showNameValue();
         <input type="text" id='email' name='email'>
         <label for='password'>Password:</label>
         <input type="text" id='password' name='password'>
-		<input id="submit2" type="submit" value="Save">
     </fieldset>
-  
+	<input id="submit2" type="submit" value="Save">
     </form>
-	<button on:click={returnToProfile} class="submit1">Cancel</button> 
+	<button on:click={returnToProfile} id="cancel">Cancel</button> 
 
 </section>
 
 <footer>
-This is a footer
+<Footer></Footer>
 </footer>
 </main>
 
+
 <style>
 	main {
+		height: 100%;
 		display: grid;
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
+	}
+
+	navbar{
+		grid-area: navbar;
 	}
 
 	header {
@@ -117,19 +116,19 @@ This is a footer
 	}
 
 	section {
-        margin:25px 0;
 		grid-area: section;
 	}
 
 	footer {
-        background-color: #FFE66D; 
-		grid-area: footer;
+		margin-top: auto;
+		grid-area:footer;
 	}
 
 		@media (min-width: 1024px) {
 		main {
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -141,6 +140,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header" 
 		"section"
 		"footer";
@@ -152,6 +152,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -170,7 +171,7 @@ This is a footer
         border: 2px solid black;
 		}
 
-		button {
+		#edit {
         margin: auto;
 		width: 50%;
 		height: 50px;
@@ -178,12 +179,21 @@ This is a footer
         border-radius: 25px;
 		}
 
-        .submit1, #submit2 {
+        #submit2 {
         margin-top: 15px;
 		width: 50%;
 		height: 50px;
 		background-color: #ff9e6d;
         border-radius: 25px;
+		float: right;
+		}
+
+		#cancel{
+		width: 50%;
+		height: 50px;
+		background-color: #ff9e6d;
+        border-radius: 25px;
+		float: left;
 		}
 
 		h1 {

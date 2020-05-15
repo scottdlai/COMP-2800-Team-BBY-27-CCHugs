@@ -13,7 +13,11 @@
 	import aboutUs from './aboutUs/aboutUs.svelte';
 	import friendAtt from "./friends/FriendAtt.svelte";
 	import friends from "./friends/FriendList.svelte"
-	import editdisplaypicture from "./Userprofile/pictures.svelte";
+  import editdisplaypicture from "./Userprofile/pictures.svelte";
+  import feedback from "./feedback/feedback.svelte";
+  //testing
+  import HowToHug from "./components/HowToHug.svelte";
+  //end of tesitng
 
   let page;
   let params;
@@ -22,6 +26,10 @@
     params = user;
   });
 
+  //start of route
+  router("/howtohug", () => (page = HowToHug));
+  //end of testing
+  
   router("/mainpage", () => (page = mainpage));
   router("/signup", () => (page = signup));
   router("/login", () => (page = login));
@@ -33,7 +41,7 @@
   router("/aboutus", () => (page = aboutUs));
   router("/att", () => (page = friendAtt));
   router("/friends", () => (page = friends));
-
+  router("/feedback", () => (page = feedback))
   router.start();
 	router('/displaypicture', () => page = editdisplaypicture);
     router.start();
@@ -42,5 +50,5 @@
 {#if params}
   <svelte:component this={page} uid={params.uid} />
 {:else}
-  <svelte:component this={login} />
+  <svelte:component this={page} />
 {/if}

@@ -3,13 +3,15 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Att from '../friends/FriendAtt.svelte'
+import Footer from "./../components/Footer.svelte";
+export let uid;
+import {onMount} from "svelte";
 
 export let uid;
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
 }
-
 
 function showProfile() {
   auth.onAuthStateChanged(function (user) {
@@ -26,14 +28,61 @@ function showProfile() {
   });
 }
 
-showProfile();
+// showProfile();
+
+let newUser;
+
+let getUser = new Promise ((resolve, reject) => {
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+newUser = urlParams.get('user');
+resolve();
+});
+
+let displayName;
+let userQuote;
+let profileId;
+
+let check = new Promise ((resolve, reject) =>{
+	getUser.then(() => {
+			 firestore.collection("Users").where("username", "==", newUser)
+		  .onSnapshot(function (snapshot) {
+			  		  if (!snapshot.empty) {
+					snapshot.forEach((snap) => {
+			displayName = snap.data().displayName;
+			userQuote = snap.data().quote;
+			let userPicture = snap.data().displayPicture;
+			profileId = snap.id;
+						  document.getElementById("profilePicture").src = userPicture;
+					})
+					resolve();
+						} else{
+							reject();
+						}
+		  })
+	})
+})
+
+let yourProfile = false;
+
+onMount(() => {
+	check.then(() => {
+		if(uid == profileId) {
+		yourProfile = true;
+	console.log(uid);
+	console.log(profileId);
+	}
+	}
+	);
+})
 
 </script>
 
-<Navbar>
-</Navbar>
-
 <main>
+<navbar>
+<Navbar></Navbar>
+</navbar>
+
 	<header>
 		<h1>Going to {name}!</h1>
 	</header>
@@ -42,19 +91,24 @@ showProfile();
 <div class="buttonDisplay">
 <img id="profilePicture" alt="profile picture">
 
+{#if yourProfile}  
 <button on:click={editProfile} >Edit Profile</button>
+{/if}
 </div>
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-<p id="dname">Hello</p>
+<p id="dname">{displayName}</p>
 
 <h2>Quotes:</h2>
-<p id="quote">Just A Hugger</p>
+<p id="quote">{userQuote}</p>
 </div>
 
-<Att uid = {uid}>
+
+{#if !yourProfile}
+<Att uid={uid} profile={newUser}>
 </Att>
+{/if}
 <div>
 
 <!-- <div>
@@ -86,16 +140,24 @@ Send Request for friendship
     </section>
 
 <footer>
-This is a footer
+<Footer></Footer>
 </footer>
+
 </main>
+
 <style>
 	main {
+		height:100%;
 		display: grid;
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
+	}
+
+	navbar	{
+		grid-area: navbar;
 	}
 
 	header {
@@ -109,8 +171,8 @@ This is a footer
 		grid-area: section;
 	}
 
-	footer {
-        background-color: #FFE66D; 
+	footer	{
+		margin-top: auto;
 		grid-area: footer;
 	}
 
@@ -118,6 +180,7 @@ This is a footer
 		main {
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -136,6 +199,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -154,6 +218,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";

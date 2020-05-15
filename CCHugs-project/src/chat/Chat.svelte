@@ -29,9 +29,8 @@
   }
 
 </script>
-
+<Navbar />
 <main>
-  <Navbar />
   {#await userIDsPromise then userIDs}
     <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
     <Content {userIDs} {uid} {partnerIndex}/>
