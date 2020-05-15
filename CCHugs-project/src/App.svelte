@@ -15,6 +15,7 @@
 	import friends from "./friends/FriendList.svelte"
   import editdisplaypicture from "./Userprofile/pictures.svelte";
   import checkhugs from "./checkhugs/checkhugs.svelte";
+  import SendHugs from './sendhugs/SendHugs.svelte';
 
   let page;
   let params;
@@ -36,7 +37,7 @@
   router("/friends", () => (page = friends));
   router("/checkhugs", () => (page = checkhugs));
   router('/displaypicture', () => page = editdisplaypicture);
-  
+  router('/sendhugs', () => page = SendHugs);
   router.start();
 </script>
 
