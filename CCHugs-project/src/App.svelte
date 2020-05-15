@@ -15,9 +15,6 @@
 	import friends from "./friends/FriendList.svelte"
   import editdisplaypicture from "./Userprofile/pictures.svelte";
   import feedback from "./feedback/feedback.svelte";
-  //testing
-  import HowToHug from "./components/HowToHug.svelte";
-  //end of tesitng
 
   let page;
   let params;
@@ -25,10 +22,6 @@
   const unsubcribe = authState(auth).subscribe(user => {
     params = user;
   });
-
-  //start of route
-  router("/howtohug", () => (page = HowToHug));
-  //end of testing
   
   router("/mainpage", () => (page = mainpage));
   router("/signup", () => (page = signup));

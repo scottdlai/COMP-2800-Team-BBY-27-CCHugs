@@ -11,20 +11,20 @@ let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
-function showProfile() {
-  auth.onAuthStateChanged(function (user) {
-		  firestore.collection("Users").doc(user.uid)
-		  .onSnapshot(function (snap) {
-			  let userName = snap.data().displayName;
-			  let userQuote = snap.data().quote;
-			  let emailAddress = snap.data().email;
-			  let userPicture = snap.data().displayPicture;
-			  document.getElementById("dname").innerHTML= userName;
-			  document.getElementById("quote").innerHTML = userQuote;
-			  document.getElementById("profilePicture").src = userPicture;
-		  })
-  });
-}
+// function showProfile() {
+//   auth.onAuthStateChanged(function (user) {
+// 		  firestore.collection("Users").doc(user.uid)
+// 		  .onSnapshot(function (snap) {
+// 			  let userName = snap.data().displayName;
+// 			  let userQuote = snap.data().quote;
+// 			  let emailAddress = snap.data().email;
+// 			  let userPicture = snap.data().displayPicture;
+// 			  document.getElementById("dname").innerHTML= userName;
+// 			  document.getElementById("quote").innerHTML = userQuote;
+// 			  document.getElementById("profilePicture").src = userPicture;
+// 		  })
+//   });
+// }
 
 // showProfile();
 
@@ -41,7 +41,7 @@ let displayName;
 let userQuote;
 let profileId;
 
-let check = new Promise ((resolve, reject) =>{
+let check = new Promise ((resolve, reject) => {
 	getUser.then(() => {
 			 firestore.collection("Users").where("username", "==", newUser)
 		  .onSnapshot(function (snapshot) {
@@ -54,8 +54,8 @@ let check = new Promise ((resolve, reject) =>{
 						  document.getElementById("profilePicture").src = userPicture;
 					})
 					resolve();
-						} else{
-							reject();
+						} else {
+					reject();
 						}
 		  })
 	})
@@ -127,7 +127,7 @@ Send Request for friendship
 </div>
 
 <div class="backgroundContainer">
-    <h2>Claires Badges</h2>
+    <h2>{displayName}</h2>
     <hr>
     <div class="displayBadge">
     <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>

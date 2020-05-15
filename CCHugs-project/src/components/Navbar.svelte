@@ -60,7 +60,8 @@ li {
 nav{
   overflow: hidden;
   text-align: center;
-  background-color: #FFE66D;
+  background-image: linear-gradient(180deg, #FFE66D, #ffffff);
+  /* background-color: #FFE66D; */
   position: relative;
   top: 0;
   width: 100%;

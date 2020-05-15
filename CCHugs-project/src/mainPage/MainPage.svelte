@@ -1,12 +1,23 @@
 <script>
 	import Navbar from '../components/Navbar.svelte';
 	import FootLoose from "./../components/Footer.svelte";
+	import {auth} from "./../Firebase.js";
+	import {firestore} from "./../Firebase.js";
 
-	let name = '.....'
+let name;
+
+	auth.onAuthStateChanged(function (user) {
+		firestore.collection("Users").doc(user.uid)
+		.onSnapshot(function(snap){
+			name = snap.data().username;
+			console.log(name);
+		})
+	});
+
 
 	let button = [
 		{buttonName: 'Profile', handle: function () {
-		location.href="/userprofile"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/userprofile?user="+name}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Send A Hug', handle: function () {
 		name = "Send A Hug"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
