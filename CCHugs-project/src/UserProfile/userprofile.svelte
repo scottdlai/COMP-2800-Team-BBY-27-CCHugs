@@ -4,11 +4,12 @@ import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Att from '../friends/FriendAtt.svelte'
 import Footer from "./../components/Footer.svelte";
+export let uid;
+import {onMount} from "svelte";
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
 }
-
 
 function showProfile() {
   auth.onAuthStateChanged(function (user) {
@@ -25,7 +26,53 @@ function showProfile() {
   });
 }
 
-showProfile();
+// showProfile();
+
+let newUser;
+
+let getUser = new Promise ((resolve, reject) => {
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+newUser = urlParams.get('user');
+resolve();
+});
+
+let displayName;
+let userQuote;
+let profileId;
+
+let check = new Promise ((resolve, reject) =>{
+	getUser.then(() => {
+			 firestore.collection("Users").where("username", "==", newUser)
+		  .onSnapshot(function (snapshot) {
+			  		  if (!snapshot.empty) {
+					snapshot.forEach((snap) => {
+			displayName = snap.data().displayName;
+			userQuote = snap.data().quote;
+			let userPicture = snap.data().displayPicture;
+			profileId = snap.id;
+						  document.getElementById("profilePicture").src = userPicture;
+					})
+					resolve();
+						} else{
+							reject();
+						}
+		  })
+	})
+})
+
+let yourProfile = false;
+
+onMount(() => {
+	check.then(() => {
+		if(uid == profileId) {
+		yourProfile = true;
+	console.log(uid);
+	console.log(profileId);
+	}
+	}
+	);
+})
 
 </script>
 
@@ -42,19 +89,23 @@ showProfile();
 <div class="buttonDisplay">
 <img id="profilePicture" alt="profile picture">
 
+{#if yourProfile}  
 <button on:click={editProfile} >Edit Profile</button>
+{/if}
 </div>
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-<p id="dname">Hello</p>
+<p id="dname">{displayName}</p>
 
 <h2>Quotes:</h2>
-<p id="quote">Just A Hugger</p>
+<p id="quote">{userQuote}</p>
 </div>
 
+{#if !yourProfile}
 <Att>
 </Att>
+{/if}
 <div>
 
 <!-- <div>
