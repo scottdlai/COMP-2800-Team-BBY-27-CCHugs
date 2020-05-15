@@ -15,6 +15,8 @@
 	import friends from "./friends/FriendList.svelte"
   import editdisplaypicture from "./Userprofile/pictures.svelte";
   import feedback from "./feedback/feedback.svelte";
+  import checkhugs from "./checkhugs/checkhugs.svelte";
+  import SendHugs from './sendhugs/SendHugs.svelte';
 
   let page;
   let params;
@@ -35,9 +37,10 @@
   router("/att", () => (page = friendAtt));
   router("/friends", () => (page = friends));
   router("/feedback", () => (page = feedback))
+  router("/checkhugs", () => (page = checkhugs));
+  router('/displaypicture', () => page = editdisplaypicture);
+  router('/sendhugs', () => page = SendHugs);
   router.start();
-	router('/displaypicture', () => page = editdisplaypicture);
-    router.start();
 </script>
 
 {#if params}
