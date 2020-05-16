@@ -1,14 +1,15 @@
 <script>
   export let message = {};
+  export let uid;
 </script>
 
-<div id="message-container" class:active={message.author.username === 'currentUser'}>
+<div id="message-container" class:author={message.author === uid}>
   <p>{message.content}</p>
 </div>
 
 <style>
 
-  .active {
+  .author {
     background-color: #ffe66d !important;
     align-self: flex-end;
   }

@@ -2,17 +2,19 @@
 
 </script>
 
-<main>
+<footer>
     <p>Learn more <a href="/aboutus">about us!</a>
         <br> Created by: Team CCHugs for BCIT COMP2800 2020
     </p>
-</main>
+</footer>
 
 <style>
-  main {
-    background-color: #ffe66d;
+  footer {
+    background-color: #C4C4C4;
     width: 100%;
-    bottom: 0px; 
+    bottom: 0px;
+    margin-top: 50px;
+    padding: 15px;
   }
 
   p {
