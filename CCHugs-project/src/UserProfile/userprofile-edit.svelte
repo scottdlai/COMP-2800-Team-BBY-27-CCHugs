@@ -2,69 +2,117 @@
 import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
+import Footer from "./../components/Footer.svelte";
+let name;
+
+function showProfile() {
+  auth.onAuthStateChanged(function (user) {
+		  firestore.collection("Users").doc(user.uid)
+		  .onSnapshot(function (snap) {
+			  name = snap.data().username;
+			  let userPicture = snap.data().displayPicture;
+			  let userName = snap.data().displayName;
+			  let userQuote = snap.data().quote;
+			  let emailAddress = snap.data().email;
+			  document.getElementById("dname").value = userName;
+			  document.getElementById("quote").value = userQuote;
+			  document.getElementById("email").value = emailAddress;
+			  document.getElementById("profilePicture").src = userPicture;
+		  })
+  });
+}
+
+let returnToProfile = function () {
+		location.href="/userprofile?user="+name;
+}
+
+let editDisplayPicture = function () {
+		location.href="/displaypicture";
+}
 
 function setAddListner() {
     document.getElementById("submit2")
         let profileDisplayName = document.getElementById("dname").value;
-        let profileQuote = document.getElementById("quote").value;
+		let profileQuote = document.getElementById("quote").value;
+		let profileEmail = document.getElementById("email").value;
 console.log(profileDisplayName);
+
+	if (!profileDisplayName || !profileQuote || !profileEmail === "") {
+		alert("DisplayName, ProfileQuote, Profile Email cannot be null")
+	}else{
 
         auth.onAuthStateChanged(function (user){
             firestore.collection("Users").doc(user.uid)
             .update({
                 displayName: profileDisplayName,
-                quote: profileQuote
-            })
-		.then ( function () {
-			location.replace("/userprofile");
-		});
-        })
+				quote: profileQuote,
+				email: profileEmail
+						})
+			.then(function () {
+				location.replace("/userprofile?user="+name);
+			})
+
+			});
+			}
 }
 
+showProfile();
 
 </script>
 
 <main>
+<navbar>
+<Navbar></Navbar>
+</navbar>
+
 <header>
-<Navbar>
-</Navbar>
+<h1>This is a header</h1>
 </header>
 
 <section class = "buttonDisplay backgroundContainer">
-<a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
-<button> Click to change your picture </button>
+<img id="profilePicture" alt="profile picture">
 
+<div id="">
+<button class="edit" on:click={editDisplayPicture}> Click to change your picture </button>
+<button class="edit">Change Password</button>
+</div>
+<br>
 
 <form on:submit|preventDefault="{setAddListner}">
     <fieldset>
         <legend>Edit Profile:</legend>
         <label for='dname'>Display Name:</label>
-        <input type="text" id='dname' name='dname'>
+        <input type="text" id='dname' name='dname' value="">
         <label for='quote'>Quote:</label>
-        <input type="text" id='quote' name='quote'>
+        <input type="text" id='quote' name='quote' value= "">
         <label for='email'>E-mail Address:</label>
         <input type="text" id='email' name='email'>
-        <label for='password'>Password:</label>
-        <input type="text" id='password' name='password'>
     </fieldset>
-    <button class="submit1">Cancel</button> 
-    <input class="submit1" id="submit2" type="submit" value="Save">
-    
-</form>
+	<input id="submit2" type="submit" value="Save">
+    </form>
+	<button on:click={returnToProfile} id="cancel">Cancel</button> 
+
 </section>
 
 <footer>
-This is a footer
+<Footer></Footer>
 </footer>
 </main>
 
+
 <style>
 	main {
+		height: 100%;
 		display: grid;
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
+	}
+
+	navbar{
+		grid-area: navbar;
 	}
 
 	header {
@@ -72,19 +120,19 @@ This is a footer
 	}
 
 	section {
-        margin:25px 0;
 		grid-area: section;
 	}
 
 	footer {
-        background-color: #FFE66D; 
-		grid-area: footer;
+		margin-top: auto;
+		grid-area:footer;
 	}
 
 		@media (min-width: 1024px) {
 		main {
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -96,6 +144,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header" 
 		"section"
 		"footer";
@@ -107,6 +156,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -125,21 +175,29 @@ This is a footer
         border: 2px solid black;
 		}
 
-		button {
-        margin: auto;
-		width: 50%;
+		div .edit {
+		width: 100%;
 		height: 50px;
 		background-color: #ff9e6d;
         border-radius: 25px;
+		float: left;
 		}
 
-        .submit1 {
-        margin: 15px auto;
-        float: left;
+        #submit2 {
+        margin-top: 15px;
 		width: 50%;
 		height: 50px;
 		background-color: #ff9e6d;
         border-radius: 25px;
+		float: right;
+		}
+
+		#cancel{
+		width: 50%;
+		height: 50px;
+		background-color: #ff9e6d;
+        border-radius: 25px;
+		float: left;
 		}
 
 		h1 {
@@ -150,9 +208,11 @@ This is a footer
 		font-weight: 100;
 		}
 
-        a{
+    	#profilePicture{
         margin-left:auto;
         margin-right:auto;
+		margin-bottom: 15px;
+		border-radius: 50%;
         }
 
         fieldset{
@@ -160,5 +220,6 @@ This is a footer
             padding: 25px;
             display: grid; 
         }
+
 
 </style>

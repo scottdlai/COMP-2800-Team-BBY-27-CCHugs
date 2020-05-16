@@ -3,39 +3,92 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Att from '../friends/FriendAtt.svelte'
+import Footer from "./../components/Footer.svelte";
+export let uid;
+import {onMount} from "svelte";
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
 }
 
+let newUser;
+
+let getUser = new Promise ((resolve, reject) => {
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+newUser = urlParams.get('user');
+resolve();
+});
+
+let displayName;
+let userQuote;
+let profileId;
+
+let check = new Promise ((resolve, reject) => {
+	getUser.then(() => {
+			 firestore.collection("Users").where("username", "==", newUser)
+		  .onSnapshot(function (snapshot) {
+			  		  if (!snapshot.empty) {
+					snapshot.forEach((snap) => {
+			displayName = snap.data().displayName;
+			userQuote = snap.data().quote;
+			let userPicture = snap.data().displayPicture;
+			profileId = snap.id;
+						  document.getElementById("profilePicture").src = userPicture;
+					})
+					resolve();
+						} else {
+					reject();
+						}
+		  })
+	})
+})
+
+let yourProfile = false;
+
+onMount(() => {
+	check.then(() => {
+		if(uid == profileId) {
+		yourProfile = true;
+	console.log(uid);
+	console.log(profileId);
+	}
+	}
+	);
+})
 
 </script>
 
-<Navbar>
-</Navbar>
-
 <main>
+<navbar>
+<Navbar></Navbar>
+</navbar>
+
 	<header>
 		<h1>Going to {name}!</h1>
 	</header>
 
 <section>
 <div class="buttonDisplay">
-<a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
+<img id="profilePicture" alt="profile picture">
 
+{#if yourProfile}  
 <button on:click={editProfile} >Edit Profile</button>
+{/if}
 </div>
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
-
+<p id="dname">{displayName}</p>
 
 <h2>Quotes:</h2>
-<p>Just A Hugger</p>
+<p id="quote">{userQuote}</p>
 </div>
 
-<Att>
-</Att>
+
+{#if !yourProfile}
+<Att uid={uid} profile={newUser}/>
+{/if}
 <div>
 
 <div class="backgroundContainer">
@@ -47,7 +100,7 @@ let editProfile = function () {
 </div>
 
 <div class="backgroundContainer">
-    <h2>Claires Badges</h2>
+    <h2>{displayName}</h2>
     <hr>
     <div class="displayBadge">
     <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
@@ -57,16 +110,24 @@ let editProfile = function () {
     </section>
 
 <footer>
-This is a footer
+<Footer></Footer>
 </footer>
+
 </main>
+
 <style>
 	main {
+		height:100%;
 		display: grid;
 		grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
+	}
+
+	navbar	{
+		grid-area: navbar;
 	}
 
 	header {
@@ -80,45 +141,46 @@ This is a footer
 		grid-area: section;
 	}
 
-	footer {
-        background-color: #FFE66D; 
+	footer	{
+		margin-top: auto;
 		grid-area: footer;
 	}
 
 		@media (min-width: 1024px) {
 		main {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
-		"header header header"
-		"section section section"
-		"footer footer footer";
+		"navbar"
+		"header"
+		"section"
+		"footer";
 		}
 
 		.buttonDisplay {
 			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns:repeat(3, 1fr);
+			grid-gap: 0px 50px;
+			grid-template-columns:repeat(1, 1fr);
 			grid-template-areas:
-			"section section section"
+			"section"
 		}
-
 	}
 
 	@media (min-width: 440px) and (max-width: 1024px) {
 		main {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-		"header header"
-		"section section"
-		"footer footer";
+		"navbar"
+		"header"
+		"section"
+		"footer";
 		}
 
 		.buttonDisplay {
 			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns: repeat(2, 1fr);
+			grid-gap: 0px 50px;
+			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-			"section section"
+			"section"
 		}
 	}
 
@@ -126,6 +188,7 @@ This is a footer
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
+		"navbar"
 		"header"
 		"section"
 		"footer";
@@ -162,9 +225,11 @@ This is a footer
 		font-weight: 100;
 		}
 
-        a{
+        #profilePicture{
         margin-left:auto;
         margin-right:auto;
+		margin-bottom: 15px;
+	border-radius: 50%;
         }
 
         .backgroundContainer {
@@ -174,6 +239,11 @@ This is a footer
             border-radius: 25px;
             border: 2px solid black;
         }
+
+		a{
+			margin-left:auto;
+			margin-right:auto;
+		}
 
 
 </style>
