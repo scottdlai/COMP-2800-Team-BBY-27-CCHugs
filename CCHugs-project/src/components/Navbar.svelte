@@ -68,9 +68,9 @@ nav{
   z-index: 1;
 }
 
-.sticky {
+/* .sticky {
   position: fixed;
   top: 0;
   width: 100%;
-}
+} */
 </style>

@@ -29,6 +29,7 @@
   }
 
 </script>
+
 <Navbar />
 <main>
   {#await userIDsPromise then userIDs}
@@ -45,10 +46,10 @@
 <style>
   main {
     display: grid;
-    grid-template-rows: 10vh auto;
+    grid-template-rows: 1fr;
     grid-template-columns: 25vw auto;
     width: 100vw;
-    height: 100vh;
+    height: 85vh;
     margin: 0px;
     padding: 0px;
   }
