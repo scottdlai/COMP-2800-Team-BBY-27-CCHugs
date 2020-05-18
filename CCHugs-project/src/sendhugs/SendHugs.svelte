@@ -9,8 +9,10 @@
 
   function sendHug() { return; }
 
+  /**
+   * Sends a hug to a random user.
+   */
   function sendHugRand() {
-
     const newHugDoc = firestore
       .collection('Hugs')
       .doc();
@@ -32,6 +34,11 @@
 
   }
 
+  /**
+   * Returns the username of the currently logged-in user.
+   * 
+   * @return {string} username of the currenly logged-in user
+   */
   async function getUsername() {
     const query = firestore
       .collection('Users')
@@ -42,6 +49,11 @@
     return userDoc.get('username');
   }
 
+  /**
+   * Returns the username of a random user.
+   * 
+   * @return {string} username of a random user
+   */
   async function getRandomUser() {
     const query = firestore
       .collection('Users');
