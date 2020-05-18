@@ -1,5 +1,6 @@
 <script>
   import { firestore } from '../Firebase.js';
+  import firebase from 'firebase/app';
   import NavBar from '../components/NavBar.svelte';
 
   export let uid;
@@ -8,7 +9,49 @@
 
   function sendHug() { return; }
 
-  function sendHugRand() { return; }
+  function sendHugRand() {
+
+    const newHugDoc = firestore
+      .collection('Hugs')
+      .doc();
+    
+    const username = getUsername(); // currently logged in username
+
+    const randomUser = getRandomUser();
+
+    Promise.all([username, randomUser]).then(values => {
+      newHugDoc.set({
+        author: values[0],
+        content: content,
+        reciever: values[1],
+        time: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      content = '';
+      location.href="/checkhugs";
+    });
+
+  }
+
+  async function getUsername() {
+    const query = firestore
+      .collection('Users')
+      .doc(uid);
+    
+    const userDoc = await query.get();
+
+    return userDoc.get('username');
+  }
+
+  async function getRandomUser() {
+    const query = firestore
+      .collection('Users');
+
+    const snapshot = await query.get();
+    
+    const docs = snapshot.docs.filter(doc => doc.id !== uid); // advoid selecting its own user
+
+    return docs[Math.floor(Math.random() * docs.length)].get('username');
+  }
 </script>
 
 <main>
