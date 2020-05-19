@@ -35,27 +35,23 @@ import Footer from './../components/Footer.svelte';
 <style>
 header {
     padding: 10px;
-}
-h1{
     text-align: center
 }
-p {
-    font-size: 28px;
-    text-align: center;
-        margin: 25px;
 
-}
-ul {
-    font-size: 24px;
+section {
+    padding: 50px 100px;
+    font-size: 20px;
     margin: 25px;
+
 }
 
- @media (max-width:440px) {
+/* mobile view*/
+@media (max-width:440px) {
 
-p, ul {
-    font-size: 5vw;
+section {
+    padding: 25px;
+    font-size: 4vw;
     margin: 10px;
+    }
 }
-
- }
 </style>
