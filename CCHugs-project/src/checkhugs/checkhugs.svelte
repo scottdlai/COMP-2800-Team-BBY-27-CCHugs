@@ -14,12 +14,27 @@
   let hugPromise = getHugs();
 
   async function getHugs() {
-    let snapshot = await firestore
+    const username = await getUsername();
+
+    const snapshot = await firestore
       .collection("Hugs")
-      .where("receiver", "==", uid)
+      .where("receiver", "==", username)
       .get();
+
     console.log(snapshot.docs);
     return snapshot.docs.map(doc => doc.data());
+  }
+
+  async function getUsername() {
+    const query = firestore
+      .collection('Users')
+      .doc(uid);
+    
+    const snapshotDoc = await query.get();
+
+    console.log(snapshotDoc.data());
+    
+    return snapshotDoc.get('username');
   }
 
   function showProfile() {
@@ -106,11 +121,13 @@
           <b>From:</b>
           {hugs.author}
           <br />
-          <b>Message:</b>
-          {hugs.content}
-          <br />
+          {#if hugs.content}
+            <b>Message:</b>
+            {hugs.content}
+            <br />
+          {/if}
           <b>Time:</b>
-          {hugs.time.toDate()}
+          {hugs.time.toDate().toDateString()}
         </p>
         <!-- </div> -->
       {:else}
