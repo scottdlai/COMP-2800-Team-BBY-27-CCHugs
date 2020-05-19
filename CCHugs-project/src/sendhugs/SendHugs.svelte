@@ -3,9 +3,17 @@
   import firebase from 'firebase/app';
   import NavBar from '../components/NavBar.svelte';
 
+  import Modal from './Modal.svelte';
+
   export let uid;
 
   let content;
+
+  let show = false;
+
+  function launchModal() {
+    show = true;
+  }
 
   function sendHug() { return; }
 
@@ -66,18 +74,19 @@
   }
 </script>
 
+<NavBar />
 <main>
-  <NavBar />
   <div id="form-wrapper">
     <div id="input-container" on:submit|preventDefault={sendHug}>
       <textarea type="text" bind:value={content} placeholder="type your message here..." />
 
-      <button class="send-btn" on:click={sendHug}>Send to Friend</button>
+      <button class="send-btn" on:click={launchModal}>Send to Friend</button>
       <button class="send-btn random" on:click={sendHugRand}>Send randomly</button>
+
     </div>
   </div>
-
 </main>
+<Modal bind:show={show} {uid} />
 
 <style>
   #form-wrapper {
