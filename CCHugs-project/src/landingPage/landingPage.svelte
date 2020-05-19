@@ -16,7 +16,7 @@
   let visible = false;
 
 	$: if (count >= 10) {
-    alert(`count is dangerously high!`);
+    // alert(`count is dangerously high!`);
     visible = true;
 		count = 0;
 	}

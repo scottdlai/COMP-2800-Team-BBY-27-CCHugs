@@ -69,10 +69,27 @@
   }
 </script>
 
+<main>
+  <div id="messages-wrapper">
+    <div id="messages-container">
+      {#each conversation.messages as message (message.id)}
+        <ChatBubble {message} {uid} />
+      {:else}
+        <h1>Starts your conversation...</h1>
+      {/each}
+    </div>
+  </div>
+
+  <form id="input-container" on:submit|preventDefault={sendMessage}>
+    <textarea type="text" bind:value={sentMessage} placeholder="type here..." />
+
+    <button>Send</button>
+  </form>
+</main>
+
 <style>
   main {
     grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
     display: grid;
     grid-template-rows: auto 20vh;
     grid-template-columns: auto;
@@ -138,21 +155,3 @@
     border: 4px solid black;
   }
 </style>
-
-<main>
-  <div id="messages-wrapper">
-    <div id="messages-container">
-      {#each conversation.messages as message (message.id)}
-        <ChatBubble {message} {uid} />
-      {:else}
-        <h1>Starts your conversation...</h1>
-      {/each}
-    </div>
-  </div>
-
-  <form id="input-container" on:submit|preventDefault={sendMessage}>
-    <textarea type="text" bind:value={sentMessage} placeholder="type here..." />
-
-    <button>Send</button>
-  </form>
-</main>

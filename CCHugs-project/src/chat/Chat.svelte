@@ -29,11 +29,16 @@
   }
 
 </script>
+
 <Navbar />
 <main>
   {#await userIDsPromise then userIDs}
     <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
-    <Content {userIDs} {uid} {partnerIndex}/>
+    {#if userIDs}
+      <Content {userIDs} {uid} {partnerIndex}/>
+    {:else}
+      <h1>You current don't have any conversations :(</h1>
+    {/if}
   {/await}
 </main>
 
@@ -41,10 +46,10 @@
 <style>
   main {
     display: grid;
-    grid-template-rows: 10vh auto;
+    grid-template-rows: 1fr;
     grid-template-columns: 25vw auto;
     width: 100vw;
-    height: 100vh;
+    height: 85vh;
     margin: 0px;
     padding: 0px;
   }

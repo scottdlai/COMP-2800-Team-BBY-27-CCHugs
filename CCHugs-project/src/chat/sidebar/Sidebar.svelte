@@ -19,13 +19,14 @@
   {#each userIDs as userID, index (userID)}
     <UserTab userID={userID} isActive={partnerIndex === index} 
     on:click={() => updateActive(index)}/>
+  {:else}
+    <p>Start connecting with people :)</p> 
   {/each}
 </main>
 
 <style>
   main {
     grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
     border: 2px solid black;
     border-left: none;
     border-top: none;
