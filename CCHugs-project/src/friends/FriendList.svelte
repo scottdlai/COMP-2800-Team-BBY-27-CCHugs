@@ -17,11 +17,17 @@ let list = [];
 let sprofiles =[];
 var query ="";
 
+
+
+
+
 //Get the list of friend request that the user has
 let getReq = new Promise((resolve,reject)=>{
     firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            finRequests.push({dname: doc.data().displayName, name: doc.data().username, user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested, status: "Requested" });
+
+
+            finRequests=[...finRequests,{dname: doc.data().displayName, name: doc.data().username, user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested, status: "Requested" }]
         })
         resolve();
     }).catch((err)=>{
@@ -33,7 +39,7 @@ let getReq = new Promise((resolve,reject)=>{
 let getFnd = new Promise((resolve, reject)=> {
     firestore.collection("Users").doc(uid).collection("Friends").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                friends.push({dname: doc.data().displayName, name: doc.data().username,user: doc.id, date: doc.data().dateAdded, status: "Friend" });
+                friends = [...friends,{dname: doc.data().displayName, name: doc.data().username,user: doc.id, date: doc.data().dateAdded, status: "Friend" }];
             })
             resolve();
         }).catch((err)=>{
