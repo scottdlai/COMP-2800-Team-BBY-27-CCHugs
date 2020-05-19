@@ -1,14 +1,14 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
 import Footer from './../components/Footer.svelte';
+import Header from '../components/Header.svelte';
 </script>
 
 <Navbar />
 
 <main>
 	<header>
-        <br>
-		<h1>Resources Page</h1>
+<Header profileName={"Self-Awareness & Mental Health"}></Header>
 	</header>
 
     <hr>
@@ -36,9 +36,7 @@ import Footer from './../components/Footer.svelte';
 header {
     padding: 10px;
 }
-h1{
-    text-align: center
-}
+
 p {
     font-size: 28px;
     text-align: center;

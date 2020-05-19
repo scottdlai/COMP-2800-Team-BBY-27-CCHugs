@@ -4,6 +4,7 @@ import {onMount} from 'svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Footer from "../components/Footer.svelte";
+import Header from "../components/Header.svelte";
 
 export let uid;
 console.log(uid);
@@ -176,12 +177,120 @@ function updateSearch(){
     #searchList{
         margin-top: 5px;
     }
+
+    	main {
+		height: 100%;
+		display: grid;
+		grid-template-areas:
+        "navbar"
+		"header"
+		"section"
+        "footer";
+	}
+	
+	navbar{
+		grid-area: navbar;
+	}
+
+	header {
+		grid-area: header;
+	}
+
+	section {
+		/* margin-left: 25px;
+		margin-right: 25px; */
+		grid-area: section;
+	}
+
+	footer{
+		margin-top: auto;
+		grid-area: footer;
+	}
+
+		@media (min-width: 1024px) {
+		main {
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-areas:
+			"navbar navbar navbar"
+			"header header header"
+			"section section section"
+			"footer footer footer";
+		}
+/* 
+		.buttonDisplay {
+			font-size: 225%;
+			display:grid;
+			grid-gap: 50px 50px;
+			grid-template-columns:repeat(3, 1fr);
+			grid-template-areas:
+			"section section section";
+		} */
+
+	}
+
+	@media (min-width: 520px) and (max-width: 1024px) {
+		main {
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"navbar navbar"
+			"header header"
+			"section section"
+			"footer footer";
+		}
+/* 
+			.buttonDisplay {
+			font-size: 200%;
+			display:grid;
+			grid-gap: 50px 50px;
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"section section";
+		} */
+	}
+
+	@media (max-width: 520px) {
+		main {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-areas:
+			"navbar"
+			"header"
+			"section"
+			"footer";
+		}
+		/* .buttonDisplay {
+			font-size: 125%;
+			display: grid;
+			grid-gap: 25px 25px;
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"section section";
+		} */
+	}
+
+		/* button {
+			font-family: 'Segoe UI';
+			font-size:100%;
+			width: 100%;
+			height: 150px;
+			border-radius: 25px;
+			border: 2px solid black;
+		} */
 </style>
 <main>
+<navbar>
     <Navbar></Navbar>
-    <div id="top"><h1>Friends</h1>
+</navbar>
+
+<header>    
+<Header profileName={"Friends-List"}></Header>
+</header>
+
+<section>
+    <div id="top">
     <input id="search"  bind:value={query} on:input={updateSearch} 
-    type="search" placeholder="search..."/></div>
+    type="search" placeholder="search..."/>
+</div>
+
         {#if search}
          <div id="searchList">
             {#each sprofiles as pfl}
@@ -238,6 +347,9 @@ function updateSearch(){
         {/each}
         </div>
     {/if}
-</main>
+    </section>
 
-<Footer></Footer>
+    <footer>
+    <Footer></Footer>
+    </footer>
+</main>
