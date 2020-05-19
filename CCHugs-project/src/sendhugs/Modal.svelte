@@ -1,10 +1,13 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import { firestore } from '../Firebase.js';
   
   export let show = true;
   export let uid;
 
   let friendsPromise = getFriends();
+
+  const dispatch = createEventDispatcher();
 
   async function getFriends() {
     const query = firestore
@@ -17,6 +20,10 @@
     return snapshot.docs.map(doc => doc.get('username'));
   }
 
+  function chooseFriend(friend) {
+    dispatch('friendChose', friend);
+  }
+
 </script>
 
 <main>
@@ -25,9 +32,9 @@
       <div id="modal">
         {#await friendsPromise then friends}
           {#each friends as friend}
-            <button>{friend}</button>
+            <h1 on:click={() => chooseFriend(friend)}>{friend}</h1>
           {:else}
-            <h3>You currently have no friends :(</h3>          
+            <h1>You currently have no friends :(</h1>          
           {/each}
         {/await}
       </div>

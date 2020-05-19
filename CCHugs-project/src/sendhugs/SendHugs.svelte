@@ -1,9 +1,9 @@
 <script>
-  import { firestore } from '../Firebase.js';
-  import firebase from 'firebase/app';
-  import NavBar from '../components/NavBar.svelte';
+  import { firestore } from "../Firebase.js";
+  import firebase from "firebase/app";
+  import NavBar from "../components/NavBar.svelte";
 
-  import Modal from './Modal.svelte';
+  import Modal from "./Modal.svelte";
 
   export let uid;
 
@@ -15,62 +15,57 @@
     show = true;
   }
 
-  function sendHug() { return; }
+  function sendHug() {
+    return;
+  }
 
   /**
    * Sends a hug to a random user.
    */
   function sendHugRand() {
-    const newHugDoc = firestore
-      .collection('Hugs')
-      .doc();
-    
     const username = getUsername(); // currently logged in username
 
     const randomUser = getRandomUser();
 
     Promise.all([username, randomUser]).then(values => {
-      newHugDoc.set({
+      firestore.collection("Hugs").add({
         author: values[0],
-        content: content,
-        reciever: values[1],
+        content: content || '',
+        receiver: values[1],
         time: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        content = "";
+        location.href = "/checkhugs";
       });
-      content = '';
-      location.href="/checkhugs";
     });
-
   }
 
   /**
    * Returns the username of the currently logged-in user.
-   * 
+   *
    * @return {string} username of the currenly logged-in user
    */
   async function getUsername() {
-    const query = firestore
-      .collection('Users')
-      .doc(uid);
-    
+    const query = firestore.collection("Users").doc(uid || "");
+
     const userDoc = await query.get();
 
-    return userDoc.get('username');
+    return userDoc.get("username");
   }
 
   /**
    * Returns the username of a random user.
-   * 
+   *
    * @return {string} username of a random user
    */
   async function getRandomUser() {
-    const query = firestore
-      .collection('Users');
+    const query = firestore.collection("Users");
 
     const snapshot = await query.get();
-    
+
     const docs = snapshot.docs.filter(doc => doc.id !== uid); // advoid selecting its own user
 
-    return docs[Math.floor(Math.random() * docs.length)].get('username');
+    return docs[Math.floor(Math.random() * docs.length)].get("username");
   }
 </script>
 
@@ -78,15 +73,20 @@
 <main>
   <div id="form-wrapper">
     <div id="input-container" on:submit|preventDefault={sendHug}>
-      <textarea type="text" bind:value={content} placeholder="type your message here..." />
+      <textarea
+        type="text"
+        bind:value={content}
+        placeholder="type your message here..." />
 
       <button class="send-btn" on:click={launchModal}>Send to Friend</button>
-      <button class="send-btn random" on:click={sendHugRand}>Send randomly</button>
+      <button class="send-btn random" on:click={sendHugRand}>
+        Send randomly
+      </button>
 
     </div>
   </div>
 </main>
-<Modal bind:show={show} {uid} />
+<Modal bind:show {uid} />
 
 <style>
   #form-wrapper {
@@ -137,6 +137,6 @@
   }
 
   .random {
-    background-color: #ff9e6d; 
+    background-color: #ff9e6d;
   }
 </style>
