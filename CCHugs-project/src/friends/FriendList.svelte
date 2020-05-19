@@ -5,9 +5,9 @@ import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 
 export let uid;
+console.log(uid);
 
 let d = new Date;
-let requests =[];
 let finRequests =[];
 let friends = [];
 let search = false;
@@ -20,7 +20,7 @@ var query ="";
 let getReq = new Promise((resolve,reject)=>{
     firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            requests.push({user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested });
+            finRequests.push({dname: doc.data().displayName, name: doc.data().username, user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested, status: "Requested" });
         })
         resolve();
     }).catch((err)=>{
@@ -32,7 +32,7 @@ let getReq = new Promise((resolve,reject)=>{
 let getFnd = new Promise((resolve, reject)=> {
     firestore.collection("Users").doc(uid).collection("Friends").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                friends.push({user: doc.id, date: doc.data().dateAdded });
+                friends.push({dname: doc.data().displayName, name: doc.data().username,user: doc.id, date: doc.data().dateAdded, status: "Friend" });
             })
             resolve();
         }).catch((err)=>{
@@ -43,50 +43,9 @@ let getFnd = new Promise((resolve, reject)=> {
 
 function getData(){
      //Make the reqests eligible.
-    getReq.then(()=>{
-            let tmp = [];
-            firestore.collection("Users").get().then((snapshot) => {
-            if(!snapshot.empty){
-
-                requests.forEach((reqId)=>{
-                    snapshot.forEach((doc)=>{
-                        if(doc.id == reqId.user ){
-                            //add more to this push list if you want to display more stuff to the user.
-                            tmp.push({dname: doc.data().displayName ,name: doc.data().username,message: reqId.message, date: reqId.date, user: reqId.user, status: "Request"});
-                        }
-                    });
-                })
-                finRequests = tmp;
-                console.log(finRequests);
-            }
-            }).catch((err) =>{
-                console.log('Error Getting Usernames', err);
-                // message ="That username is already taken";
-            })
-    });
+    getReq.then(console.log(finRequests));
     //Make the Friends eligable
-    getFnd.then(()=>{
-        var tmp = [];
-        firestore.collection("Users").get().then((snapshot) => {
-            if(!snapshot.empty){
-
-                friends.forEach((fndId)=>{
-                    snapshot.forEach((doc)=>{
-                        if(doc.id == fndId.user ){
-                            //add more to this push list if you want to display more stuff to the user.
-                            tmp.push({dname: doc.data().displayName, name: doc.data().username, date: fndId.date, user: fndId.user, status: "Friend"});
-                        }
-                    });
-                })
-                friends = tmp;
-                console.log(friends);
-            }
-            }).catch((err) =>{
-                console.log('Error Getting Usernames', err);
-                // message ="That username is already taken";
-            })
-
-    });
+    getFnd.then(console.log(friends));
 }
 
 //Make the data from the database eligable for the user.
@@ -100,13 +59,21 @@ function refresh(){
 }
 
 //Adds a doc in each of the users friends list in the database.
-function acceptRequest(profile){
+function acceptRequest(profile, username, displayName){
         firestore.collection("Users").doc(uid).collection("Friends").doc(profile).set({
                 dateAdded: d.toUTCString(),
+                username: username,
+                displayName: displayName
         });
-        //updates profiles collection
-        firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
-            dateAdded: d.toUTCString(),
+
+        firestore.collection("Users").doc(uid).get().then((doc)=>{
+             firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
+                dateAdded: d.toUTCString(),
+                username: doc.data().username,
+                displayName: doc.data().displayName
+            });
+
+
         });
         denyRequest(profile);
 }
@@ -223,7 +190,7 @@ function updateSearch(){
                         <span>{pfl.date}</span>
                         <span>{pfl.message}</span>
                         <div>
-                            <button class ="accept" on:click="{() => acceptRequest(pfl.user)}">Accept
+                            <button class ="accept" on:click="{() => acceptRequest(pfl.user, pfl.name,pfl.dname)}">Accept
                             </button>
                             <button class="decline" on:click="{() => denyRequest(pfl.user)}">Decline
                             </button>
@@ -252,7 +219,7 @@ function updateSearch(){
                 <span>{req.date}</span>
                 <span>{req.message}</span>
                 <div >
-                    <button class ="accept" on:click="{() => acceptRequest(req.user)}">Accept
+                    <button class ="accept" on:click="{() => acceptRequest(req.user, req.name,req.dname)}">Accept
                     </button>
                     <button class="decline" on:click="{() => denyRequest(req.user)}">Decline
                     </button>

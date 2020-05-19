@@ -5,6 +5,8 @@
 
     export let profile = null;
     export let uid;
+    export let profDN = null;
+    export let profUN = null;
     let profileId;
     let friends;
     let added = false;
@@ -55,18 +57,27 @@
     function addFriend(){
         togglePU();
         var message = document.getElementById("msg").value;
+
+        firestore.collection("Users").doc(uid).get().then((snapshot) => {
+            if(!snapshot.empty){
+                //updates profiles collection
+                firestore.collection("Users").doc(profileId).collection("Requests").doc(uid).set({
+                    dateRequested: d.toUTCString(),
+                    from: uid,
+                    message: message,
+                    username: snapshot.data().username,
+                    displayName: snapshot.data().displayName
+                });
+            }
+        })
+
         //updates clients collections
         firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).set({
             dateRequested: d.toUTCString(),
             to: profileId,
-            message: message
-        });
-
-        //updates profiles collection
-        firestore.collection("Users").doc(profileId).collection("Requests").doc(uid).set({
-            dateRequested: d.toUTCString(),
-            from: uid,
-            message: message
+            message: message,
+            displayName: profDN,
+            username: profUN
         });
         
     }
