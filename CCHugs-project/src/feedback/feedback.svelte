@@ -80,7 +80,7 @@ Name:
 	}
 
     nav {
-	margin-bottom: 70px;
+	margin-bottom: 110px;
 	grid-area: nav;
 	}
 

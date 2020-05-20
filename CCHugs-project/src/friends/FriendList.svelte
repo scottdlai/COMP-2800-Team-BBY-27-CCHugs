@@ -166,9 +166,7 @@ function getUsers(){
         border-radius: 15px;
         text-align: center;
         gap: 5px;
-        padding: 10px;
-        cursor:pointer;
-        
+        padding: 10px;   
 
     }
     .request{
@@ -192,29 +190,13 @@ function getUsers(){
         /* #d48259 */
     }
 
+
     .conversation-btn {
-      /* background-color: #ffe66d;
-      border: 2px solid black;
+    padding: 10px;
       border-radius: 15px;
       font-size: 100%;
-    }
- */
-
-      /* width: 10vw;
-      height: 5vh; */
-      margin: 0 auto;
-      border: none;
-      border-radius: 12px;
+      margin: 0px 20px;
       border: black 2px solid;
-      font-size: 1em;
-      outline: none;
-      cursor: pointer;
-      position: relative;
-      z-index: 30;
-    }
-
-    .conversation-btn:hover {
-      color: grey;
     }
 
     #search{
@@ -399,9 +381,9 @@ function getUsers(){
                 <span>{req.date}</span>
                 <span>{req.message}</span>
                 <div >
-                    <button class ="accept" on:click="{() => acceptRequest(req.user, req.name,req.dname)}">Accept
+                    <button class="accept" on:click="{() => acceptRequest(req.user, req.name,req.dname)}">Accept
                     </button>
-                    <button class="decline" on:click="{() => denyRequest(req.user)}">Decline
+                    <button style="background-color: #FF6347;" class="decline" on:click="{() => denyRequest(req.user)}">Decline
                     </button>
                 </div>
             </div>
@@ -414,14 +396,13 @@ function getUsers(){
 <h1>Friends</h1>
         <div id="friendsList">
         {#each friends as fnd}
-            <div class="friend" on:click="{()=> gotoProfile(fnd.name)}">
+            <div class="friend">
                 <span style="font-size: large;">{fnd.dname}</span>
-                    <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
-                    Go to Conversation
-                </button>
-                
                 <span>Added on {fnd.date}</span>
-                <span>
+                <div>
+                <button class="conversation-btn" on:click={()=> gotoProfile(fnd.name)}>ViewProfile</button>                 
+                <button class="conversation-btn" on:click={() => conversationWith(fnd.user)}>Chat</button>
+                </div>
             </div>
             <!-- <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
               Go to Conversation
