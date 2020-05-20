@@ -144,7 +144,7 @@
   }
 
   #howto {
-    padding: 50px 250px;
+    padding: 0px 250px;
     display: flex;
     justify-content: space-around;
 
@@ -166,7 +166,7 @@
   }
 
   #resources {
-    padding: 50px 250px;
+    padding: 0px 250px;
     margin: 20px;
   }
 
@@ -184,13 +184,13 @@
     margin: auto;
   }
     #howto {
-    padding: 50px 100px;
+    padding: 0px 100px;
       display: flex;
       flex-direction: column;
     }
 
     #resources {
-    padding: 50px 100px;
+    padding: 0px 100px;
     margin: 20px;
   }
 
@@ -268,7 +268,7 @@
     }
 
         #resources {
-    padding: 25px;
+    padding: 5px 25px;
   }
   }
 </style>

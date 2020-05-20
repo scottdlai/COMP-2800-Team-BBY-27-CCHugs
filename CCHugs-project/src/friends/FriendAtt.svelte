@@ -10,6 +10,7 @@
     let profileId;
     let friends;
     let added = false;
+    let requested = false;
     let d = new Date();
     let overText ="";
 
@@ -38,14 +39,22 @@
     onMount(()=> {
              //find if this profile is a friend
             c.then(()=>{
-                console.log(profileId);
+
+                firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).get().then((snapshot)=>{
+                    console.log(snapshot.data());
+                    if(snapshot.data() !== undefined){
+                        requested = true;
+                    }
+
+                });
+
+
                 firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).get().then((snapshot) => {
-                    console.log(snapshot);
                     if(snapshot.data() !== undefined){
                         added = true;
-                        console.log("CHANGED");
+                        
                     }
-                    console.log(added);
+                   
                 });
                 }).catch((err) =>{
                     console.log('Error checking friend status', err);
@@ -79,7 +88,7 @@
             displayName: profDN,
             username: profUN
         });
-        
+        requested=true;
     }
     //removes the profile from each users collections.
     function removeFriend(){
@@ -94,6 +103,7 @@
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
+        added=false;
         
     }
     //puts the profile into the users blocked collection.
@@ -284,6 +294,8 @@
     <div class="flex">
         {#if added}
             <button class ="status" id="remove" on:click="{removeClick}">Remove as a friend</button>
+        {:else if requested}
+            <button class ="status" id="request">Requested</button>
         {:else}
             <button class="status" id="add" on:click="{addClick}">Add as a friend</button>
         {/if}

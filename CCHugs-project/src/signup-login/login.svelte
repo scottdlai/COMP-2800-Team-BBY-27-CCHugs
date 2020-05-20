@@ -102,11 +102,10 @@
 
                 <input id="password"  required class ="textInput password" type="password" placeholder="Password" min = '6' max ='25'>
 
-                <label style="word-wrap:brak-word"><input id="checkBox" type="checkbox" on:click={showPass}>Show Password</label>
-
+                <input id="checkBox" type="checkbox" on:click={showPass}><label style="word-wrap:brak-word">Show Password</label>
                 <button id="login">Login</button>
-                <span class="err">{message}</span>
                 <a id="signup" href="./signup">Dont have an account? Sign-up</a>
+                <p class="err">{message}</p>
             
             </form>
        
@@ -167,7 +166,7 @@
         color: red;
         margin: 0 auto;
         padding: 0;
-        font-size: 8pt;
+        font-size: 16pt;
         
     }
 
