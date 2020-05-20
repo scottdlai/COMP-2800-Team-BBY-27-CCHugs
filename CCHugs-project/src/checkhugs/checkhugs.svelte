@@ -13,6 +13,9 @@
 
   let hugPromise = getHugs();
 
+  /**
+  * Finds the documents in the hugs collection where the reciever matches with the current user.
+  */
   async function getHugs() {
     const username = await getUsername();
 
@@ -25,6 +28,9 @@
     return snapshot.docs.map(doc => doc.data());
   }
 
+/**
+ * Gets the username of the curenttly logged in user. * 
+ */
   async function getUsername() {
     const query = firestore
       .collection('Users')
@@ -37,6 +43,9 @@
     return snapshotDoc.get('username');
   }
 
+/**
+ * Displays the current user's name.
+ */
   function showProfile() {
     auth.onAuthStateChanged(function(user) {
       firestore
@@ -116,7 +125,6 @@
   <div id="hugs-list">
     {#await hugPromise then hugReceived}
       {#each hugReceived as hugs, i}
-        <!-- <div>{i + 1} {i === 0 ? 'hug' : 'hugs'} recieved<br> -->
         <p>
           <b>From:</b>
           {hugs.author}
@@ -129,7 +137,6 @@
           <b>Time:</b>
           {hugs.time.toDate().toDateString()}
         </p>
-        <!-- </div> -->
       {:else}
         <p style="text-align: center">You currently have no hugs :(</p>
       {/each}
