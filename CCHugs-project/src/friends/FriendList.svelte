@@ -382,10 +382,13 @@ function getUsers(){
             <div class="friend" on:click="{()=> gotoProfile(fnd.name)}">
                 <span style="font-size: large;">{fnd.dname}</span>
                 <span>Added on {fnd.date}</span>
+                <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
+                Go to Conversation
+                </button>
             </div>
-            <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
+            <!-- <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
               Go to Conversation
-            </button>
+            </button> -->
         {/each}
         </div>
     {/if}
