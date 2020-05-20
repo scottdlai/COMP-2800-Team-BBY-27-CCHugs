@@ -15,7 +15,24 @@
     show = true;
   }
 
-  function sendHug() {
+  function sendHugTo(event) {
+    console.log(event);
+    const username = getUsername(); // currenly logged in user
+
+    const receiver = event.detail || getRandomUser();
+
+    Promise.all([username, receiver]).then(values => {
+      firestore.collection("Hugs").add({
+        author: values[0],
+        content: content || '',
+        receiver: values[1],
+        time: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        content = "";
+        location.href = "/checkhugs";
+      });
+    });
+
     return;
   }
 
@@ -71,28 +88,31 @@
 
 <NavBar />
 <main>
+  <h1 class="page-title">Let's send a hug!</h1>
   <div id="form-wrapper">
-    <div id="input-container" on:submit|preventDefault={sendHug}>
+    <div id="input-container">
       <textarea
         type="text"
         bind:value={content}
         placeholder="type your message here..." />
 
-      <button class="send-btn" on:click={launchModal}>Send to Friend</button>
-      <button class="send-btn random" on:click={sendHugRand}>
-        Send randomly
-      </button>
-
+      <button class="send-btn" on:click={launchModal}>Send</button>
     </div>
   </div>
 </main>
-<Modal bind:show {uid} />
+<Modal bind:show {uid} on:chooseFriend={sendHugTo}/>
 
 <style>
+  .page-title {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
   #form-wrapper {
-    height: 100vh;
+    height: 85vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
   }
 
@@ -134,9 +154,5 @@
 
   .send-btn:hover {
     border: 4px solid black;
-  }
-
-  .random {
-    background-color: #ff9e6d;
   }
 </style>
