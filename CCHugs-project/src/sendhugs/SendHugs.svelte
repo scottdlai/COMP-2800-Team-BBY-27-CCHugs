@@ -37,27 +37,6 @@
   }
 
   /**
-   * Sends a hug to a random user.
-   */
-  function sendHugRand() {
-    const username = getUsername(); // currently logged in username
-
-    const randomUser = getRandomUser();
-
-    Promise.all([username, randomUser]).then(values => {
-      firestore.collection("Hugs").add({
-        author: values[0],
-        content: content || '',
-        receiver: values[1],
-        time: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        content = "";
-        location.href = "/checkhugs";
-      });
-    });
-  }
-
-  /**
    * Returns the username of the currently logged-in user.
    *
    * @return {string} username of the currenly logged-in user
