@@ -35,18 +35,13 @@ import Header from '../components/Header.svelte';
 <style>
 header {
     padding: 10px;
-<<<<<<< HEAD
 }
 
 p {
-    font-size: 28px;
+    /* font-size: 28px; */
     text-align: center;
-        margin: 25px;
-=======
-    text-align: center
+        /* margin: 25px; */
 }
->>>>>>> e68b26e77656291530f8f1a79aecb9f0f46b3d98
-
 section {
     padding: 50px 100px;
     font-size: 20px;
