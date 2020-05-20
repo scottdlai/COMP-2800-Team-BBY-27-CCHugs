@@ -2,13 +2,23 @@
   import { createEventDispatcher } from 'svelte';
   import { firestore } from '../Firebase.js';
   
+  /** Boolean value for showing the modal. */
   export let show = true;
+
+  /** uid of the currently logged in user. */
   export let uid;
 
+  /** Promise to get the friends list from firestore. */
   let friendsPromise = getFriends();
 
+  /** Event dispatcher. */
   const dispatch = createEventDispatcher();
 
+  /**
+   * Returns a promise of friends list from firestore.
+   * 
+   * @returns {Promise} a promise of friends list from firestore 
+   */
   async function getFriends() {
     const query = firestore
       .collection('Users')
@@ -20,6 +30,10 @@
     return snapshot.docs.map(doc => doc.get('username'));
   }
 
+  /**
+   * A custom event to tell the parent Component (SendHugs) that the user has 
+   * choose a friend.
+   */
   function chooseFriend(friend) {
     show = false;
     dispatch('chooseFriend', friend);
