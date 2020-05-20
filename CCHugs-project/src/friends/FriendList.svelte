@@ -129,6 +129,7 @@ function getUsers(){
   }
 
   async function conversationWith(partnerID) {
+      event.stopPropagation();
     console.log(partnerID);
 
     const query = firestore
@@ -187,17 +188,21 @@ function getUsers(){
 
     .conversation-btn {
       background-color: #ffe66d;
-      width: 30vw;
-      height: 15vh;
+      /* width: 10vw;
+      height: 5vh; */
+      margin: 0 auto;
       border: none;
-      border-radius: 4px;
-      font-size: 2em;
+      border-radius: 12px;
+      border: black 2px solid;
+      font-size: 1em;
       outline: none;
       cursor: pointer;
+      position: relative;
+      z-index: 30;
     }
 
     .conversation-btn:hover {
-      border: 4px solid black;
+      color: grey;
     }
 
     #search{
@@ -381,10 +386,11 @@ function getUsers(){
         {#each friends as fnd}
             <div class="friend" on:click="{()=> gotoProfile(fnd.name)}">
                 <span style="font-size: large;">{fnd.dname}</span>
-                <span>Added on {fnd.date}</span>
-                <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
-                Go to Conversation
+                    <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
+                    Go to Conversation
                 </button>
+                
+                <span>Added on {fnd.date}</span>
             </div>
             <!-- <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
               Go to Conversation
