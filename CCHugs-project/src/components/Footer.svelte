@@ -10,8 +10,8 @@
     </p>
 
     <div> 
-    Share on social:
-    <ShareTweet />    
+      Share on social:
+      <ShareTweet /> 
     </div>
 
 </footer>
@@ -32,10 +32,12 @@
   p, div {
       margin: 1px;
       padding: 5px;
+
   }
 
   div {
       margin-right:50px;
+
   }
   
 
