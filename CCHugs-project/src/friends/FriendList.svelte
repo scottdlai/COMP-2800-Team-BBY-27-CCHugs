@@ -1,32 +1,27 @@
 <script>
-import Navbar from "../components/Navbar.svelte";
-import {onMount} from 'svelte';
-import {auth} from "./../Firebase.js";
-import {firestore} from "./../Firebase.js";
-import Footer from "../components/Footer.svelte";
+  import Navbar from "../components/Navbar.svelte";
+  import {onMount} from 'svelte';
+  import {auth} from "./../Firebase.js";
+  import {firestore} from "./../Firebase.js";
+  import Footer from "../components/Footer.svelte";
+  import Header from "../components/Header.svelte";
 
-export let uid;
-console.log(uid);
+  export let uid;
 
-let d = new Date;
-let finRequests =[];
-let friends = [];
-let search = false;
-let profiles =[];
-let list = [];
-let sprofiles =[];
-var query ="";
+  let d = new Date;
+  let requests =[];
+  let finRequests =[];
+  let friends = [];
+  let search = false;
+  let profiles =[];
+  let list = [];
+  let sprofiles =[];
+  var query ="";
 
-
-
-
-
-//Get the list of friend request that the user has
-let getReq = new Promise((resolve,reject)=>{
-    firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-
-
+  //Get the list of friend request that the user has
+  let getReq = new Promise((resolve,reject)=>{
+      firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
             finRequests=[...finRequests,{dname: doc.data().displayName, name: doc.data().username, user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested, status: "Requested" }]
         })
         resolve();
@@ -116,24 +111,46 @@ function getUsers(){
     })
 }
 
-function updateSearch(){
-    profiles = finRequests.concat(friends, list);
-    sprofiles =[];
-    if(query==""){
-        search = false;
+  function updateSearch(){
+      profiles = finRequests.concat(friends, list);
+      sprofiles =[];
+      if(query==""){
+          search = false;
+      }
+      else{
+          search = true;
+      }
+      profiles.map(function(algo){
+          if(algo.dname != undefined)
+          if(algo.dname.toLowerCase().indexOf(query.toLowerCase()) != -1){
+                  sprofiles= [...sprofiles, algo];
+              }
+      })
+  }
+
+  async function conversationWith(partnerID) {
+    console.log(partnerID);
+
+    const query = firestore
+      .collection('Conversations')
+      .where('participants', 'in', [[partnerID, uid], [uid, partnerID]]);
+
+    const snapshot = await query.get();
+    
+    if (!snapshot.empty) {
+      location.href = '/chat';
+      return;
     }
-    else{
-        search = true;
-    }
-    profiles.map(function(algo){
-        if(algo.dname != undefined)
-        if(algo.dname.toLowerCase().indexOf(query.toLowerCase()) != -1){
-                sprofiles= [...sprofiles, algo];
-            }
-    })
-}
+
+    firestore.collection('Conversations').add({
+      participants: [uid, partnerID]
+    }).then((doc) => {
+      location.href = '/chat';
+    });
+  }
 
 </script>
+
 <style>
     .friend{
         background: #FF9E6D;
@@ -167,6 +184,22 @@ function updateSearch(){
         border: 2px solid black;
         /* #d48259 */
     }
+
+    .conversation-btn {
+      background-color: #ffe66d;
+      width: 30vw;
+      height: 15vh;
+      border: none;
+      border-radius: 4px;
+      font-size: 2em;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .conversation-btn:hover {
+      border: 4px solid black;
+    }
+
     #search{
         background: #FFE66D;
         border: 2px solid black;
@@ -182,12 +215,121 @@ function updateSearch(){
     #searchList{
         margin-top: 5px;
     }
+
+    	main {
+		height: 100%;
+		display: grid;
+		grid-template-areas:
+        "navbar"
+		"header"
+		"section"
+        "footer";
+	}
+	
+	navbar{
+		grid-area: navbar;
+	}
+
+	header {
+		grid-area: header;
+	}
+
+	section {
+		/* margin-left: 25px;
+		margin-right: 25px; */
+		grid-area: section;
+	}
+
+	footer{
+		margin-top: auto;
+		grid-area: footer;
+	}
+
+		@media (min-width: 1024px) {
+		main {
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-areas:
+			"navbar navbar navbar"
+			"header header header"
+			"section section section"
+			"footer footer footer";
+		}
+/* 
+		.buttonDisplay {
+			font-size: 225%;
+			display:grid;
+			grid-gap: 50px 50px;
+			grid-template-columns:repeat(3, 1fr);
+			grid-template-areas:
+			"section section section";
+		} */
+
+	}
+
+	@media (min-width: 520px) and (max-width: 1024px) {
+		main {
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"navbar navbar"
+			"header header"
+			"section section"
+			"footer footer";
+		}
+/* 
+			.buttonDisplay {
+			font-size: 200%;
+			display:grid;
+			grid-gap: 50px 50px;
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"section section";
+		} */
+	}
+
+	@media (max-width: 520px) {
+		main {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-areas:
+			"navbar"
+			"header"
+			"section"
+			"footer";
+		}
+		/* .buttonDisplay {
+			font-size: 125%;
+			display: grid;
+			grid-gap: 25px 25px;
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"section section";
+		} */
+	}
+
+		/* button {
+			font-family: 'Segoe UI';
+			font-size:100%;
+			width: 100%;
+			height: 150px;
+			border-radius: 25px;
+			border: 2px solid black;
+		} */
 </style>
+
 <main>
+<navbar>
     <Navbar></Navbar>
-    <div id="top"><h1>Friends</h1>
+</navbar>
+
+<header>    
+<Header profileName={"Friends-List"}></Header>
+</header>
+
+<section>
+    <div id="top">
     <input id="search"  bind:value={query} on:input={updateSearch} 
-    type="search" placeholder="search..."/></div>
+    type="search" placeholder="search..."/>
+</div>
+
         {#if search}
          <div id="searchList">
             {#each sprofiles as pfl}
@@ -241,9 +383,15 @@ function updateSearch(){
                 <span style="font-size: large;">{fnd.dname}</span>
                 <span>Added on {fnd.date}</span>
             </div>
+            <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
+              Go to Conversation
+            </button>
         {/each}
         </div>
     {/if}
-</main>
+    </section>
 
-<Footer></Footer>
+    <footer>
+    <Footer></Footer>
+    </footer>
+</main>
