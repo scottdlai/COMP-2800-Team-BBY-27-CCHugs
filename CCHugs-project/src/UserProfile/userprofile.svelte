@@ -217,14 +217,6 @@ onMount(() => {
 		background-color: #ff9e6d;
         border-radius: 25px;
 		}
-		
-		h1 {
-		text-align: center;
-		color: #ff3e00;
-		text-transform: capitalize;
-		font-size: 4em;
-		font-weight: 100;
-		}
 
         #profilePicture{
         margin-left:auto;

@@ -41,10 +41,10 @@ function writeFeedback() {
 </script>
 
 <main>
-<navbar>
+<nav>
 <Navbar></Navbar>
+</nav>
 
-</navbar>
 <header>
 <Header profileName={"Feedback"}></Header>
 </header>
@@ -73,14 +73,15 @@ Name:
         height: 100%;
 		display: grid;
 		grid-template-areas:
-        "navbar"
+        "nav"
 		"header"
 		"section"
         "footer";
 	}
 
-    navbar {
-	grid-area: navbar;
+    nav {
+	margin-bottom: 70px;
+	grid-area: nav;
 	}
 
 	header {
@@ -88,8 +89,7 @@ Name:
 	}
 
 	section {
-		margin-left: 25px;
-		margin-right: 25px;
+		margin: 25px;
 		grid-area: section;
 	}
 
@@ -102,7 +102,7 @@ Name:
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-            "navbar"
+            "nav"
 			"header"
 			"section"
             "footer";
@@ -113,6 +113,7 @@ Name:
 			grid-template-columns:repeat(1, 1fr);
 			grid-template-areas:
 			"section";
+			padding: 30px 100px;
 		}
 
 	}
@@ -121,7 +122,7 @@ Name:
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-			"navbar"
+			"nav"
             "header"
 			"section"
             "footer";
@@ -132,6 +133,7 @@ Name:
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
 			"section";
+			padding: 0px 50px;
 		}
 	}
 
@@ -139,7 +141,7 @@ Name:
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-            "navbar"
+            "nav"
 			"header"
 			"section"
             "footer";
@@ -151,13 +153,7 @@ Name:
 			"section";
 		}
 	}	
-		h1 {
-			text-align: center;
-			color: black;
-			text-transform: capitalize;
-			font-size: 200%;
-			font-weight: 100;
-		}
+
         #feedback{
             padding: 15px;
             width: 100%;
@@ -183,6 +179,7 @@ Name:
             height: 50px;
             font-weight: bold;
             border: 2px solid black;
+			margin: 25px 0px;
         }
 
         button{

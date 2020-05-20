@@ -42,9 +42,9 @@ let name;
 
 
 <main>
-<navbar>
+<nav>
 	<Navbar></Navbar>
-</navbar>
+</nav>
 
 	<header>
 	<Header profileName={"Main Page"}></Header>
@@ -69,14 +69,15 @@ let name;
 		height: 100%;
 		display: grid;
 		grid-template-areas:
-		"navbar"
+		"nav"
 		"header"
 		"section"
 		"footer";
 	}
 	
-	navbar{
-		grid-area: navbar;
+	nav {
+		margin-bottom: 110px;
+		grid-area: nav;
 	}
 
 	header {
@@ -98,7 +99,7 @@ let name;
 		main {
 			grid-template-columns: repeat(3, 1fr);
 			grid-template-areas:
-			"navbar navbar navbar"
+			"nav nav nav"
 			"header header header"
 			"section section section"
 			"footer footer footer";
@@ -119,7 +120,7 @@ let name;
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"navbar navbar"
+			"nav nav"
 			"header header"
 			"section section"
 			"footer footer";
@@ -139,7 +140,7 @@ let name;
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"navbar navbar"
+			"nav nav"
 			"header header"
 			"section section"
 			"footer footer";

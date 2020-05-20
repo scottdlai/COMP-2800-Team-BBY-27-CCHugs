@@ -4,6 +4,7 @@
   import {auth} from "./../Firebase.js";
   import {firestore} from "./../Firebase.js";
   import Footer from "../components/Footer.svelte";
+  import Header from "../components/Header.svelte";
 
   export let uid;
 
@@ -184,16 +185,22 @@
 </script>
 
 <style>
+
+    #top {
+        margin-top: 25px;
+    }
     .friend{
+        display:grid;
         background: #FF9E6D;
         background-image: linear-gradient(65deg, #6dffe7, #ffffff);
         border: 2px solid black;
         box-sizing: border-box;
         border-radius: 15px;
         text-align: center;
-        display: grid;
         gap: 5px;
         padding: 10px;
+        cursor:pointer;
+        
 
     }
     .request{
@@ -219,31 +226,34 @@
 
     .conversation-btn {
       background-color: #ffe66d;
-      width: 30vw;
-      height: 15vh;
-      border: none;
-      border-radius: 4px;
-      font-size: 2em;
-      outline: none;
-      cursor: pointer;
+      border: 2px solid black;
+      border-radius: 15px;
+      font-size: 100%;
     }
 
-    .conversation-btn:hover {
-      border: 4px solid black;
-    }
 
     #search{
+        margin-left: 50px;
         background: #FFE66D;
         border: 2px solid black;
         box-sizing: border-box;
         border-radius: 17px;
         padding-left: 5px;
     }
-    #friendsList , #requestList, #searchList{
+     #requestList{
+        margin:20px;
         display: grid;
         gap: 10px;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr;
     }
+
+    #friendsList , #requestList, #searchList{
+    margin:20px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(1, 1fr);
+    }
+	
     #searchList{
         margin-top: 5px;
     }
@@ -255,20 +265,24 @@
         "navbar"
 		"header"
 		"section"
+        "friendsContainer"
         "footer";
 	}
 	
-	navbar{
-		grid-area: navbar;
+	nav{
+        margin-bottom: 110px;
+		grid-area: nav;
 	}
 
 	header {
 		grid-area: header;
 	}
 
+    .friendsContainer{
+        grid-area: friendsContainer
+    }
+
 	section {
-		/* margin-left: 25px;
-		margin-right: 25px; */
 		grid-area: section;
 	}
 
@@ -279,94 +293,91 @@
 
 		@media (min-width: 1024px) {
 		main {
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"navbar navbar navbar"
-			"header header header"
-			"section section section"
-			"footer footer footer";
+			"nav nav"
+			"header header"
+			"section friendsContainer"
+			"footer footer";
 		}
-/* 
-		.buttonDisplay {
-			font-size: 225%;
-			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns:repeat(3, 1fr);
-			grid-template-areas:
-			"section section section";
-		} */
 
+        #friendsList, #searchList {
+        margin:20px;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+        section, .friendsContainer{
+        margin: 0px 5px 0px;
+        }
 	}
 
 	@media (min-width: 520px) and (max-width: 1024px) {
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"navbar navbar"
+			"nav nav"
 			"header header"
 			"section section"
+            "friendsContainer friendsContainer"
 			"footer footer";
 		}
-/* 
-			.buttonDisplay {
-			font-size: 200%;
-			display:grid;
-			grid-gap: 50px 50px;
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-areas:
-			"section section";
-		} */
+
+        #friendsList, #searchList {
+        margin:20px;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+        section, .friendsContainer{
+        margin: 0px 5px 0px;
+        }
 	}
 
 	@media (max-width: 520px) {
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-			"navbar"
+			"nav"
 			"header"
 			"section"
+            "friendsContainer"
 			"footer";
 		}
-		/* .buttonDisplay {
-			font-size: 125%;
-			display: grid;
-			grid-gap: 25px 25px;
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-areas:
-			"section section";
-		} */
-	}
+        section, #search, .friendsContainer{
+            margin: 0px 15px;
+        }
 
-		/* button {
-			font-family: 'Segoe UI';
-			font-size:100%;
-			width: 100%;
-			height: 150px;
-			border-radius: 25px;
-			border: 2px solid black;
-		} */
+        #friendsList , #requestList, #searchList{
+        margin:20px;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+	}
 </style>
 
 <main>
-<navbar>
+<nav>
     <Navbar></Navbar>
-</navbar>
+</nav>
 
 <header>    
 <Header profileName={"Friends-List"}></Header>
-</header>
-
-<section>
     <div id="top">
     <input id="search"  bind:value={query} on:input={updateSearch} 
-    type="search" placeholder="search..."/>
-</div>
+    type="search" placeholder="Search For Friends..."/>
+    </div>
+</header>
+
 
         {#if search}
+        <section>
          <div id="searchList">
             {#each sprofiles as pfl}
                 {#if pfl.status === "Request"}
-                     <div id="{pfl.user}" class="request">
+                    <div id="{pfl.user}" class="request">
                         <span on:click="{()=> gotoProfile(pfl.name)}" style="font-size: large;">{pfl.dname}</span>
                         <span>{pfl.date}</span>
                         <span>{pfl.message}</span>
@@ -391,8 +402,11 @@
                 {/if}
             {/each}
         </div>
+        </section>
         {:else}
-        <h2>Requests</h2>
+        
+<section>
+<h1>Requests</h1>
         <div id="requestList">
         {#each finRequests as req}
             <div id="{req.user}"  class="request">
@@ -408,22 +422,27 @@
             </div>
         {/each}
         </div>
-        <h2>Friends</h2>
+</section>
+
+
+    <div class="friendsContainer">
+<h1>Friends</h1>
         <div id="friendsList">
         {#each friends as fnd}
             <div class="friend" on:click="{()=> gotoProfile(fnd.name)}">
                 <span style="font-size: large;">{fnd.dname}</span>
                 <span>Added on {fnd.date}</span>
+                <span>
             </div>
-            <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
-              Go to Conversation
+             <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
+              Start a conversation with {fnd.name}
             </button>
         {/each}
         </div>
+    </div>
     {/if}
-    </section>
 
-    <footer>
+<footer>
     <Footer></Footer>
-    </footer>
+</footer>
 </main>

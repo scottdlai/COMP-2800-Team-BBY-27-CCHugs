@@ -62,7 +62,7 @@
                     username: username.value,
                     displayName: username.value,
                     quote: "Just A Hugger.",
-                    displayPicture: user.photoURL,
+                    displayPicture: "https://firebasestorage.googleapis.com/v0/b/cchugs-bd4ee.appspot.com/o/Default.png?alt=media&token=ec4de52d-a08d-43d5-9b3f-a582242eaf95",
                     email: email.value}).then((x) =>{
                         textbox.reset();
                         message ="";

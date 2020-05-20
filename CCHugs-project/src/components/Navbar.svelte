@@ -8,20 +8,22 @@
       location.replace('/mainpage');
     }
 
-let isSticky = false;
+// let isSticky = false;
 
-const handleScrolldown = () => {
-  isSticky = true;
-  if (window.scrollY == 0){
-    isSticky = false;
-  }
-}
+// const handleScrolldown = () => {
+//   isSticky = true;
+//   if (window.scrollY == 0){
+//     isSticky = false;
+//   }
+// }
 </script>
 
-<svelte:window on:scroll={handleScrolldown}/>
+<!-- <svelte:window on:scroll={handleScrolldown}/> -->
 
-<main>
-  <nav class="navbar navbar-expand-lg navbar-light"class:sticky={isSticky}>
+ <!-- <nav class="navbar navbar-expand-lg navbar-light"class:sticky={isSticky}></nav> -->
+
+
+  <nav class="navbar navbar-expand-lg navbar-light">
     <button class="navbar-toggler collapsed " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -43,7 +45,7 @@ const handleScrolldown = () => {
       </ul>
     </div>
   </nav>
-</main>
+
 
 <style>
 img{
@@ -57,18 +59,18 @@ li {
   cursor: pointer;
 }
   
-nav{
+nav {
   overflow: hidden;
   text-align: center;
   background-image: linear-gradient(180deg, #FFE66D, #ffffff);
   /* background-color: #FFE66D; */
-  position: relative;
+  position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1;
 }
 
 /* .sticky {
+  height: 200px;
   position: fixed;
   top: 0;
   width: 100%;
