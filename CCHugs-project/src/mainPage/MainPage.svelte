@@ -21,7 +21,7 @@ let name;
 		location.href="/userprofile?user="+name}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Send A Hug', handle: function () {
-		name = "Send A Hug"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/sendhugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName: 'Check Hugs', handle: function () {
 		location.href="/checkhugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},

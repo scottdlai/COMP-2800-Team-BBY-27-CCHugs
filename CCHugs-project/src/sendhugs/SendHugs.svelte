@@ -1,34 +1,110 @@
 <script>
-  import { firestore } from '../Firebase.js';
-  import NavBar from '../components/NavBar.svelte';
+  import { firestore } from "../Firebase.js";
+  import firebase from "firebase/app";
 
+  import NavBar from "../components/NavBar.svelte";
+  import Modal from "./Modal.svelte";
+
+  /** uid of the currenly logged in user. */
   export let uid;
 
+  /** content of message of the hug. */
   let content;
 
-  function sendHug() { return; }
+  /** boolean value for showing the modal. */
+  let show = false;
 
-  function sendHugRand() { return; }
+  /**
+   * Launches the modal for the user to select friends.
+   */
+  function launchModal() {
+    show = true;
+  }
+
+  /**
+   * Sends a hug to the user specify by the event.detail object. If event.detail
+   * is an empty string, then sends randomly.
+   * 
+   * @param {object} event
+   */
+  function sendHugTo(event) {
+    console.log(event);
+    const username = getUsername(); // currenly logged in user
+
+    const receiver = event.detail || getRandomUser();
+
+    Promise.all([username, receiver]).then(values => {
+      firestore.collection("Hugs").add({
+        author: values[0],
+        content: content || '',
+        receiver: values[1],
+        time: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        content = "";
+        location.href = "/checkhugs";
+      });
+    });
+
+    return;
+  }
+
+  /**
+   * Returns the username of the currently logged-in user.
+   *
+   * @return {string} username of the currenly logged-in user
+   */
+  async function getUsername() {
+    const query = firestore.collection("Users").doc(uid || "");
+
+    const userDoc = await query.get();
+
+    return userDoc.get("username");
+  }
+
+  /**
+   * Returns the username of a random user.
+   *
+   * @return {string} username of a random user
+   */
+  async function getRandomUser() {
+    const query = firestore.collection("Users");
+
+    const snapshot = await query.get();
+
+    // advoid selecting its own user
+    const docs = snapshot.docs.filter(doc => doc.id !== uid);
+
+    return docs[Math.floor(Math.random() * docs.length)].get("username");
+  }
 </script>
 
+<NavBar />
 <main>
-  <NavBar />
+  <h1 class="page-title">Let's send a hug!</h1>
   <div id="form-wrapper">
-    <div id="input-container" on:submit|preventDefault={sendHug}>
-      <textarea type="text" bind:value={content} placeholder="type your message here..." />
+    <div id="input-container">
+      <textarea
+        type="text"
+        bind:value={content}
+        placeholder="type your message here..." />
 
-      <button class="send-btn" on:click={sendHug}>Send to Friend</button>
-      <button class="send-btn random" on:click={sendHugRand}>Send randomly</button>
+      <button class="send-btn" on:click={launchModal}>Send</button>
     </div>
   </div>
-
 </main>
+<Modal bind:show {uid} on:chooseFriend={sendHugTo}/>
 
 <style>
+  .page-title {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
   #form-wrapper {
-    height: 100vh;
+    height: 85vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
   }
 
@@ -70,9 +146,5 @@
 
   .send-btn:hover {
     border: 4px solid black;
-  }
-
-  .random {
-    background-color: #ff9e6d; 
   }
 </style>
