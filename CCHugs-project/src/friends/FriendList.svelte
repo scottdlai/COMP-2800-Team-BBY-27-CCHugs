@@ -1,134 +1,188 @@
 <script>
-import Navbar from "../components/Navbar.svelte";
-import {onMount} from 'svelte';
-import {auth} from "./../Firebase.js";
-import {firestore} from "./../Firebase.js";
-import Footer from "../components/Footer.svelte";
-import Header from "../components/Header.svelte";
+  import Navbar from "../components/Navbar.svelte";
+  import {onMount} from 'svelte';
+  import {auth} from "./../Firebase.js";
+  import {firestore} from "./../Firebase.js";
+  import Footer from "../components/Footer.svelte";
 
-export let uid;
-console.log(uid);
+  export let uid;
 
-let d = new Date;
-let finRequests =[];
-let friends = [];
-let search = false;
-let profiles =[];
-let list = [];
-let sprofiles =[];
-var query ="";
+  let d = new Date;
+  let requests =[];
+  let finRequests =[];
+  let friends = [];
+  let search = false;
+  let profiles =[];
+  let list = [];
+  let sprofiles =[];
+  var query ="";
 
-//Get the list of friend request that the user has
-let getReq = new Promise((resolve,reject)=>{
-    firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            finRequests.push({dname: doc.data().displayName, name: doc.data().username, user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested, status: "Requested" });
-        })
-        resolve();
-    }).catch((err)=>{
-        console.log("Couldnt get requests");
-        reject();
+  //Get the list of friend request that the user has
+  let getReq = new Promise((resolve,reject)=>{
+      firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+              requests.push({user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested });
+          })
+          resolve();
+      }).catch((err)=>{
+          console.log("Couldnt get requests");
+          reject();
+      });
+  })
+  //Get the list of friends that the user has.
+  let getFnd = new Promise((resolve, reject)=> {
+      firestore.collection("Users").doc(uid).collection("Friends").get().then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                  friends.push({user: doc.id, date: doc.data().dateAdded });
+              })
+              resolve();
+          }).catch((err)=>{
+              console.log("Couldnt get requests");
+              reject();
+          });
+  });
+
+  function getData(){
+      //Make the reqests eligible.
+      getReq.then(()=>{
+              let tmp = [];
+              firestore.collection("Users").get().then((snapshot) => {
+              if(!snapshot.empty){
+
+                  requests.forEach((reqId)=>{
+                      snapshot.forEach((doc)=>{
+                          if(doc.id == reqId.user ){
+                              //add more to this push list if you want to display more stuff to the user.
+                              tmp.push({dname: doc.data().displayName ,name: doc.data().username,message: reqId.message, date: reqId.date, user: reqId.user, status: "Request"});
+                          }
+                      });
+                  })
+                  finRequests = tmp;
+                  console.log(finRequests);
+              }
+              }).catch((err) =>{
+                  console.log('Error Getting Usernames', err);
+                  // message ="That username is already taken";
+              })
+      });
+      //Make the Friends eligable
+      getFnd.then(()=>{
+          var tmp = [];
+          firestore.collection("Users").get().then((snapshot) => {
+              if(!snapshot.empty){
+
+                  friends.forEach((fndId)=>{
+                      snapshot.forEach((doc)=>{
+                          if(doc.id == fndId.user ){
+                              //add more to this push list if you want to display more stuff to the user.
+                              tmp.push({dname: doc.data().displayName, name: doc.data().username, date: fndId.date, user: fndId.user, status: "Friend"});
+                          }
+                      });
+                  })
+                  friends = tmp;
+                  console.log(friends);
+              }
+              }).catch((err) =>{
+                  console.log('Error Getting Usernames', err);
+                  // message ="That username is already taken";
+              })
+
+      });
+  }
+
+  //Make the data from the database eligable for the user.
+  onMount(()=>{
+      getUsers();
+      getData();
+  });
+
+  function refresh(){
+      getData();
+  }
+
+  //Adds a doc in each of the users friends list in the database.
+  function acceptRequest(profile){
+          firestore.collection("Users").doc(uid).collection("Friends").doc(profile).set({
+                  dateAdded: d.toUTCString(),
+          });
+          //updates profiles collection
+          firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
+              dateAdded: d.toUTCString(),
+          });
+          denyRequest(profile);
+  }
+  //Will remove the requests from the users reqest and requested collection in the database.
+  function denyRequest(profile){
+          firestore.collection("Users").doc(uid).collection("Requests").doc(profile).delete().then(function() {
+              console.log("Document successfully deleted! from user");
+          }).catch(function(error) {
+              console.error("Error removing document: ", error);
+          });
+          firestore.collection("Users").doc(profile).collection("Requested").doc(uid).delete().then(function() {
+              console.log("Document successfully deleted! from other user");
+          }).catch(function(error) {
+              console.error("Error removing document: ", error);
+          });
+          document.getElementById(profile).outerHTML="";
+          refresh();
+  }
+
+  //Send the user to the profile of the person that was clicked on.
+  function gotoProfile(name){
+      window.location = "./userprofile?user="+name;
+  }
+  //Get all the users that could be searched up.
+  function getUsers(){
+      let tmp = [];
+      firestore.collection("Users").get().then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                  //add aditionaal info that you want to display here
+                  tmp.push({dname: doc.data().displayName, name: doc.data().username, status:""});
+              })
+              list = tmp;
+      })
+  }
+
+  function updateSearch(){
+      profiles = finRequests.concat(friends, list);
+      sprofiles =[];
+      if(query==""){
+          search = false;
+      }
+      else{
+          search = true;
+      }
+      profiles.map(function(algo){
+          if(algo.dname != undefined)
+          if(algo.dname.toLowerCase().indexOf(query.toLowerCase()) != -1){
+                  sprofiles= [...sprofiles, algo];
+              }
+      })
+  }
+
+  async function conversationWith(partnerID) {
+    console.log(partnerID);
+
+    const query = firestore
+      .collection('Conversations')
+      .where('participants', 'in', [[partnerID, uid], [uid, partnerID]]);
+
+    const snapshot = await query.get();
+    
+    if (!snapshot.empty) {
+      location.href = '/chat';
+      return;
+    }
+
+    firestore.collection('Conversations').add({
+      participants: [uid, partnerID]
+    }).then((doc) => {
+      location.href = '/chat';
     });
-})
-//Get the list of friends that the user has.
-let getFnd = new Promise((resolve, reject)=> {
-    firestore.collection("Users").doc(uid).collection("Friends").get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                friends.push({dname: doc.data().displayName, name: doc.data().username,user: doc.id, date: doc.data().dateAdded, status: "Friend" });
-            })
-            resolve();
-        }).catch((err)=>{
-            console.log("Couldnt get requests");
-            reject();
-        });
-});
-
-function getData(){
-     //Make the reqests eligible.
-    getReq.then(console.log(finRequests));
-    //Make the Friends eligable
-    getFnd.then(console.log(friends));
-}
-
-//Make the data from the database eligable for the user.
-onMount(()=>{
-    getUsers();
-    getData();
-});
-
-function refresh(){
-    getData();
-}
-
-//Adds a doc in each of the users friends list in the database.
-function acceptRequest(profile, username, displayName){
-        firestore.collection("Users").doc(uid).collection("Friends").doc(profile).set({
-                dateAdded: d.toUTCString(),
-                username: username,
-                displayName: displayName
-        });
-
-        firestore.collection("Users").doc(uid).get().then((doc)=>{
-             firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
-                dateAdded: d.toUTCString(),
-                username: doc.data().username,
-                displayName: doc.data().displayName
-            });
-
-
-        });
-        denyRequest(profile);
-}
-//Will remove the requests from the users reqest and requested collection in the database.
-function denyRequest(profile){
-        firestore.collection("Users").doc(uid).collection("Requests").doc(profile).delete().then(function() {
-            console.log("Document successfully deleted! from user");
-        }).catch(function(error) {
-            console.error("Error removing document: ", error);
-        });
-        firestore.collection("Users").doc(profile).collection("Requested").doc(uid).delete().then(function() {
-            console.log("Document successfully deleted! from other user");
-        }).catch(function(error) {
-            console.error("Error removing document: ", error);
-        });
-        document.getElementById(profile).outerHTML="";
-        refresh();
-}
-
-//Send the user to the profile of the person that was clicked on.
-function gotoProfile(name){
-    window.location = "./userprofile?user="+name;
-}
-//Get all the users that could be searched up.
-function getUsers(){
-    let tmp = [];
-    firestore.collection("Users").get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                //add aditionaal info that you want to display here
-                tmp.push({dname: doc.data().displayName, name: doc.data().username, status:""});
-            })
-            list = tmp;
-    })
-}
-
-function updateSearch(){
-    profiles = finRequests.concat(friends, list);
-    sprofiles =[];
-    if(query==""){
-        search = false;
-    }
-    else{
-        search = true;
-    }
-    profiles.map(function(algo){
-        if(algo.dname != undefined)
-        if(algo.dname.toLowerCase().indexOf(query.toLowerCase()) != -1){
-                sprofiles= [...sprofiles, algo];
-            }
-    })
-}
+  }
 
 </script>
+
 <style>
     .friend{
         background: #FF9E6D;
@@ -162,6 +216,22 @@ function updateSearch(){
         border: 2px solid black;
         /* #d48259 */
     }
+
+    .conversation-btn {
+      background-color: #ffe66d;
+      width: 30vw;
+      height: 15vh;
+      border: none;
+      border-radius: 4px;
+      font-size: 2em;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .conversation-btn:hover {
+      border: 4px solid black;
+    }
+
     #search{
         background: #FFE66D;
         border: 2px solid black;
@@ -276,6 +346,7 @@ function updateSearch(){
 			border: 2px solid black;
 		} */
 </style>
+
 <main>
 <navbar>
     <Navbar></Navbar>
@@ -344,6 +415,9 @@ function updateSearch(){
                 <span style="font-size: large;">{fnd.dname}</span>
                 <span>Added on {fnd.date}</span>
             </div>
+            <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
+              Go to Conversation
+            </button>
         {/each}
         </div>
     {/if}
