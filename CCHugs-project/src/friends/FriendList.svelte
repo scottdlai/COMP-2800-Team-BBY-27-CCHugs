@@ -71,33 +71,33 @@ function acceptRequest(profile, username, displayName){
                 dateAdded: d.toUTCString(),
                 username: username,
                 displayName: displayName
+        }).then(()=>{
+             firestore.collection("Users").doc(uid).get().then((doc)=>{
+                firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
+                    dateAdded: d.toUTCString(),
+                    username: doc.data().username,
+                    displayName: doc.data().displayName
+                }).then(()=>{
+                    denyRequest(profile)
+                    });
         });
-
-        firestore.collection("Users").doc(uid).get().then((doc)=>{
-             firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
-                dateAdded: d.toUTCString(),
-                username: doc.data().username,
-                displayName: doc.data().displayName
-            });
-
-
         });
-        denyRequest(profile);
 }
 //Will remove the requests from the users reqest and requested collection in the database.
 function denyRequest(profile){
         firestore.collection("Users").doc(uid).collection("Requests").doc(profile).delete().then(function() {
             console.log("Document successfully deleted! from user");
+                firestore.collection("Users").doc(profile).collection("Requested").doc(uid).delete().then(function() {
+                console.log("Document successfully deleted! from other user");
+                location.reload();
+                refresh();
+            }).catch(function(error) {
+                console.error("Error removing document: ", error);
+            });
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
-        firestore.collection("Users").doc(profile).collection("Requested").doc(uid).delete().then(function() {
-            console.log("Document successfully deleted! from other user");
-        }).catch(function(error) {
-            console.error("Error removing document: ", error);
-        });
-        document.getElementById(profile).outerHTML="";
-        refresh();
+     //  document.getElementById(profile).outerHTML="";
 }
 
 //Send the user to the profile of the person that was clicked on.
