@@ -6,6 +6,7 @@ import Att from '../friends/FriendAtt.svelte'
 import Footer from "./../components/Footer.svelte";
 export let uid;
 import {onMount} from "svelte";
+import Header from "../components/Header.svelte";
 
 let editProfile = function () {
 		location.href="/userprofileEdit";
@@ -64,9 +65,9 @@ onMount(() => {
 <Navbar></Navbar>
 </navbar>
 
-	<header>
-		<h1>Going to {name}!</h1>
-	</header>
+<header>
+<Header profileName={"Profile"}></Header>
+</header>
 
 <section>
 <div class="buttonDisplay">
@@ -87,7 +88,7 @@ onMount(() => {
 
 
 {#if !yourProfile}
-<Att uid={uid} profile={newUser}/>
+<Att uid={uid} profile={newUser} profDN={displayName} profUN={newUser}/>
 {/if}
 <div>
 
