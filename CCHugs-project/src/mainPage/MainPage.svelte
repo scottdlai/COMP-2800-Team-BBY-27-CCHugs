@@ -55,6 +55,7 @@ let name;
 		{#each button as button}
 		<button style={button.color} on:click={button.handle}>{button.buttonName}</button>
 		{/each}
+		<a class="twitter-timeline" data-width="400" data-height="300" data-theme="light" href="https://twitter.com/CDCgov?ref_src=twsrc%5Etfw">Tweets by CDCgov</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</div>
 	</section>
 
