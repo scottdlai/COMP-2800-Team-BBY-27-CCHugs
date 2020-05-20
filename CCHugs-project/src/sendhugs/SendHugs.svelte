@@ -1,20 +1,32 @@
 <script>
   import { firestore } from "../Firebase.js";
   import firebase from "firebase/app";
-  import NavBar from "../components/NavBar.svelte";
 
+  import NavBar from "../components/NavBar.svelte";
   import Modal from "./Modal.svelte";
 
+  /** uid of the currenly logged in user. */
   export let uid;
 
+  /** content of message of the hug. */
   let content;
 
+  /** boolean value for showing the modal. */
   let show = false;
 
+  /**
+   * Launches the modal for the user to select friends.
+   */
   function launchModal() {
     show = true;
   }
 
+  /**
+   * Sends a hug to the user specify by the event.detail object. If event.detail
+   * is an empty string, then sends randomly.
+   * 
+   * @param {object} event
+   */
   function sendHugTo(event) {
     console.log(event);
     const username = getUsername(); // currenly logged in user
@@ -59,7 +71,8 @@
 
     const snapshot = await query.get();
 
-    const docs = snapshot.docs.filter(doc => doc.id !== uid); // advoid selecting its own user
+    // advoid selecting its own user
+    const docs = snapshot.docs.filter(doc => doc.id !== uid);
 
     return docs[Math.floor(Math.random() * docs.length)].get("username");
   }
