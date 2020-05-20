@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Footer from "./../components/Footer.svelte";
+import Header from '../components/Header.svelte';
 
 let toMainPage = function () {
     location.replace('/mainpage');
@@ -42,9 +43,10 @@ function writeFeedback() {
 <main>
 <navbar>
 <Navbar></Navbar>
+
 </navbar>
 <header>
-<h1>This is a header</h1>
+<Header profileName={"Feedback"}></Header>
 </header>
 
 <section class="buttonDisplay">

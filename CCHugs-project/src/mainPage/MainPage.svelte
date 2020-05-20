@@ -3,6 +3,7 @@
 	import FootLoose from "./../components/Footer.svelte";
 	import {auth} from "./../Firebase.js";
 	import {firestore} from "./../Firebase.js";
+	import Header from '../components/Header.svelte';
 
 let name;
 
@@ -39,14 +40,14 @@ let name;
 	console.log(button);
 </script>
 
+
 <main>
 <navbar>
-	<Navbar>
-</Navbar>
+	<Navbar></Navbar>
 </navbar>
 
 	<header>
-		<h1>Going to {name}!</h1>
+	<Header profileName={"Main Page"}></Header>
 	</header>
 
 	<section>
@@ -68,8 +69,10 @@ let name;
 		height: 100%;
 		display: grid;
 		grid-template-areas:
+		"navbar"
 		"header"
-		"section";
+		"section"
+		"footer";
 	}
 	
 	navbar{
@@ -152,19 +155,13 @@ let name;
 	}
 
 		button {
+			font-family: 'Segoe UI';
 			font-size:100%;
 			width: 100%;
 			height: 150px;
 			border-radius: 25px;
 			border: 2px solid black;
-			font-weight: bold;
 		}
+
 		
-		h1 {
-			text-align: center;
-			color: black;
-			text-transform: capitalize;
-			font-size: 4em;
-			font-weight: 100;
-		}
 </style>

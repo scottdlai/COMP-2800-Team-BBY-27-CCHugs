@@ -17,7 +17,9 @@
   import feedback from "./feedback/feedback.svelte";
   import checkhugs from "./checkhugs/checkhugs.svelte";
   import SendHugs from './sendhugs/SendHugs.svelte';
-
+  //Test
+  import Header from './components/Header.svelte';
+  
   let page;
   let params;
 
@@ -25,6 +27,9 @@
     params = user;
   });
   
+  //test
+  router("/header", () => (page = Header));
+
   router("/mainpage", () => (page = mainpage));
   router("/signup", () => (page = signup));
   router("/login", () => (page = login));
