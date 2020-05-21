@@ -60,7 +60,7 @@ let name;
 	</section>
 
 		<div class="twitterTweet">
-		<a class="twitter-timeline" data-width="100%" data-height="100%" data-theme="dark" href="https://twitter.com/CCHUGS2?ref_src=twsrc%5Etfw">Tweets by CDCgov</a> 
+		<a class="twitter-timeline" data-width="100%" data-height="100%" data-theme="dark" href="https://twitter.com/CCHUGS2?ref_src=twsrc%5Etfw">Tweets by CCHugs</a> 
 		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</div>
 
@@ -127,8 +127,6 @@ let name;
 		.twitterTweet {
 			border-radius: 25px;
 			margin: 0px 25px;
-			border-radius: 25px;
-			padding: 5px 5px;
 		}
 
 	}
@@ -139,8 +137,8 @@ let name;
 			grid-template-areas:
 			"nav nav"
 			"header header"
-			"twitter twitter"
 			"section section"
+			"twitter twitter"
 			"footer footer";
 		}
 
@@ -154,10 +152,8 @@ let name;
 		}
 		.twitterTweet {
 			border-radius: 25px;
-			margin: 0px 25px 25px;;
-			border-radius: 25px;
-			padding: 5px 5px;
-			height: 600px;
+			margin: 25px;
+			height: 350px;
 		}
 	}
 
@@ -167,8 +163,8 @@ let name;
 			grid-template-areas:
 			"nav nav"
 			"header header"
-			"twitter twitter"
 			"section section"
+			"twitter twitter"
 			"footer footer";
 		}
 		.buttonDisplay {
@@ -182,9 +178,7 @@ let name;
 
 			.twitterTweet {
 			border-radius: 25px;
-			margin: 0px 25px 25px;;
-			border-radius: 25px;
-			padding: 5px 5px;
+			margin: 25px;
 			height: 200px;
 		}
 	}

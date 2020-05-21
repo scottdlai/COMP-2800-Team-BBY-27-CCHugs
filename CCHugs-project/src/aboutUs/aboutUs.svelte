@@ -9,9 +9,12 @@ let src4 = "../images/victor-square.jpg";
 
 </script>
 
-<Navbar />
-
 <main>
+
+<nav>
+<Navbar />
+</nav>
+
 	<header>
         <br>
 		<h1>About Us - Team CCHugs</h1> 
@@ -91,5 +94,9 @@ let src4 = "../images/victor-square.jpg";
         font-size: 5vw;
     }
  }
+
+    nav{
+        margin-bottom: 95px;
+    }
  
 </style>
