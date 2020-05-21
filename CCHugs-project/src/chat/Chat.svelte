@@ -10,7 +10,8 @@
   export let uid;
 
   let userIDsPromise = getAllUsersDB();
-  let partnerIndex = 0;
+  let partnerIndex;
+  let show = false;
 
   async function getAllUsersDB() {
     // console.log(uid);
@@ -31,10 +32,15 @@
 
   function updateActive(event) {
     partnerIndex = event.detail;
+    show = true;
   }
 
   function goToFriendPage() {
     location.href = '/friends';
+  }
+
+  function toggleShow(event) {
+    show = false;
   }
 
 </script>
@@ -42,18 +48,42 @@
 <Navbar />
   {#await userIDsPromise then userIDs}
     <main>
-      <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
-      <Content {userIDs} {uid} {partnerIndex}/>
+      <!-- <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+      <Content {userIDs} {uid} bind:partnerIndex/> -->
+      {#if show}
+        <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
+      {:else}
+        <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+      {/if}
     </main>
   {:catch error}
     <main class="container-friends">
       <h1>Start new conversations with your friends!</h1>
-      <button on:click={goToFriendPage}>Go</button>
+      <button on:click={goToFriendPage} class="friends-btn">
+        Go to friends page
+      </button>
     </main>
   {/await}
 
-
 <style>
+  .container-friends {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .friends-btn {
+    background-color: #ffe66d;
+    width: 60vw;
+    height: 15vh;
+    border: none;
+    border-radius: 4px;
+    font-size: 2em;
+    outline: none;
+    cursor: pointer;
+  }
+</style>
+<!-- <style>
   main {
     display: grid;
     grid-template-rows: 1fr;
@@ -84,4 +114,4 @@
   button:hover {
     border: 4px solid black;
   }
-</style>
+</style> -->
