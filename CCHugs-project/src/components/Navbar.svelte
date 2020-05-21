@@ -64,9 +64,10 @@ nav {
   text-align: center;
   background-image: linear-gradient(180deg, #FFE66D, #ffffff);
   /* background-color: #FFE66D; */
-  position: relative;
+  position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 /* .sticky {

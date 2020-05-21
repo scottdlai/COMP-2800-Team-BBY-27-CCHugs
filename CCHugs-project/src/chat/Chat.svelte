@@ -69,6 +69,11 @@
   {/await}
 
 <style>
+  main {
+    position: relative;
+    top: 10vh;
+  }
+
   .container-friends {
     display: flex !important;
     flex-direction: column;
