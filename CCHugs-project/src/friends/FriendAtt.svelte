@@ -149,8 +149,9 @@
         div.innerHTML = "";
         var h2 = document.createElement("h3");
         h2.textContent = "Send " + profile +" a message with your friend request!";
+        h2.style = "text-align: center;"
         var text = document.createElement("textarea");
-        text.style.cssText ="border: 2px solid orange; height: 50px;";
+        text.style.cssText ="border: 2px solid black; height: 50px;";
         text.placeholder = "Your message";
         text.id = "msg";
         var button = document.createElement("button");
@@ -168,7 +169,7 @@
         var div = document.getElementById("inside");
         div.innerHTML = "";
         var h2 = document.createElement("h3");
-        h2.textContent = "Are your sure you want to block " + profile;
+        h2.textContent = "Are your sure you want to block " + profile + "?";
         var button = document.createElement("button");
         button.style.cssText= "background-color: #ff9e6d; border-radius: 25px;padding: 0.4em; margin: 0 0 0.5em 0; box-sizing: border-box; border: 2px solid black;"
         button.textContent = "BLOCK";
@@ -189,18 +190,21 @@
 </script>
 <style>
     .flex{
+        justify-content: center;
         display:flex;
     }
     .dropbtn {
-        background-color:  #FFA85A;
+        /* background-color:  #c4c4c4; */
         border: none;
         cursor: pointer;
+        border: 2px solid black;
     }
 
     .dropdown {
         position: relative;
         display: inline-block;
         padding: 0;
+        margin-left: 10px;
     }
     .dropdown-content {
         display: none;
@@ -208,7 +212,7 @@
         background-color: #f9f9f9;
         min-width: 100%;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
+        z-index: 3;
         margin-top: 0;
     }
     .dropdown-content div {
@@ -216,25 +220,32 @@
         padding: 12px 16px;
         text-decoration: none;
         display: block;
+        z-index: 99;
+        cursor: pointer;
     }
 
-    .dropdown-content div:hover {background-color: #f1f1f1}
+    .dropdown-content div:hover {background-color: 	#FF6347}
 
     .dropdown:hover .dropdown-content {
         display: block;
     }
     .dropdown:hover .dropbtn {
-        background-color: #FFA85A;
+        background-color: #FFE66D;
     }
     .status{
-        width: 95%;
-        background-color: #FFE66D;
+        width: 50%;
+        /* background-color: #c4c4c4; */
         font-family: sans-serif;
-        font-size: 2rem;
+        font-size: 100%;
         height: 60px
     } 
+
+    .status:hover {
+        background-color: #FFE66D;
+    }
+    
     button {
-        background-color: #ff9e6d;
+        /* background-color: #ff9e6d; */
         border-radius: 25px;
         padding: 0.4em;
         margin: 0 0 0.5em 0;
@@ -288,16 +299,16 @@
 </style>
 <main>
     <div id="popup" style="display: none;">
-        <button id="close" on:click="{togglePU}">close <b>X</b></button>
+        <button id="close" on:click="{togglePU}">Close <b>X</b></button>
         <div id="inside"></div>
     </div>
     <div class="flex">
         {#if added}
-            <button class ="status" id="remove" on:click="{removeClick}">Remove as a friend</button>
+            <button class ="status" id="remove" on:click="{removeClick}">Remove Friend</button>
         {:else if requested}
             <button class ="status" id="request">Requested</button>
         {:else}
-            <button class="status" id="add" on:click="{addClick}">Add as a friend</button>
+            <button class="status" id="add" on:click="{addClick}">Add Friend</button>
         {/if}
         <div class="dropdown">
             <button class="dropbtn">

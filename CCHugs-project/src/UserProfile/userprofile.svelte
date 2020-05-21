@@ -61,22 +61,25 @@ onMount(() => {
 </script>
 
 <main>
-<navbar>
+<nav>
 <Navbar></Navbar>
-</navbar>
+</nav>
 
 <header>
 <Header profileName={"Profile"}></Header>
 </header>
 
-<section>
-<div class="buttonDisplay">
+
+<div class="buttonDisplay profileSection">
 <img id="profilePicture" alt="profile picture">
 
 {#if yourProfile}  
 <button on:click={editProfile} >Edit Profile</button>
 {/if}
-</div>
+
+{#if !yourProfile}
+<Att uid={uid} profile={newUser} profDN={displayName} profUN={newUser}/>
+{/if}
 
 <div class="backgroundContainer">
 <h2>Display Name:</h2> 
@@ -85,30 +88,25 @@ onMount(() => {
 <h2>Quotes:</h2>
 <p id="quote">{userQuote}</p>
 </div>
+</div>
 
-
-{#if !yourProfile}
-<Att uid={uid} profile={newUser} profDN={displayName} profUN={newUser}/>
-{/if}
-<div>
-
-<div class="backgroundContainer">
-<h2>Status</h2>
+<div class="backgroundContainer sentHugSection">
+<h2>Sent Hugs</h2>
 <hr>
 <div class="buttonDisplay">
 <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
 </div>
 </div>
 
-<div class="backgroundContainer">
-    <h2>{displayName}</h2>
+<div class="backgroundContainer badgeSection">
+    <h2>{displayName} Badges</h2>
     <hr>
     <div class="displayBadge">
     <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
     <a href="https://placeholder.com"><img src="https://via.placeholder.com/128" alt="blank 128 X 128 Square"></a>
     </div>
 </div>    
-    </section>
+
 
 <footer>
 <Footer></Footer>
@@ -121,25 +119,22 @@ onMount(() => {
 		height:100%;
 		display: grid;
 		grid-template-areas:
-		"navbar"
+		"nav"
 		"header"
+		"profileSection"
+		"sentHugSection"
+		"badgeSection"
 		"section"
 		"footer";
 	}
 
-	navbar	{
-		grid-area: navbar;
+	nav	{
+		margin-bottom: 110px;
+		grid-area: nav;
 	}
 
 	header {
 		grid-area: header;
-	}
-
-	section {
-        margin-top:25px;
-        margin-left:auto;
-        margin-right:auto;
-		grid-area: section;
 	}
 
 	footer	{
@@ -147,67 +142,62 @@ onMount(() => {
 		grid-area: footer;
 	}
 
-		@media (min-width: 1024px) {
-		main {
-		grid-template-columns: repeat(1, 1fr);
-		grid-template-areas:
-		"navbar"
-		"header"
-		"section"
-		"footer";
-		}
+	.profileSection {
+		grid-area: profileSection;
+	}
 
-		.buttonDisplay {
-			display:grid;
-			grid-gap: 0px 50px;
-			grid-template-columns:repeat(1, 1fr);
-			grid-template-areas:
-			"section"
+	.sentHugSection {
+		grid-area: sentHugSection;
+	}
+
+	.badgeSection {
+		grid-area: badgeSection;
+	}
+
+
+	@media (min-width: 1024px) {
+		main {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas:
+		"nav nav"
+		"header header"
+		"profileSection badgeSection" 
+		"sentHugSection section"
+		"footer footer";
+		}
+		.profileSection {
+			margin: 25px;
+			text-align: center;
+		} 
+		 .badgeSection, .sentHugSection	{
+		margin: 25px;
 		}
 	}
 
 	@media (min-width: 440px) and (max-width: 1024px) {
 		main {
-			grid-template-columns: repeat(1, 1fr);
+			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-		"navbar"
-		"header"
-		"section"
-		"footer";
-		}
-
-		.buttonDisplay {
-			display:grid;
-			grid-gap: 0px 50px;
-			grid-template-columns: repeat(1, 1fr);
-			grid-template-areas:
-			"section"
+		"nav nav"
+		"header header"
+		"profileSection sentHugSection" 
+		"badgeSection badgeSection"
+		"footer footer";
 		}
 	}
 
 	@media (max-width: 440px) {
 		main {
-			grid-template-columns: repeat(1, 1fr);
+			grid-template-columns: 1;
 			grid-template-areas:
-		"navbar"
+		"nav"
 		"header"
-		"section"
+		"profileSection" 
+		"sentHugSection"
+		"badgeSection"
 		"footer";
 		}
-		.buttonDisplay {
-			display:grid;
-			grid-template-columns: repeat(1, 1fr);
-			grid-template-areas:
-			"section"
-		}
 
-        .displayBadge {
-            display: grid;
-            grid-gap: 25px 25px;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-areas:
-            "section"
-        }
 	}
 
 		button {
@@ -218,25 +208,43 @@ onMount(() => {
         border-radius: 25px;
 		}
 
-        #profilePicture{
+        #profilePicture	{
         margin-left:auto;
         margin-right:auto;
 		margin-bottom: 15px;
-	border-radius: 50%;
+		border-radius: 50%;
         }
 
         .backgroundContainer {
-            margin: 15px 0px;
+            margin: 15px;
             padding: 10px;
             background-image: linear-gradient(135deg, #6DFFE7, #ffffff);
             border-radius: 25px;
             border: 2px solid black;
         }
 
-		a{
+		a	{
 			margin-left:auto;
 			margin-right:auto;
 		}
 
+			.displayBadge {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+			.buttonDisplay {
+			display:grid;
+			grid-template-columns: repeat(1, 1fr);
+		}
+
+					h2 {
+			font-size: 100%;
+			font-weight: 700;
+			}
+
+			p {
+			font-size: 100%
+			}
 
 </style>

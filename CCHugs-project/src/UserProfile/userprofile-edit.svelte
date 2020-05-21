@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar.svelte';
 import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Footer from "./../components/Footer.svelte";
+import Header from "./../components/Header.svelte";
+
 let name;
 
 function showProfile() {
@@ -61,12 +63,12 @@ showProfile();
 </script>
 
 <main>
-<navbar>
+<nav>
 <Navbar></Navbar>
-</navbar>
+</nav>
 
 <header>
-<h1>This is a header</h1>
+<Header profileName={"Edit-Profile"}></Header>
 </header>
 
 <section class = "buttonDisplay backgroundContainer">
@@ -80,7 +82,6 @@ showProfile();
 
 <form on:submit|preventDefault="{setAddListner}">
     <fieldset>
-        <legend>Edit Profile:</legend>
         <label for='dname'>Display Name:</label>
         <input type="text" id='dname' name='dname' value="">
         <label for='quote'>Quote:</label>
@@ -105,14 +106,15 @@ showProfile();
 		height: 100%;
 		display: grid;
 		grid-template-areas:
-		"navbar"
+		"nav"
 		"header"
 		"section"
 		"footer";
 	}
 
-	navbar{
-		grid-area: navbar;
+	nav{
+		margin-bottom: 110px;
+		grid-area: nav;
 	}
 
 	header {
@@ -132,22 +134,28 @@ showProfile();
 		main {
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas:
-		"navbar"
+		"nav"
 		"header"
 		"section"
 		"footer";
 		}
-
+		section {
+			margin: 0px 100px;
+		}
 	}
 
 	@media (min-width: 440px) and (max-width: 1024px) {
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-		"navbar"
+		"nav"
 		"header" 
 		"section"
 		"footer";
+		}
+
+		section{ 
+		margin: 0px 25px;
 		}
 
 	}
@@ -156,7 +164,7 @@ showProfile();
 		main {
 			grid-template-columns: repeat(1, 1fr);
 			grid-template-areas:
-		"navbar"
+		"nav"
 		"header"
 		"section"
 		"footer";
@@ -198,14 +206,6 @@ showProfile();
 		background-color: #ff9e6d;
         border-radius: 25px;
 		float: left;
-		}
-
-		h1 {
-		text-align: center;
-		color: #ff3e00;
-		text-transform: capitalize;
-		font-size: 4em;
-		font-weight: 100;
 		}
 
     	#profilePicture{

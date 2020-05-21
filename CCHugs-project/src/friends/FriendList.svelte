@@ -181,7 +181,7 @@ function getUsers(){
         gap: 5px;
     }
     .request button{
-        margin: 0 auto;
+        margin: 0 25px;
         background-color: #FFE66D;
         border-radius: 15px;
         padding: 0.4em;
@@ -404,9 +404,6 @@ function getUsers(){
                 <button class="conversation-btn" on:click={() => conversationWith(fnd.user)}>Chat</button>
                 </div>
             </div>
-            <!-- <button class="conversation-btn" on:click={() => {conversationWith(fnd.user)}}> 
-              Go to Conversation
-            </button> -->
         {/each}
         </div>
     </div>

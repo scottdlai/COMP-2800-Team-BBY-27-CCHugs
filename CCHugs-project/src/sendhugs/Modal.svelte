@@ -63,8 +63,8 @@
 
 <style>
   #container {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     position: fixed;
     top: 0;
     z-index: 2;
@@ -72,28 +72,26 @@
   }
 
   #modal {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     border-radius: 4px;
     max-width: 60%;
-    min-height: 60%;
+    height: 50%;
     margin: 10% auto;
     background-color: #f8f8f8;
+    overflow-y: scroll;
+    padding: 25px;
   }
 
   .friend-tab {
     background-color: #ffe66d;
-    width: 30vw;
-    height: 15vh;
-    border: none;
+    width: 100%;
+    padding: 10px;
+    height: 25%;
     border-radius: 4px;
-    font-size: 2em;
-    outline: none;
+    font-size: 95%;
     cursor: pointer;
-    align-self: center;
-    margin-top: 24px;
+    margin-bottom: 15px;
+    border: 2px solid black;
   }
 
   .friend-tab:hover {

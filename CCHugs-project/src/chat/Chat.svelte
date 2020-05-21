@@ -39,7 +39,10 @@
 
 </script>
 
+<nav>
 <Navbar />
+</nav>
+
   {#await userIDsPromise then userIDs}
     <main>
       <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
@@ -83,5 +86,9 @@
 
   button:hover {
     border: 4px solid black;
+  }
+
+ nav{
+    margin-bottom: 110px;
   }
 </style>
