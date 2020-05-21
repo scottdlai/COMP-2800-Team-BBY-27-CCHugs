@@ -64,7 +64,7 @@ nav {
   text-align: center;
   background-image: linear-gradient(180deg, #FFE66D, #ffffff);
   /* background-color: #FFE66D; */
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100%;
 }
