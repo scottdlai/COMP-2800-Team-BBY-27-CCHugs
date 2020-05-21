@@ -7,20 +7,32 @@
 
   import ChatBubble from "./ChatBubble.svelte";
 
+  /** List of userIDs that this user chats with. */
   export let userIDs;
+
+  /** uid of the currently logged in user. */
   export let uid;
+
+  /** Index of the conversation partner inside userIDs list. */
   export let partnerIndex;
 
+  /** Current conversation. */
   let conversation = { participants: [], messages: [] };
 
+  /** Value for the text input. */
   let sentMessage = "";
 
+  /** conversation reference. */ 
   let conversationRef;
 
+  /** conversation parnter object . */
   $: partner = userIDs[partnerIndex];
 
   $: updateConversationWith(partner);
 
+  /**
+   * Listen to changes of the conversation from the database. 
+   */
   function updateConversationWith(partner) {
     console.log(partner);
     const query = firestore
@@ -28,7 +40,8 @@
       .where("participants", "in", [[uid, partner], [partner, uid]]);
 
     query.onSnapshot(querysnapshot => {
-      conversationRef = querysnapshot.docs[0]; // should get only 1 document snapshot
+      // should get only 1 document snapshot
+      conversationRef = querysnapshot.docs[0];
 
       conversation.participants = conversationRef.get("participants");
 
@@ -46,12 +59,16 @@
     });
   }
 
+  // To scroll down the page
   afterUpdate(() => {
     const messagesWrapper = document.getElementById("messages-wrapper");
 
     messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   });
 
+  /**
+   * Uploads a new message to the database.
+   */
   function sendMessage(event) {
     if (!sentMessage) return;
 
