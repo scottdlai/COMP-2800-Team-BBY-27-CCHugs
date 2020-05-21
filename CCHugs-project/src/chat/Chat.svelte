@@ -77,7 +77,7 @@
     {#if show}
       <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
     {:else}
-      <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+      <Sidebar {userIDs} on:updateActive={updateActive}/>
     {/if}
   </main>
 {:catch error}
