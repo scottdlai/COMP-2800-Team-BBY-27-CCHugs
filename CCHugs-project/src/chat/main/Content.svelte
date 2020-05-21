@@ -69,7 +69,8 @@
   }
 </script>
 
-<main>
+<button class="back-btn" on:click>back</button>
+<main class="conversation-container">
   <div id="messages-wrapper">
     <div id="messages-container">
       {#each conversation.messages as message (message.id)}
@@ -81,13 +82,80 @@
   </div>
 
   <form id="input-container" on:submit|preventDefault={sendMessage}>
-    <textarea type="text" bind:value={sentMessage} placeholder="type here..." />
+    <textarea 
+      type="text" 
+      bind:value={sentMessage}
+      placeholder="type here..."
+      class="text-field" />
 
-    <button>Send</button>
+    <button class="send-btn">Send</button>
   </form>
 </main>
 
 <style>
+  .conversation-container {
+    display: grid;
+    grid-template-rows: auto 15vh;
+    height: 85vh;
+    row-gap: 12px;
+  }
+
+  .back-btn {
+    /* background-color: #ffe66d; */
+    /* border-radius: 4px; */
+    background-color: white;
+    border: none;
+    margin-left: 2vw;
+    font-size: 2em;
+    text-decoration: underline;
+  }
+
+  #messages-wrapper {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    height: 100%;
+  }
+  
+  #messages-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100%;
+    overflow-y: scroll;
+  }
+
+  #input-container {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .text-field {
+    width: 67vw;
+    height: 10vh;
+    border-radius: 4px;
+    border: 4px solid black;
+    background-color: white;
+    outline: none;
+    resize: none;
+    padding: 4px 12px;
+    font-size: 2em;
+  }
+
+  .send-btn {
+    background-color: #ffe66d;
+    width: 27vw;
+    height: 10vh;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    font-size: 2em;
+  }
+</style>
+<!-- <style>
   main {
     grid-column: 2 / span 1;
     display: grid;
@@ -154,4 +222,4 @@
   button:hover {
     border: 4px solid black;
   }
-</style>
+</style> -->

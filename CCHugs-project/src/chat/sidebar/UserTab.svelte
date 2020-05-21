@@ -1,7 +1,6 @@
 <script>
   import { firestore } from '../../Firebase.js';
   export let userID;
-  export let isActive = false;
 
   let userPromise = getUser();
 
@@ -18,19 +17,24 @@
 </script>
 
 {#await userPromise then user}
-  <main class:active={isActive} on:click>
-    <h3>{user.username}</h3>
-  </main>
+  <div class="user-tab" on:click>
+    {user.username}
+  </div>
 {/await}
 
 <style>
-  .active {
+  /* .active {
     background-color: #ff9e6d;
-  }
+  } */
 
-  main {
+  .user-tab {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
+    width: 80vw;
+    height: 15vh;
+    font-size: 2em;
+    outline: none;
+    cursor: pointer;
   }
 </style>
