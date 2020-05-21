@@ -71,12 +71,10 @@
 <style>
   main {
     position: relative;
-    top: 10vh;
+    top: 10vh
   }
-
+  
   .container-friends {
-    position: relative;
-    top: 15vh;
     display: flex !important;
     flex-direction: column;
     align-items: center;
