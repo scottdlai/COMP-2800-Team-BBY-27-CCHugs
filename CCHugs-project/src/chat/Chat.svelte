@@ -49,24 +49,24 @@
 <Navbar />
 </nav>
 
-  {#await userIDsPromise then userIDs}
-    <main>
-      <!-- <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
-      <Content {userIDs} {uid} bind:partnerIndex/> -->
-      {#if show}
-        <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
-      {:else}
-        <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
-      {/if}
-    </main>
-  {:catch error}
-    <main class="container-friends">
-      <h1>Start new conversations with your friends!</h1>
-      <button on:click={goToFriendPage} class="friends-btn">
-        Go to friends page
-      </button>
-    </main>
-  {/await}
+{#await userIDsPromise then userIDs}
+  <main>
+    <!-- <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+    <Content {userIDs} {uid} bind:partnerIndex/> -->
+    {#if show}
+      <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
+    {:else}
+      <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+    {/if}
+  </main>
+{:catch error}
+  <main class="container-friends">
+    <h1>Start new conversations with your friends!</h1>
+    <button on:click={goToFriendPage} class="friends-btn">
+      Go to friends page
+    </button>
+  </main>
+{/await}
 
 <style>
   main {
@@ -75,6 +75,8 @@
   }
 
   .container-friends {
+    position: relative;
+    top: 15vh;
     display: flex !important;
     flex-direction: column;
     align-items: center;
