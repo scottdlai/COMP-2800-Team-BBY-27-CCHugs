@@ -21,6 +21,7 @@
                 console.log(uid);
             if(!snapshot.empty){
                snapshot.forEach((doc)=>{
+                   //Grabs the id of the user so we can edit there databse entry.
                    profileId = doc.id;
                });
                resolve(1);
@@ -37,9 +38,9 @@
 
 
     onMount(()=> {
-             //find if this profile is a friend
+             //find if this profile is a friend by looking in the users friend collection.
             c.then(()=>{
-
+                //Check if the profile is in the user Requested folder too see if a friend request has already been sent to the user.
                 firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).get().then((snapshot)=>{
                     console.log(snapshot.data());
                     if(snapshot.data() !== undefined){
@@ -48,7 +49,7 @@
 
                 });
 
-
+                //Check if the Profile has added the user.
                 firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).get().then((snapshot) => {
                     if(snapshot.data() !== undefined){
                         added = true;
@@ -62,7 +63,7 @@
                 });;
     });
     
-    //Adds the profile to the requests collection with a message a time and a sender.
+    //Adds the profile to the requests collection with a message.
     function addFriend(){
         togglePU();
         var message = document.getElementById("msg").value;
@@ -90,6 +91,7 @@
         });
         requested=true;
     }
+
     //removes the profile from each users collections.
     function removeFriend(){
         togglePU();
@@ -127,7 +129,7 @@
         else
           popup.style.display = 'none';
     }
-
+    //Adds the content to the overlay to remove a the uesr.
     function removeClick(){
         //Are you sure button
         overText = "<h2>Are you sure you want to remove " +{profile}+"</..h2><button id='modBtn' on:click='{removeFriend}'>REMOVE</button>";
@@ -143,6 +145,7 @@
         div.appendChild(button);
         togglePU();
     }
+    //adds the content to the overlay to add the user.
     function addClick(){
         //Send a message and send button
         var div = document.getElementById("inside");
@@ -163,6 +166,8 @@
         div.appendChild(button);
         togglePU();
     }
+
+    //Adds the conent of the overlay to block the user.
     function blockClick(){
         //confirm button
         // overText = "<h2>Are you sure you want to block " + profile +"</h2><button id='btn'>BLOCK</button>";
@@ -178,6 +183,7 @@
         div.appendChild(button);
         togglePU();
     }
+    //Adds the contents of the overlay for the report.
     function reportClick(){
         overText ="This is not implemented yet";
         var div = document.getElementById("inside");

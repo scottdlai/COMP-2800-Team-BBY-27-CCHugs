@@ -7,7 +7,7 @@
     let repass = false;
     let em = false;
     let message ="";
-
+    //Check all the inputs then submit it to the signup.
     function handleSubmit(event) {
         let textbox = event.target;
         let password = textbox.password;
@@ -15,13 +15,13 @@
         let email = textbox.email;
         let username = textbox.username;
 
-
+        //Check if the passwords match.
         if(password.value != repassword.value){
             message ="The passwords don't match";
             return;
         }
 
-
+        //Check that the username isnt already taken.
         let check = new Promise((resolve,reject) =>{
             firestore.collection("Users").where("username",'==',username.value).get().then(snapshot => {
                 console.log(snapshot);
@@ -43,7 +43,7 @@
 
 
 
-        
+        //Create the user and if the email is already taken ask for another input
         check.then((x)=>{
             auth.createUserWithEmailAndPassword(email.value,password.value).catch(function(error) {
                 message= "The email is invalid";
@@ -54,7 +54,7 @@
         }).catch((err) =>{
             console.log('Error Getting Usernames', err);
         });
-
+        //insert the values of the new user into the database to keep track of info.
         auth.onAuthStateChanged((user) => {
             if (user) {
                 if(user.email == email.value){
@@ -86,7 +86,7 @@
                 <input id="password"  required class ="textInput password" type="password" placeholder="Password" min = '6' max ='25'>
 
                 <input id="repassword"  required class ="textInput password" type="password" placeholder="Re-enter Password">
-
+                <span style="font-size: 11pt;">All fields are required</span>
                 <button id="signup">Sign-up</button>
                 <span class="err">{message}</span>
                 

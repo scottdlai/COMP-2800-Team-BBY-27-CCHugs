@@ -5,7 +5,8 @@
 
     let message ="";
 
-
+    //Changes the pasword field to display the password to the user.
+    //Does this by changing the type of the elemetn to text or back to password.
     function showPass(){
         var show = document.getElementById("password");
         if(show.type === "password"){
@@ -17,8 +18,10 @@
         return;
     }
 
+    //This function handles everything that needs to happen before the submit.
     function handleSubmit(event){
 
+        //Sets up the inputs from the user.
         let textbox = event.target;
         let password = textbox.password;
         let username = textbox.username;
@@ -28,9 +31,12 @@
         // if so login with the email that is also in that store
         //if not check if it is a email that can be used to login
 
+        //makes a promise that will check if the username/email field is of a username or an email.
         let check = new Promise((resolve,reject) =>{
+            //find all users with a specific username if none then it is not a username.
             firestore.collection("Users").where("username",'==',username.value).get().then((snapshot) => {
                 console.log(snapshot);
+                //check that the username is real.
             if(!snapshot.empty){
               // username.setCustomValidity('Username already taken');
                //set as a reject
@@ -52,10 +58,11 @@
 
 
 
-        
+        //based on the values it will either loggin with a email or find an email from the given username.
         check.then((x)=>{
             if(x==1){
                  auth.signInWithEmailAndPassword(email,password.value).then((y)=>{
+                     //after signin change the page to the home page.
                     window.location = "./MainPage";
                 }).catch(function(error) {
                     message= "Login is invalid";
@@ -78,15 +85,6 @@
             console.log('Error Getting Usernames', err);
         });
 
-
-        // auth.onAuthStateChanged((user) => {
-        //     if (user) {
-        //         if(user.email == username.value || user.email == email){
-        //             console.log("success");
-        //             message ="";
-        //         }
-        //     }});
-        // }
 
     }
     

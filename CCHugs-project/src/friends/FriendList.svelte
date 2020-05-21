@@ -22,6 +22,7 @@
   let getReq = new Promise((resolve,reject)=>{
       firestore.collection("Users").doc(uid).collection("Requests").get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
+            //put each request into an array to display.
             finRequests=[...finRequests,{dname: doc.data().displayName, name: doc.data().username, user: doc.data().from, message: doc.data().message, date: doc.data().dateRequested, status: "Requested" }]
         })
         resolve();
@@ -34,6 +35,7 @@
 let getFnd = new Promise((resolve, reject)=> {
     firestore.collection("Users").doc(uid).collection("Friends").get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
+                //put each friend into an array that will be displayed.
                 friends = [...friends,{dname: doc.data().displayName, name: doc.data().username,user: doc.id, date: doc.data().dateAdded, status: "Friend" }];
             })
             resolve();
@@ -42,7 +44,7 @@ let getFnd = new Promise((resolve, reject)=> {
             reject();
         });
 });
-
+//Get all the data for the friends and requests
 function getData(){
      //Make the reqests eligible.
     getReq.then(console.log(finRequests));
@@ -55,18 +57,20 @@ onMount(()=>{
     getUsers();
     getData();
 });
-
+//Refreash the data on the page to get and updated list of users.
 function refresh(){
     getData();
 }
 
 //Adds a doc in each of the users friends list in the database.
 function acceptRequest(profile, username, displayName){
+        //add the profile to the users friends list
         firestore.collection("Users").doc(uid).collection("Friends").doc(profile).set({
                 dateAdded: d.toUTCString(),
                 username: username,
                 displayName: displayName
         }).then(()=>{
+            //add the user to the profiles friendslist.
              firestore.collection("Users").doc(uid).get().then((doc)=>{
                 firestore.collection("Users").doc(profile).collection("Friends").doc(uid).set({
                     dateAdded: d.toUTCString(),
@@ -84,6 +88,7 @@ function denyRequest(profile){
             console.log("Document successfully deleted! from user");
                 firestore.collection("Users").doc(profile).collection("Requested").doc(uid).delete().then(function() {
                 console.log("Document successfully deleted! from other user");
+                //reload the page after the data has been deleted.
                 location.reload();
                 refresh();
             }).catch(function(error) {
@@ -110,7 +115,7 @@ function getUsers(){
             list = tmp;
     })
 }
-
+//update the results of the search as is compares the search bar values to the list of user that are made.
   function updateSearch(){
       profiles = finRequests.concat(friends, list);
       sprofiles =[];
@@ -127,7 +132,8 @@ function getUsers(){
               }
       })
   }
-
+//Send the user to the chat page of the profile that was clicked on.
+//if a chat doesnt exist create a new one.
   async function conversationWith(partnerID) {
       event.stopPropagation();
     console.log(partnerID);
