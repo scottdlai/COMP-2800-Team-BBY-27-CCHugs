@@ -4,6 +4,12 @@
 
   let userPromise = getUser();
 
+  /**
+   * Gets information of conversation partner from the database and returns the
+   * Promise of that information.
+   * 
+   * @returns {Promise} of patner's information 
+   */
   async function getUser() {
     const query = firestore.collection('Users').doc(userID);
 
@@ -23,10 +29,6 @@
 {/await}
 
 <style>
-  /* .active {
-    background-color: #ff9e6d;
-  } */
-
   .user-tab {
     display: flex;
     align-items: center;

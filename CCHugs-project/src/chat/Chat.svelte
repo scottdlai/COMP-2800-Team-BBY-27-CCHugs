@@ -7,12 +7,24 @@
   import Sidebar from './sidebar/Sidebar.svelte';
   import Content from './main/Content.svelte';
 
+  /** uid of the currently logged-in user. */
   export let uid;
 
+  /** Promise of the uids of the users that this user chats with. */
   let userIDsPromise = getAllUsersDB();
+
+  /** Index of the partner that this user is watching. */
   let partnerIndex;
+
+  /** Boolean value to show the chat page. */
   let show = false;
 
+  /**
+   * Gets all users that the currently logged-in user has chat with and returns
+   * a promise from firestore.
+   * 
+   * @returns {Promise} of the list of userIDs
+   */
   async function getAllUsersDB() {
     // console.log(uid);
     const query = firestore
@@ -30,15 +42,24 @@
     return participantsFromDB.filter(p => p !== uid);
   }
 
+  /**
+   * Goes to the active conversation. 
+   */
   function updateActive(event) {
     partnerIndex = event.detail;
     show = true;
   }
 
+  /**
+   * Goes to the friends page.
+   */
   function goToFriendPage() {
     location.href = '/friends';
   }
 
+  /**
+   * Hides the conversation page.
+   */
   function toggleShow(event) {
     show = false;
   }
@@ -46,7 +67,7 @@
 </script>
 
 <nav>
-<Navbar />
+  <Navbar />
 </nav>
 
 {#await userIDsPromise then userIDs}
@@ -56,7 +77,7 @@
     {#if show}
       <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
     {:else}
-      <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+      <Sidebar {userIDs} on:updateActive={updateActive}/>
     {/if}
   </main>
 {:catch error}
