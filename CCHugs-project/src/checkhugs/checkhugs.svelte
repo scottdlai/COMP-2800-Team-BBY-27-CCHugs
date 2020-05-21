@@ -4,13 +4,11 @@
   import { auth, firestore } from "../Firebase.js";
   import { authState } from "rxfire/auth";
   import { collectionData } from "rxfire/firestore";
-
+  import Header from '../components/Header.svelte';
   export let uid;
 
   let src = "../DifferentLogo2.svg";
-
   let count = 0;
-
   let hugPromise = getHugs();
 
   /**
@@ -46,14 +44,14 @@
 /**
  * Displays the current user's name.
  */
+let userName;
   function showProfile() {
     auth.onAuthStateChanged(function(user) {
       firestore
         .collection("Users")
         .doc(user.uid)
         .onSnapshot(function(snap) {
-          let userName = snap.data().username;
-          document.getElementById("dname").innerHTML = userName;
+         userName = snap.data().username;
         });
     });
   }
@@ -61,25 +59,6 @@
 </script>
 
 <style>
-  header {
-    overflow: hidden;
-    text-align: center;
-    background-color: #ffe66d;
-    position: relative;
-    top: 0;
-    width: 100%;
-  }
-  #logo {
-    width: 80%;
-  }
-  main {
-    margin: 0% 20%;
-  }
-  h3 {
-    margin: 10px;
-    padding: 10px;
-    text-align: center;
-  }
   #hugs-list {
     padding: 0px;
     margin-bottom: 50px;
@@ -92,36 +71,80 @@
     border: 2px solid black;
   }
 
-  /** tablet*/
-  @media (max-width: 1024px) {
-    main {
-      margin: 0% 10%;
-      font-size: 3vw;
-    }
-  }
+  	main {
+		height: 100%;
+		display: grid;
+		grid-template-areas:
+		"nav"
+		"header"
+		"section"
+		"footer";
+	}
+	
+	nav {
+		margin-bottom: 110px;
+		grid-area: nav;
+	}
 
-  @media (max-width: 440px) {
-    main {
-      margin: 0% 5%;
-      font-size: 4vw;
-    }
-  }
+	header {
+		grid-area: header;
+	}
+
+	section {
+		margin-left: 25px;
+		margin-right: 25px;
+		grid-area: section;
+	}
+
+	footer{
+		margin-top: auto;
+		grid-area: footer;
+	}
+
+		@media (min-width: 1024px) {
+		main {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-areas:
+			"nav"
+			"header"
+			"section"
+			"footer";
+		}
+	}
+
+	@media (min-width: 520px) and (max-width: 1024px) {
+		main {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-areas:
+			"nav"
+			"header"
+			"section"
+			"footer";
+		}
+	}
+
+	@media (max-width: 520px) {
+		main {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-areas:
+			"nav"
+			"header"
+			"section"
+			"footer";
+		}
+	}
 </style>
 
+<main>
+<nav>
+<Navbar></Navbar>
+</nav>
+
 <header>
-  <img {src} alt="logo" id="logo" />
+<Header profileName= "{userName}'s {'Received Hugs'}"></Header>
 </header>
 
-<Navbar />
-
-<main>
-  <h3>
-    <span id="dname" />
-    's
-    <br />
-    Recieved Hugs
-  </h3>
-
+<section>
   <div id="hugs-list">
     {#await hugPromise then hugReceived}
       {#each hugReceived as hugs, i}
@@ -142,6 +165,9 @@
       {/each}
     {/await}
   </div>
-</main>
+</section>
 
-<Footer />
+  <footer>
+  <Footer></Footer>
+  </footer>
+</main>

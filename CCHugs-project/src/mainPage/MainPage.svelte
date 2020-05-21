@@ -25,7 +25,7 @@ let name;
 
 		{buttonName: 'Check Hugs', handle: function () {
 		location.href="/checkhugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
-		
+
 		{buttonName:'Friends List', handle: function () {
 		location.href="/friends"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
@@ -56,9 +56,13 @@ let name;
 		{#each button as button}
 		<button style={button.color} on:click={button.handle}>{button.buttonName}</button>
 		{/each}
-		<a class="twitter-timeline" data-width="400" data-height="300" data-theme="light" href="https://twitter.com/CCHUGS2?ref_src=twsrc%5Etfw">Tweets by CDCgov</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</div>
 	</section>
+
+		<div class="twitterTweet">
+		<a class="twitter-timeline" data-width="100%" data-height="100%" data-theme="dark" href="https://twitter.com/CCHUGS2?ref_src=twsrc%5Etfw">Tweets by CDCgov</a> 
+		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		</div>
 
 <footer>
 <FootLoose></FootLoose>
@@ -97,13 +101,17 @@ let name;
 		grid-area: footer;
 	}
 
+	.twitterTweet{
+		grid-area: twitter;
+	}
+
 		@media (min-width: 1024px) {
 		main {
 			grid-template-columns: repeat(3, 1fr);
 			grid-template-areas:
 			"nav nav nav"
 			"header header header"
-			"section section section"
+			"section section twitter"
 			"footer footer footer";
 		}
 
@@ -111,9 +119,16 @@ let name;
 			font-size: 225%;
 			display:grid;
 			grid-gap: 50px 50px;
-			grid-template-columns:repeat(3, 1fr);
+			grid-template-columns:repeat(2, 1fr);
 			grid-template-areas:
-			"section section section";
+			"section twitter";
+		}
+
+		.twitterTweet {
+			border-radius: 25px;
+			margin: 0px 25px;
+			border-radius: 25px;
+			padding: 5px 5px;
 		}
 
 	}
@@ -124,6 +139,7 @@ let name;
 			grid-template-areas:
 			"nav nav"
 			"header header"
+			"twitter twitter"
 			"section section"
 			"footer footer";
 		}
@@ -136,6 +152,13 @@ let name;
 			grid-template-areas:
 			"section section";
 		}
+		.twitterTweet {
+			border-radius: 25px;
+			margin: 0px 25px 25px;;
+			border-radius: 25px;
+			padding: 5px 5px;
+			height: 600px;
+		}
 	}
 
 	@media (max-width: 520px) {
@@ -144,6 +167,7 @@ let name;
 			grid-template-areas:
 			"nav nav"
 			"header header"
+			"twitter twitter"
 			"section section"
 			"footer footer";
 		}
@@ -154,6 +178,14 @@ let name;
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
 			"section section";
+		}
+
+			.twitterTweet {
+			border-radius: 25px;
+			margin: 0px 25px 25px;;
+			border-radius: 25px;
+			padding: 5px 5px;
+			height: 200px;
 		}
 	}
 

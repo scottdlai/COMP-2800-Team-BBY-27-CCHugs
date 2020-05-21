@@ -92,7 +92,7 @@
 
 <section>
   <div id="form-wrapper">
-      <textarea type="text" bind:value={content} placeholder="type your message here..."></textarea>
+      <textarea type="text" bind:value={content} placeholder="Type your message here..."></textarea>
   </div>
       <button class="send-btn" on:click={launchModal}>Send</button>
 
@@ -110,13 +110,12 @@
   #form-wrapper {
     height: 100%;
     display: grid;
-    /* align-items: center; */
-    background-color: #FFE66D;
+    background-color: #4169e1;
     padding: 50px;
-    width: 80%;
+    width: 90%;
     margin: -5px auto;
-    /* justify-content: center; */
     border-radius: 25px;
+    border: 2px solid black;
   }
 
 
@@ -124,13 +123,11 @@
     height: 100%;
     width: 100%;
     border-radius: 4px;
-    border: 4px solid black;
     background-color: white;
     outline: none;
     resize: none;
     padding: 5px 12px;
     font-size: 100%;
-    margin: 0px auto;
   }
 
   textarea:focus::placeholder {
@@ -165,7 +162,7 @@
   }
 
   section {
-    margin:50px;
+    margin: 15px;
     grid-area: section;
   }
 
