@@ -72,6 +72,8 @@
   }
 
   #modal {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     border-radius: 4px;
     max-width: 80%;
