@@ -4,7 +4,6 @@ import {auth} from "./../Firebase.js";
 import {firestore} from "./../Firebase.js";
 import Footer from "./../components/Footer.svelte";
 import Header from "./../components/Header.svelte";
-
 let name;
 
 function showProfile() {
@@ -32,17 +31,31 @@ let editDisplayPicture = function () {
 		location.href="/displaypicture";
 }
 
+let changePassword = function() {
+	auth.onAuthStateChanged(function(user){
+	let password = prompt('Change Password?\nMust be Greater Than 6 and Less Than 25.');
+	if (password != null && password.length > 6 && password.length < 25 ) {
+		user.updatePassword(password)
+		.then(function() {
+			alert("Password Update Successful.");
+		})
+		.catch (function (error) {
+			alert("Error No Changes.");
+		})
+	} else {
+		alert("Password Does Not Meet Requirement.");
+	}
+	})
+}
+
 function setAddListner() {
     document.getElementById("submit2")
         let profileDisplayName = document.getElementById("dname").value;
 		let profileQuote = document.getElementById("quote").value;
 		let profileEmail = document.getElementById("email").value;
-console.log(profileDisplayName);
-
-	if (!profileDisplayName || !profileQuote || !profileEmail === "") {
-		alert("DisplayName, ProfileQuote, Profile Email cannot be null")
+	if (!profileDisplayName || !profileQuote || profileEmail === "") {
+		alert("Display Name, Quote, and Profile Email cannot be empty.")
 	}else{
-
         auth.onAuthStateChanged(function (user){
 			user.updateEmail(profileEmail).then(function() {
 					 firestore.collection("Users").doc(user.uid)
@@ -63,7 +76,6 @@ console.log(profileDisplayName);
 }
 
 showProfile();
-
 </script>
 
 <main>
@@ -78,9 +90,9 @@ showProfile();
 <section class = "buttonDisplay backgroundContainer">
 <img id="profilePicture" alt="profile picture">
 
-<div id="">
-<button class="edit" on:click={editDisplayPicture}> Click to change your picture </button>
-<button class="edit">Change Password</button>
+<div id="divButton">
+<button class="edit" on:click={editDisplayPicture}>Change Picture </button>
+<button class="edit" on:click={changePassword}>Change Password</button>
 </div>
 <br>
 
@@ -89,13 +101,13 @@ showProfile();
         <label for='dname'>Display Name:</label>
         <input type="text" id='dname' name='dname' value="">
         <label for='quote'>Quote:</label>
-        <input type="text" id='quote' name='quote' value= "">
+        <input type="text" id='quote' name='quote' value="">
         <label for='email'>E-mail Address:</label>
-        <input type="text" id='email' name='email'>
+        <input type="text" id='email' name='email' value="">
     </fieldset>
 	<input id="submit2" type="submit" value="Save">
+	<button type='button' on:click={returnToProfile} id="cancel">Cancel</button> 
     </form>
-	<button on:click={returnToProfile} id="cancel">Cancel</button> 
 
 </section>
 
@@ -188,15 +200,18 @@ showProfile();
 		}
 
 		div .edit {
-		width: 100%;
-		height: 50px;
+		display: flex;
+		flex-direction: column;
+		margin: 0px auto;
+		width: 50%;
+		padding: 5px;
+		/* height: 50px; */
 		background-color: #ff9e6d;
         border-radius: 25px;
-		float: left;
+		font: 100%;
 		}
 
         #submit2 {
-        margin-top: 15px;
 		width: 50%;
 		height: 50px;
 		background-color: #ff9e6d;

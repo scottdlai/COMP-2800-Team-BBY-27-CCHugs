@@ -58,9 +58,12 @@ Name:
 </label>
 <textarea id="feedback" placeholder="Please type feedback here...."></textarea>
 </fieldset>
+<div id='formButtons'>
+<button type='button' on:click={toMainPage}> Cancel</button>
 <input id="submit" type="submit" value="Submit">
+</div>
 </form>
-<button on:click={toMainPage}> Cancel</button>
+
 </section>
 
 <footer>
@@ -171,6 +174,10 @@ Name:
             background-image: linear-gradient(90deg, #6DFFE7, #ffffff);
         }
 
+		#formButtons{
+			margin-top:25px;
+		}
+
         #submit{
             background-color: #ff9e6d;
             border-radius: 25px;
@@ -179,7 +186,6 @@ Name:
             height: 50px;
             font-weight: bold;
             border: 2px solid black;
-			margin: 25px 0px;
         }
 
         button{
@@ -191,7 +197,6 @@ Name:
 			border-radius: 25px;
 			border: 2px solid black;
 			font-weight: bold;
-            margin-top: 15px;
 		    height: 50px;
         }
 </style>
