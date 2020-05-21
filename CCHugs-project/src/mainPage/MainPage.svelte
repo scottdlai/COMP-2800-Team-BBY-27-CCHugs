@@ -57,12 +57,12 @@ let name;
 		<button style={button.color} on:click={button.handle}>{button.buttonName}</button>
 		{/each}
 		</div>
+	</section>
+
 		<div class="twitterTweet">
 		<a class="twitter-timeline" data-width="100%" data-height="100%" data-theme="dark" href="https://twitter.com/CCHUGS2?ref_src=twsrc%5Etfw">Tweets by CCHugs</a> 
 		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</div>
-
-	</section>
 
 <footer>
 <FootLoose></FootLoose>
@@ -127,8 +127,6 @@ let name;
 		.twitterTweet {
 			border-radius: 25px;
 			margin: 0px 25px;
-			border-radius: 25px;
-			padding: 5px 5px;
 		}
 
 	}
@@ -155,9 +153,7 @@ let name;
 		.twitterTweet {
 			border-radius: 25px;
 			margin: 25px;
-			border-radius: 25px;
-			padding: 5px 5px;
-			height: 400px;
+			height: 350px;
 		}
 	}
 
@@ -182,9 +178,7 @@ let name;
 
 			.twitterTweet {
 			border-radius: 25px;
-			margin: 0px 25px 25px;;
-			border-radius: 25px;
-			padding: 5px 5px;
+			margin: 25px;
 			height: 200px;
 		}
 	}

@@ -8,20 +8,7 @@
       location.replace('/mainpage');
     }
 
-// let isSticky = false;
-
-// const handleScrolldown = () => {
-//   isSticky = true;
-//   if (window.scrollY == 0){
-//     isSticky = false;
-//   }
-// }
 </script>
-
-<!-- <svelte:window on:scroll={handleScrolldown}/> -->
-
- <!-- <nav class="navbar navbar-expand-lg navbar-light"class:sticky={isSticky}></nav> -->
-
 
   <nav class="navbar navbar-expand-lg navbar-light">
     <button class="navbar-toggler collapsed " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -63,17 +50,9 @@ nav {
   overflow: hidden;
   text-align: center;
   background-image: linear-gradient(180deg, #FFE66D, #ffffff);
-  /* background-color: #FFE66D; */
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1;
 }
-
-/* .sticky {
-  height: 200px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-} */
 </style>

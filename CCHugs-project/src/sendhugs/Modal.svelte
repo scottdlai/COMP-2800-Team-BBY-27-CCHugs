@@ -77,8 +77,8 @@
     align-items: center;
     border-radius: 4px;
     max-width: 80%;
-    min-height: 60%;
-    margin: 30% auto;
+    max-height: 60%;
+    margin: 100px auto;
     background-color: #f8f8f8;
     overflow-y: scroll;
   }

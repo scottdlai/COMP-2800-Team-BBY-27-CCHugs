@@ -162,7 +162,7 @@
   }
 
   section {
-    margin: 15px;
+    margin: 15px 15px 100px;
     grid-area: section;
   }
 
