@@ -7,10 +7,16 @@
   import Sidebar from './sidebar/Sidebar.svelte';
   import Content from './main/Content.svelte';
 
+  /** uid of the currently logged-in user. */
   export let uid;
 
+  /** Promise of the uids of the users that this user chats with. */
   let userIDsPromise = getAllUsersDB();
+
+  /** Index of the partner that this user is watching. */
   let partnerIndex;
+
+  /** Boolean value to show the chat page. */
   let show = false;
 
   /**
