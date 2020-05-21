@@ -71,7 +71,7 @@
 <style>
   main {
     position: relative;
-    top: 14vh;
+    top: 15vh;
   }
   
   .container-friends {
