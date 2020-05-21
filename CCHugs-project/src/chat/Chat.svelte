@@ -13,6 +13,12 @@
   let partnerIndex;
   let show = false;
 
+  /**
+   * Gets all users that the currently logged-in user has chat with and returns
+   * a promise from firestore.
+   * 
+   * @returns {Promise} of the list of userIDs
+   */
   async function getAllUsersDB() {
     // console.log(uid);
     const query = firestore
@@ -30,15 +36,24 @@
     return participantsFromDB.filter(p => p !== uid);
   }
 
+  /**
+   * Goes to the active conversation. 
+   */
   function updateActive(event) {
     partnerIndex = event.detail;
     show = true;
   }
 
+  /**
+   * Goes to the friends page.
+   */
   function goToFriendPage() {
     location.href = '/friends';
   }
 
+  /**
+   * Hides the conversation page.
+   */
   function toggleShow(event) {
     show = false;
   }
@@ -46,7 +61,7 @@
 </script>
 
 <nav>
-<Navbar />
+  <Navbar />
 </nav>
 
 {#await userIDsPromise then userIDs}
