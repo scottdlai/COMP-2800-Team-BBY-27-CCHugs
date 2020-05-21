@@ -71,7 +71,7 @@
 <style>
   main {
     position: relative;
-    top: 10vh
+    top: 14vh;
   }
   
   .container-friends {
@@ -90,36 +90,11 @@
     outline: none;
     cursor: pointer;
   }
+
+  @media screen and (max-width: 600px) {
+    main {
+      position: relative;
+      top: 8vh;
+    }
+  }
 </style>
-<!-- <style>
-  main {
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 25vw auto;
-    width: 100vw;
-    height: 85vh;
-    margin: 0px;
-    padding: 0px;
-  }
-
-  .container-friends {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  button {
-    background-color: #ffe66d;
-    width: 60vw;
-    height: 15vh;
-    border: none;
-    border-radius: 4px;
-    font-size: 2em;
-    outline: none;
-    cursor: pointer;
-  }
-
-  button:hover {
-    border: 4px solid black;
-  }
-</style> -->
