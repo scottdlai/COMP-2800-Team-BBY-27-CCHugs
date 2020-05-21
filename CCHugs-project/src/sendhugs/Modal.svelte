@@ -72,26 +72,28 @@
   }
 
   #modal {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     border-radius: 4px;
-    max-width: 60%;
-    height: 50%;
-    margin: 10% auto;
+    max-width: 80%;
+    min-height: 60%;
+    margin: 30% auto;
     background-color: #f8f8f8;
     overflow-y: scroll;
-    padding: 25px;
   }
 
   .friend-tab {
     background-color: #ffe66d;
-    width: 100%;
-    padding: 10px;
-    height: 25%;
+    width: 80%;
+    min-height: 15vh;
+    border: none;
     border-radius: 4px;
     font-size: 95%;
     cursor: pointer;
-    margin-bottom: 15px;
-    border: 2px solid black;
+    align-self: center;
+    margin-top: 24px;
+    word-wrap: break-word;
   }
 
   .friend-tab:hover {
