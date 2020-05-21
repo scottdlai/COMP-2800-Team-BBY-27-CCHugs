@@ -77,16 +77,17 @@
     justify-content: space-around;
     align-items: center;
     border-radius: 4px;
-    max-width: 60%;
+    max-width: 80%;
     min-height: 60%;
-    margin: 10% auto;
+    margin: 30% auto;
     background-color: #f8f8f8;
+    overflow-y: scroll;
   }
 
   .friend-tab {
     background-color: #ffe66d;
-    width: 30vw;
-    height: 15vh;
+    width: 80%;
+    min-height: 15vh;
     border: none;
     border-radius: 4px;
     font-size: 2em;
@@ -94,6 +95,7 @@
     cursor: pointer;
     align-self: center;
     margin-top: 24px;
+    word-wrap: break-word;
   }
 
   .friend-tab:hover {
