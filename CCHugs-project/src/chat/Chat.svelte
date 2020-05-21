@@ -91,7 +91,7 @@
     cursor: pointer;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 994px) {
     main {
       position: relative;
       top: 8vh;

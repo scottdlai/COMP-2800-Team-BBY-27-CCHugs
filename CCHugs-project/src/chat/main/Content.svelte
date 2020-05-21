@@ -155,7 +155,7 @@
     font-size: 2em;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 994px) {
     .conversation-container {
       height: 85vh;
     }
