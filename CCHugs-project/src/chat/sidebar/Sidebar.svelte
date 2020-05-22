@@ -11,8 +11,11 @@
   /**
    * Dispatches event to the Chat component.
    */
-  function updateActive(index) {
-    dispatch('updateActive', index);
+  function updateActive({detail}, index) {
+    dispatch('updateActive', {
+      username: detail,
+      index,
+    });
   }
 
 </script>
@@ -20,7 +23,7 @@
 <main class="users-container">
   <h1>Chat</h1>
   {#each userIDs as userID, index (userID)}
-    <UserTab userID={userID} on:click={() => updateActive(index)}/>
+    <UserTab userID={userID} on:updateActive={(event) => updateActive(event, index)}/>
   {:else}
     <p>Start connecting with people :)</p> 
   {/each}
