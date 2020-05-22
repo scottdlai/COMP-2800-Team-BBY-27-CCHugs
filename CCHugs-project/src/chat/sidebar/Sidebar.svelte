@@ -2,13 +2,15 @@
   import { createEventDispatcher } from 'svelte';
   import UserTab from './UserTab.svelte';
 
+  /** List of users that this user is chatting with. */
   export let userIDs = [];
-  export let partnerIndex;
 
-  let activeUser = userIDs[partnerIndex];
+  /** Event dispatcher. */
+  const dispatch = createEventDispatcher();
 
-  let dispatch = createEventDispatcher();
-
+  /**
+   * Dispatches event to the Chat component.
+   */
   function updateActive(index) {
     dispatch('updateActive', index);
   }
@@ -32,12 +34,3 @@
     align-items: center;
   }
 </style>
-
-<!-- <style>
-  main {
-    grid-column: 1 / span 1;
-    border: 2px solid black;
-    border-left: none;
-    border-top: none;
-  }
-</style> -->
