@@ -7,12 +7,27 @@
   import Sidebar from './sidebar/Sidebar.svelte';
   import Content from './main/Content.svelte';
 
+  /** uid of the currently logged-in user. */
   export let uid;
 
+  /** Promise of the uids of the users that this user chats with. */
   let userIDsPromise = getAllUsersDB();
+
+  /** Index of the partner that this user is watching. */
   let partnerIndex;
+
+  /** username of conversation partner. */
+  let partnerName;
+
+  /** Boolean value to show the chat page. */
   let show = false;
 
+  /**
+   * Gets all users that the currently logged-in user has chat with and returns
+   * a promise from firestore.
+   * 
+   * @returns {Promise} of the list of userIDs
+   */
   async function getAllUsersDB() {
     // console.log(uid);
     const query = firestore
@@ -30,15 +45,26 @@
     return participantsFromDB.filter(p => p !== uid);
   }
 
-  function updateActive(event) {
-    partnerIndex = event.detail;
+  /**
+   * Goes to the active conversation. 
+   */
+  function updateActive({detail}) {
+    console.log(detail);
+    partnerIndex = detail.index;
+    partnerName = detail.username;
     show = true;
   }
 
+  /**
+   * Goes to the friends page.
+   */
   function goToFriendPage() {
     location.href = '/friends';
   }
 
+  /**
+   * Hides the conversation page.
+   */
   function toggleShow(event) {
     show = false;
   }
@@ -46,7 +72,7 @@
 </script>
 
 <nav>
-<Navbar />
+  <Navbar />
 </nav>
 
 {#await userIDsPromise then userIDs}
@@ -54,9 +80,14 @@
     <!-- <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
     <Content {userIDs} {uid} bind:partnerIndex/> -->
     {#if show}
-      <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
+      <Content 
+        {userIDs} 
+        {uid} 
+        bind:partnerIndex
+        bind:partnerName
+        on:click={toggleShow}/>
     {:else}
-      <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+      <Sidebar {userIDs} on:updateActive={updateActive}/>
     {/if}
   </main>
 {:catch error}
@@ -94,7 +125,7 @@
   @media screen and (max-width: 994px) {
     main {
       position: relative;
-      top: 8vh;
+      top: 7vh;
     }
   }
 </style>

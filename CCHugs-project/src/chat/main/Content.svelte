@@ -7,20 +7,35 @@
 
   import ChatBubble from "./ChatBubble.svelte";
 
+  /** List of userIDs that this user chats with. */
   export let userIDs;
+
+  /** uid of the currently logged in user. */
   export let uid;
+
+  /** Index of the conversation partner inside userIDs list. */
   export let partnerIndex;
 
+  /** Username of conversation partner. */
+  export let partnerName;
+
+  /** Current conversation. */
   let conversation = { participants: [], messages: [] };
 
+  /** Value for the text input. */
   let sentMessage = "";
 
+  /** conversation reference. */ 
   let conversationRef;
 
+  /** conversation parnter object . */
   $: partner = userIDs[partnerIndex];
 
   $: updateConversationWith(partner);
 
+  /**
+   * Listen to changes of the conversation from the database. 
+   */
   function updateConversationWith(partner) {
     console.log(partner);
     const query = firestore
@@ -28,7 +43,8 @@
       .where("participants", "in", [[uid, partner], [partner, uid]]);
 
     query.onSnapshot(querysnapshot => {
-      conversationRef = querysnapshot.docs[0]; // should get only 1 document snapshot
+      // should get only 1 document snapshot
+      conversationRef = querysnapshot.docs[0];
 
       conversation.participants = conversationRef.get("participants");
 
@@ -46,12 +62,16 @@
     });
   }
 
+  // To scroll down the page
   afterUpdate(() => {
     const messagesWrapper = document.getElementById("messages-wrapper");
 
     messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   });
 
+  /**
+   * Uploads a new message to the database.
+   */
   function sendMessage(event) {
     if (!sentMessage) return;
 
@@ -69,7 +89,10 @@
   }
 </script>
 
-<button class="back-btn" on:click>back</button>
+<div id="username-back-container">
+  <button class="back-btn" on:click>back</button>
+  <h1 id="username">{partnerName}</h1>
+</div>
 <main class="conversation-container">
   <div id="messages-wrapper">
     <div id="messages-container">
@@ -93,16 +116,27 @@
 </main>
 
 <style>
+  #username-back-container {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+  }
+
+  #username {
+    align-self: center;
+  }
+
   .conversation-container {
     display: grid;
     grid-template-rows: auto 15vh;
-    height: 77.5vh;
+    height: 70vh;
     row-gap: 12px;
   }
 
   .back-btn {
     /* background-color: #ffe66d; */
     /* border-radius: 4px; */
+    align-self: flex-start;
     background-color: white;
     border: none;
     margin-left: 2vw;
@@ -134,7 +168,7 @@
 
   .text-field {
     width: 67vw;
-    height: 10vh;
+    height: 12vh;
     border-radius: 4px;
     border: 4px solid black;
     background-color: white;
@@ -147,7 +181,7 @@
   .send-btn {
     background-color: #ffe66d;
     width: 27vw;
-    height: 10vh;
+    height: 12vh;
     border: none;
     border-radius: 4px;
     outline: none;
@@ -157,7 +191,7 @@
 
   @media screen and (max-width: 994px) {
     .conversation-container {
-      height: 85vh;
+      height: 75vh;
     }
   }
 </style>

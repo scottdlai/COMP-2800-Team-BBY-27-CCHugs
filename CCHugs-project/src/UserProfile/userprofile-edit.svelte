@@ -57,15 +57,19 @@ function setAddListner() {
 		alert("Display Name, Quote, and Profile Email cannot be empty.")
 	}else{
         auth.onAuthStateChanged(function (user){
-            firestore.collection("Users").doc(user.uid)
-            .update({
-                displayName: profileDisplayName,
-				quote: profileQuote,
-				email: profileEmail
-						})
-			.then(function () {
-				location.replace("/userprofile?user="+name);
-			})
+			user.updateEmail(profileEmail).then(function() {
+					 firestore.collection("Users").doc(user.uid)
+					.update({
+						displayName: profileDisplayName,
+						quote: profileQuote,
+						email: profileEmail
+								})
+					.then(function () {
+						location.replace("/userprofile?user="+name);
+					})
+				}).catch(function(error) {
+					console.log("email could not be updated")
+				});
 
 			});
 			}

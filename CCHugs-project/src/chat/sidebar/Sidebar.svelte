@@ -2,15 +2,20 @@
   import { createEventDispatcher } from 'svelte';
   import UserTab from './UserTab.svelte';
 
+  /** List of users that this user is chatting with. */
   export let userIDs = [];
-  export let partnerIndex;
 
-  let activeUser = userIDs[partnerIndex];
+  /** Event dispatcher. */
+  const dispatch = createEventDispatcher();
 
-  let dispatch = createEventDispatcher();
-
-  function updateActive(index) {
-    dispatch('updateActive', index);
+  /**
+   * Dispatches event to the Chat component.
+   */
+  function updateActive({detail}, index) {
+    dispatch('updateActive', {
+      username: detail,
+      index,
+    });
   }
 
 </script>
@@ -18,7 +23,7 @@
 <main class="users-container">
   <h1>Chat</h1>
   {#each userIDs as userID, index (userID)}
-    <UserTab userID={userID} on:click={() => updateActive(index)}/>
+    <UserTab userID={userID} on:updateActive={(event) => updateActive(event, index)}/>
   {:else}
     <p>Start connecting with people :)</p> 
   {/each}
@@ -32,12 +37,3 @@
     align-items: center;
   }
 </style>
-
-<!-- <style>
-  main {
-    grid-column: 1 / span 1;
-    border: 2px solid black;
-    border-left: none;
-    border-top: none;
-  }
-</style> -->

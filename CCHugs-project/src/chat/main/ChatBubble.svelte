@@ -1,5 +1,8 @@
 <script>
+  /** Message object. */
   export let message = {};
+
+  /** uid of the currently logged in user. */
   export let uid;
 </script>
 
