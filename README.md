@@ -5,12 +5,13 @@ It's a web application that allows users to chat and send hugs to each other.
 
 **Go check it out at [cchugs.xyz](cchugs.xyz)**
 
-## 3rd party sources we'd like to thank
+## Attributions
 - anchor tag styling: https://www.itsupportguides.com/knowledge-base/tech-tips-tricks/how-to-offset-anchor-tag-link-using-css/
 - list styling: https://stackoverflow.com/questions/41351197/how-to-create-ordered-list-with-different-circle-ring-colors
 - transitions: https://svelte.dev/tutorial/custom-css-transitions
 - modal: https://www.w3schools.com/howto/howto_css_modals.asp
 - bootstrap elements: https://getbootstrap.com/docs/4.3/components/collapse/
+- Firebase documentaion: https://firebase.google.com/docs/guides
 
 ## Working locally
 The repo is setup so that everything is done inside of the CCHugs-project folder. The public folder
@@ -99,6 +100,3 @@ The site will be hosted to https://cchugs.xyz
 
 The tests that we have previously run.
 https://docs.google.com/spreadsheets/d/1ZaWQ7mHHh5gAqI01_rLD12p3zDccKa_C2FHjKLVS9bE/edit?usp=sharing
-
-Attributes:
-https://firebase.google.com/docs/guides
