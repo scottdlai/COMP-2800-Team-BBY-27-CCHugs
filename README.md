@@ -6,6 +6,13 @@ It's a web application that allows users to chat and send hugs to each other.
 **Go check it out at [cchugs.xyz](cchugs.xyz)**
 
 ## Working locally
+The repo is setup so that everything is done inside of the CCHugs-project folder. The public folder
+is used to contain things that the app would like to render that should be accessible to every page 
+like a global CSS or images. The src folder contains all the components that we used to create the app. 
+The components are divided into sub folders based on what features of the product they are part of. 
+The App.svelte file is used a router to all other pages and is where you would need to link your
+components to have them rendered.
+
 Before setting up the project you must download and install Node.js and Git.
     Node.js: Can be installed by going to https://nodejs.org/en/ then downloading the LTS version.
         Open the download and follow the instruction to install Node.js.
@@ -39,8 +46,8 @@ to install all the dependencies
 
 Git development strategies:
 Our team uses a gitflow workflow were when you add a feature you 
-create a branch off of the dev branch then merge back to the dev branch
-after merging to the dev branch you will need to create pull request where 
+create a branch off the dev branch then merge back to the dev branch
+after merging to the dev branch, you will need to create pull request where 
 the rest of the team will look over and check if the code is good for the master branch.
 
 To create a branch off of dev
@@ -58,14 +65,14 @@ Then merge the branch into dev using:
 ```bash
 git merge NAME_OF_BRANCH_TO_MERGE
 ```
-After the merge is succesfull push the changes to the dev branch
+After the merge is successful push the changes to the dev branch
 ```bash
 git push origin dev
 ```
 
 To run this website on your localhost:
 
-While in the CCHigs-Project folder
+While in the CCHugs-Project folder
 ```bash
 npm run dev
 ```
@@ -83,7 +90,8 @@ firebase deploy
 ```
 The site will be hosted to https://cchugs.xyz
 
-
 The tests that we have previously run.
 https://docs.google.com/spreadsheets/d/1ZaWQ7mHHh5gAqI01_rLD12p3zDccKa_C2FHjKLVS9bE/edit?usp=sharing
 
+Attributes:
+https://firebase.google.com/docs/guides
