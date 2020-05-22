@@ -45,9 +45,9 @@ npm install
 to install all the dependencies
 
 Git development strategies:
-Our team uses a gitflow workflow were when you add a feature you 
-create a branch off the dev branch then merge back to the dev branch
-after merging to the dev branch, you will need to create pull request where 
+Our team uses a gitflow workflow where when you add a feature you 
+create a branch off of the dev branch then merge back to the dev branch.
+After merging to the dev branch you will need to create pull request where 
 the rest of the team will look over and check if the code is good for the master branch.
 
 To create a branch off of dev
@@ -81,7 +81,7 @@ and the site will be launched on `localhost:5000`
 
 To host the website:
 
-While in the CCHigs-Project folder
+While in the CCHugs-Project folder
 ```bash
 npm install -g firebase-tools
 npm run build

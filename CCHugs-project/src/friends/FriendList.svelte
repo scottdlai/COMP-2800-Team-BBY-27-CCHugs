@@ -163,6 +163,9 @@ function getUsers(){
     #top {
         margin-top: 25px;
     }
+    label {
+        padding-left: 15px;
+    }
     .friend{
         display:grid;
         background: #FF9E6D;
@@ -206,7 +209,6 @@ function getUsers(){
     }
 
     #search{
-        margin-left: 50px;
         background: #FFE66D;
         border: 2px solid black;
         box-sizing: border-box;
@@ -318,7 +320,7 @@ function getUsers(){
             "friendsContainer"
 			"footer";
 		}
-        section, #search, .friendsContainer{
+        section, .friendsContainer{
             margin: 0px 15px;
         }
 
@@ -338,9 +340,10 @@ function getUsers(){
 
 <header>    
 <Header profileName={"Friends-List"}></Header>
-    <div id="top">
+    <div id="top"><label>Search For Friends:<br>
     <input id="search"  bind:value={query} on:input={updateSearch} 
-    type="search" placeholder="Search For Friends..."/>
+    type="search" placeholder="Search"/>
+    </label>
     </div>
 </header>
 

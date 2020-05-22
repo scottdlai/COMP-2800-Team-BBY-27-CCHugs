@@ -3,6 +3,7 @@
   import { auth } from "./../Firebase.js";
   import { firestore } from "./../Firebase.js";
   import Footer from "./../components/Footer.svelte";
+  import Header from "./../components/Header.svelte";
 
   let editProfile = function() {
     location.href = "/userprofileEdit";
@@ -41,17 +42,60 @@
   input {
     border-radius: 50%;
   }
+
+  main {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1);
+    grid-template-areas:
+    "nav"
+    "header"
+    "currentPhoto"
+    "section"
+    "footer"
+  }
+
+  nav {
+    margin-bottom: 110px;
+    grid-area: nav;
+  }
+
+  header {
+    grid-area: header;
+  }
+
+  .currentPhoto {
+    margin: 0px auto;
+    grid-area: currentPhoto;
+  }
+
+  section {
+    margin: 0px auto;
+    grid-area: section;
+  }
+
+  footer {
+    margin-top: auto;
+    grid-area: footer;
+  }
+  
 </style>
 
+<main>
+<nav>
 <Navbar />
+</nav>
 
 <header>
-  <h1>This is a header</h1>
+  <Header profileName={'Pick A Profile Picture'}></Header>
 </header>
 
+<div class="currentPhoto">
 <img id="profilePicture" src="" alt="your profile pciture" />
 <p>Current Photo</p>
-<div>
+</div>
+
+<section>
   <input
     type="image"
     src="https://firebasestorage.googleapis.com/v0/b/cchugs-bd4ee.appspot.com/o/1.png?alt=media&token=757df37d-dbda-4e4b-a645-6070d666d16d"
@@ -157,6 +201,10 @@
     src="https://firebasestorage.googleapis.com/v0/b/cchugs-bd4ee.appspot.com/o/25.png?alt=media&token=a55009b0-96d0-44a9-ae3a-c34d0321152a"
     alt="profile"
     on:click={click} />
+</section>
 
-</div>
+<footer>
 <Footer />
+</footer>
+
+</main>

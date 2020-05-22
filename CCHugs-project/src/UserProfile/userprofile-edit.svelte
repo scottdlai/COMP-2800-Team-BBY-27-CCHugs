@@ -98,12 +98,14 @@ showProfile();
 
 <form on:submit|preventDefault="{setAddListner}">
     <fieldset>
+		<div class="infoField">
         <label for='dname'>Display Name:</label>
         <input type="text" id='dname' name='dname' value="">
         <label for='quote'>Quote:</label>
         <input type="text" id='quote' name='quote' value="">
         <label for='email'>E-mail Address:</label>
         <input type="text" id='email' name='email' value="">
+		</div>
     </fieldset>
 	<input id="submit2" type="submit" value="Save">
 	<button type='button' on:click={returnToProfile} id="cancel">Cancel</button> 
@@ -203,12 +205,10 @@ showProfile();
 		display: flex;
 		flex-direction: column;
 		margin: 0px auto;
-		width: 50%;
-		padding: 5px;
-		/* height: 50px; */
 		background-color: #ff9e6d;
         border-radius: 25px;
 		font: 100%;
+		padding: 10px 25px;
 		}
 
         #submit2 {
@@ -234,11 +234,24 @@ showProfile();
 		border-radius: 50%;
         }
 
-        fieldset{
-            margin-top: 15px;
-            padding: 25px;
-            display: grid; 
+		fieldset {
+			margin: 5px auto;
+		}
+
+        .infoField {
+			display:flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 80%;
+			margin: 0px auto 20px;
         }
+
+		input {
+			font-size: 100%;
+			border: none;
+			padding: 5px 0px 10px 5px;
+			border-radius: 4px;
+		}
 
 
 </style>

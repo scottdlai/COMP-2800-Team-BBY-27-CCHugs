@@ -2,7 +2,7 @@
     import {auth} from "./../Firebase.js";
     import {firestore} from "./../Firebase.js";
     import {onMount} from 'svelte';
-
+    //Most 
     export let profile = null;
     export let uid;
     export let profDN = null;

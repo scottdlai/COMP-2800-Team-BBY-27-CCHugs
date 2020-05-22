@@ -52,11 +52,12 @@ function writeFeedback() {
 <section class="buttonDisplay">
 <form on:submit|preventDefault="{writeFeedback}">
 <fieldset>
-<label>
-Name:
+<label>Name:
 <input id="nameField" type="text">
-</label>
+</label><br>
+<label>Feedback:
 <textarea id="feedback" placeholder="Please type feedback here...."></textarea>
+</label>
 </fieldset>
 <div id='formButtons'>
 <button type='button' on:click={toMainPage}> Cancel</button>
@@ -165,6 +166,7 @@ Name:
             font-size:1em;
             border: 2px solid black;
             background-image: linear-gradient(180deg, #6DFFE7, #ffffff);
+			resize:none;
         }
 
         #nameField {
@@ -199,4 +201,8 @@ Name:
 			font-weight: bold;
 		    height: 50px;
         }
+
+		label {
+			width: 100%;
+		}
 </style>

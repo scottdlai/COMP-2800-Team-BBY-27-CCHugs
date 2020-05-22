@@ -92,7 +92,9 @@
 
 <section>
   <div id="form-wrapper">
+    <label>Postive Message:
       <textarea type="text" bind:value={content} placeholder="Type your message here..."></textarea>
+     </label> 
   </div>
       <button class="send-btn" on:click={launchModal}>Send</button>
 
