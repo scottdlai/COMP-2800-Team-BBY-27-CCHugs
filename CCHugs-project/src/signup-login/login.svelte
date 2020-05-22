@@ -5,7 +5,8 @@
 
     let message ="";
 
-
+    //Changes the pasword field to display the password to the user.
+    //Does this by changing the type of the elemetn to text or back to password.
     function showPass(){
         var show = document.getElementById("password");
         if(show.type === "password"){
@@ -17,8 +18,10 @@
         return;
     }
 
+    //This function handles everything that needs to happen before the submit.
     function handleSubmit(event){
 
+        //Sets up the inputs from the user.
         let textbox = event.target;
         let password = textbox.password;
         let username = textbox.username;
@@ -28,9 +31,12 @@
         // if so login with the email that is also in that store
         //if not check if it is a email that can be used to login
 
+        //makes a promise that will check if the username/email field is of a username or an email.
         let check = new Promise((resolve,reject) =>{
+            //find all users with a specific username if none then it is not a username.
             firestore.collection("Users").where("username",'==',username.value).get().then((snapshot) => {
                 console.log(snapshot);
+                //check that the username is real.
             if(!snapshot.empty){
               // username.setCustomValidity('Username already taken');
                //set as a reject
@@ -52,10 +58,11 @@
 
 
 
-        
+        //based on the values it will either loggin with a email or find an email from the given username.
         check.then((x)=>{
             if(x==1){
                  auth.signInWithEmailAndPassword(email,password.value).then((y)=>{
+                     //after signin change the page to the home page.
                     window.location = "./MainPage";
                 }).catch(function(error) {
                     message= "Login is invalid";
@@ -79,15 +86,6 @@
         });
 
 
-        // auth.onAuthStateChanged((user) => {
-        //     if (user) {
-        //         if(user.email == username.value || user.email == email){
-        //             console.log("success");
-        //             message ="";
-        //         }
-        //     }});
-        // }
-
     }
     
 
@@ -102,11 +100,10 @@
 
                 <input id="password"  required class ="textInput password" type="password" placeholder="Password" min = '6' max ='25'>
 
-                <label style="word-wrap:brak-word"><input id="checkBox" type="checkbox" on:click={showPass}>Show Password</label>
-
+                <input id="checkBox" type="checkbox" on:click={showPass}><label style="word-wrap:brak-word">Show Password</label>
                 <button id="login">Login</button>
-                <span class="err">{message}</span>
                 <a id="signup" href="./signup">Dont have an account? Sign-up</a>
+                <p class="err">{message}</p>
             
             </form>
        
@@ -167,7 +164,7 @@
         color: red;
         margin: 0 auto;
         padding: 0;
-        font-size: 8pt;
+        font-size: 16pt;
         
     }
 

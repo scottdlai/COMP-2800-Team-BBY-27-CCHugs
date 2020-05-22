@@ -1,7 +1,7 @@
 <script>
     import {auth} from "./../Firebase.js";
     import {firestore} from "./../Firebase.js";
-
+    //Signs out the user when the button is clicked.
     function signout(){
         auth.signOut().then(function() {
             window.location = "./";

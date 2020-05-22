@@ -7,49 +7,125 @@
   import Sidebar from './sidebar/Sidebar.svelte';
   import Content from './main/Content.svelte';
 
+  /** uid of the currently logged-in user. */
   export let uid;
 
+  /** Promise of the uids of the users that this user chats with. */
   let userIDsPromise = getAllUsersDB();
-  let partnerIndex = 0;
 
+  /** Index of the partner that this user is watching. */
+  let partnerIndex;
+
+  /** username of conversation partner. */
+  let partnerName;
+
+  /** Boolean value to show the chat page. */
+  let show = false;
+
+  /**
+   * Gets all users that the currently logged-in user has chat with and returns
+   * a promise from firestore.
+   * 
+   * @returns {Promise} of the list of userIDs
+   */
   async function getAllUsersDB() {
+    // console.log(uid);
     const query = firestore
       .collection('Conversations')
       .where('participants', 'array-contains', uid);
     
     const querySnapshot = await query.get();
 
+    if (querySnapshot.empty) {
+      throw new Error('querySnapshot is empty!');
+    }
+
     let participantsFromDB = querySnapshot.docs.flatMap(doc => doc.get('participants'));
 
     return participantsFromDB.filter(p => p !== uid);
   }
 
-  function updateActive(event) {
-    partnerIndex = event.detail;
+  /**
+   * Goes to the active conversation. 
+   */
+  function updateActive({detail}) {
+    console.log(detail);
+    partnerIndex = detail.index;
+    partnerName = detail.username;
+    show = true;
+  }
+
+  /**
+   * Goes to the friends page.
+   */
+  function goToFriendPage() {
+    location.href = '/friends';
+  }
+
+  /**
+   * Hides the conversation page.
+   */
+  function toggleShow(event) {
+    show = false;
   }
 
 </script>
-<Navbar />
-<main>
-  {#await userIDsPromise then userIDs}
-    <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
-    {#if userIDs}
-      <Content {userIDs} {uid} {partnerIndex}/>
-    {:else}
-      <h1>You current don't have any conversations :(</h1>
-    {/if}
-  {/await}
-</main>
 
+<nav>
+  <Navbar />
+</nav>
+
+{#await userIDsPromise then userIDs}
+  <main>
+    <!-- <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
+    <Content {userIDs} {uid} bind:partnerIndex/> -->
+    {#if show}
+      <Content 
+        {userIDs} 
+        {uid} 
+        bind:partnerIndex
+        bind:partnerName
+        on:click={toggleShow}/>
+    {:else}
+      <Sidebar {userIDs} on:updateActive={updateActive}/>
+    {/if}
+  </main>
+{:catch error}
+  <main class="container-friends">
+    <h1>Start new conversations with your friends!</h1>
+    <button on:click={goToFriendPage} class="friends-btn">
+      Go to friends page
+    </button>
+  </main>
+{/await}
 
 <style>
   main {
-    display: grid;
-    grid-template-rows: 10vh auto;
-    grid-template-columns: 25vw auto;
-    width: 100vw;
-    height: 100vh;
-    margin: 0px;
-    padding: 0px;
+    position: relative;
+    top: 15vh;
+  }
+  
+  .container-friends {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .friends-btn {
+    background-color: #ffe66d;
+    width: 60vw;
+    height: 15vh;
+    border: none;
+    border-radius: 4px;
+    font-size: 2em;
+    outline: none;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 994px) {
+    main {
+      position: relative;
+      top: 7vh;
+    }
   }
 </style>

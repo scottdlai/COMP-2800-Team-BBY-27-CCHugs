@@ -1,22 +1,22 @@
 <script>
 import Navbar from '../components/Navbar.svelte';
 import Footer from './../components/Footer.svelte';
+import Header from '../components/Header.svelte';
 </script>
 
-<Navbar />
-
 <main>
-	<header>
-        <br>
-		<h1>Resources Page</h1>
-	</header>
 
-    <hr>
+<nav>
+<Navbar></Navbar>>
+</nav>
+
+	<header>
+<Header profileName={"Self-Awareness & Mental Health"}></Header>
+	</header>
 
     <section>    
         <p>This section contains links to some resources to help you get help or more information on mental wellbeing.
-        It is by far not an exhaustive list, 
-        but hopefully provides a good stepping stone.</p>
+        It is by far not an exhaustive list, but hopefully provides a good stepping stone.</p>
 
         <ul>
             <li><a href="https://www.stopoverdose.gov.bc.ca/theweekly/get-mental-health-help-home-during-covid-19">Get Mental Health Help at Home During COVID-19 - BC Government</a></li>
@@ -28,34 +28,85 @@ import Footer from './../components/Footer.svelte';
         </ul>
     </section>
 
+<footer>
+<Footer></Footer>
+</footer>
+
 </main>
 
-<Footer />
-
 <style>
-header {
-    padding: 10px;
-}
-h1{
-    text-align: center
-}
-p {
-    font-size: 28px;
-    text-align: center;
+
+	main {
+		height: 100%;
+		display: grid;
+		grid-template-areas:
+		"nav"
+		"header"
+		"section"
+		"footer";
+	}
+	
+	nav {
+		margin-bottom: 110px;
+		grid-area: nav;
+	}
+
+	header {
+		grid-area: header;
+	}
+
+	section {
+        padding: 50px 100px;
+        font-size: 20px;
         margin: 25px;
+		grid-area: section;
+	}
 
-}
-ul {
-    font-size: 24px;
-    margin: 25px;
-}
+	footer{
+		margin-top: auto;
+		grid-area: footer;
+	}
 
- @media (max-width:440px) {
+		@media (min-width: 1024px) {
+		main {
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-areas:
+			"nav nav nav"
+			"header header header"
+			"section section section"
+			"footer footer footer";
+		}
+	}
 
-p, ul {
-    font-size: 5vw;
-    margin: 10px;
-}
+	@media (min-width: 520px) and (max-width: 1024px) {
+		main {
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-areas:
+			"nav nav"
+			"header header"
+			"section section"
+			"footer footer";
+		}
+        
+	}
 
- }
+	@media (max-width: 520px) {
+		main {
+			grid-template-columns: repeat(1, 1fr);
+			grid-template-areas:
+			"nav"
+			"header"
+			"section"
+			"footer";
+		}
+        section{
+            padding: 15px;
+            margin: 0px 5px;
+        }
+        p {
+            text-align: justify;
+            text-justify: auto;
+        }
+	}
+
 </style>

@@ -12,11 +12,11 @@
     location.href = "/login";
   };
 
+// starts easter egg functions
   let count = 0;
   let visible = false;
 
 	$: if (count >= 10) {
-    // alert(`count is dangerously high!`);
     visible = true;
 		count = 0;
 	}
@@ -25,7 +25,10 @@
     count += 1;
     visible = false;
   };
-
+/**
+ * transition animation for easter egg
+ * source: https://svelte.dev/tutorial/custom-css-transitions
+ */
 	function spin(node, { duration }) {
 		return {
 			duration,
@@ -36,7 +39,10 @@
 					);`
 			}
 		};
-	}
+  }
+  
+// end easter egg functions
+
 </script>
 
 
@@ -67,6 +73,10 @@
 	}
 
 
+  /**
+  * Offset the anchor tags so that they appear below the navigation bar.
+  * Source: https://www.itsupportguides.com/knowledge-base/tech-tips-tricks/how-to-offset-anchor-tag-link-using-css/
+  */
   :target:before {
     content: "";
     display: block;
@@ -106,7 +116,11 @@
     position: relative;
     
   }
-
+  /**
+  * list style start
+  * styles the ordered list numbers to have a round circle in the background.
+  * source: https://stackoverflow.com/questions/41351197/how-to-create-ordered-list-with-different-circle-ring-colors
+  */
   .feature-list:before {
     content: "";
     position: absolute;
@@ -142,9 +156,13 @@
     width: 40px;
     height: 40px;
   }
+  /**
+  * list style end
+  * source: https://stackoverflow.com/questions/41351197/how-to-create-ordered-list-with-different-circle-ring-colors
+  */
 
   #howto {
-    padding: 50px 250px;
+    padding: 0px 250px;
     display: flex;
     justify-content: space-around;
 
@@ -166,7 +184,7 @@
   }
 
   #resources {
-    padding: 50px 250px;
+    padding: 0px 250px;
     margin: 20px;
   }
 
@@ -184,13 +202,13 @@
     margin: auto;
   }
     #howto {
-    padding: 50px 100px;
+    padding: 0px 100px;
       display: flex;
       flex-direction: column;
     }
 
     #resources {
-    padding: 50px 100px;
+    padding: 0px 100px;
     margin: 20px;
   }
 
@@ -268,7 +286,7 @@
     }
 
         #resources {
-    padding: 25px;
+    padding: 5px 25px;
   }
   }
 </style>
@@ -317,7 +335,7 @@
       <h1>Features</h1><br>
       <div id="feature-box">
         <ol class="feature-list">
-          <li>Send an anonymous hug.</li>
+          <li>Send a hug.</li>
           <li>Add a positive message.</li>
           <li>Receive unexpected hugs.</li>
           <li>Add fellow Hugsers as a friend.</li>
@@ -332,7 +350,7 @@
   <section id="howto-a">
     <h1>How-To Guide</h1>
     <div id="howto">
-
+<!-- Bootstrap accordian collapse. source: https://getbootstrap.com/docs/4.3/components/collapse/-->
     <div id="accordion">
   <div class="card" style="background-color:#ff9e6d;border:none">
     <div class="card-header" id="headingOne" style="background-color:#ffaf87"> 

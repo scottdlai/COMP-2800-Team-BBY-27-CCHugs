@@ -2,12 +2,15 @@
     import {auth} from "./../Firebase.js";
     import {firestore} from "./../Firebase.js";
     import {onMount} from 'svelte';
-
+    //Most 
     export let profile = null;
     export let uid;
+    export let profDN = null;
+    export let profUN = null;
     let profileId;
     let friends;
     let added = false;
+    let requested = false;
     let d = new Date();
     let overText ="";
 
@@ -18,6 +21,7 @@
                 console.log(uid);
             if(!snapshot.empty){
                snapshot.forEach((doc)=>{
+                   //Grabs the id of the user so we can edit there databse entry.
                    profileId = doc.id;
                });
                resolve(1);
@@ -34,16 +38,24 @@
 
 
     onMount(()=> {
-             //find if this profile is a friend
+             //find if this profile is a friend by looking in the users friend collection.
             c.then(()=>{
-                console.log(profileId);
+                //Check if the profile is in the user Requested folder too see if a friend request has already been sent to the user.
+                firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).get().then((snapshot)=>{
+                    console.log(snapshot.data());
+                    if(snapshot.data() !== undefined){
+                        requested = true;
+                    }
+
+                });
+
+                //Check if the Profile has added the user.
                 firestore.collection("Users").doc(uid).collection("Friends").doc(profileId).get().then((snapshot) => {
-                    console.log(snapshot);
                     if(snapshot.data() !== undefined){
                         added = true;
-                        console.log("CHANGED");
+                        
                     }
-                    console.log(added);
+                   
                 });
                 }).catch((err) =>{
                     console.log('Error checking friend status', err);
@@ -51,25 +63,35 @@
                 });;
     });
     
-    //Adds the profile to the requests collection with a message a time and a sender.
+    //Adds the profile to the requests collection with a message.
     function addFriend(){
         togglePU();
         var message = document.getElementById("msg").value;
+
+        firestore.collection("Users").doc(uid).get().then((snapshot) => {
+            if(!snapshot.empty){
+                //updates profiles collection
+                firestore.collection("Users").doc(profileId).collection("Requests").doc(uid).set({
+                    dateRequested: d.toUTCString(),
+                    from: uid,
+                    message: message,
+                    username: snapshot.data().username,
+                    displayName: snapshot.data().displayName
+                });
+            }
+        })
+
         //updates clients collections
         firestore.collection("Users").doc(uid).collection("Requested").doc(profileId).set({
             dateRequested: d.toUTCString(),
             to: profileId,
-            message: message
+            message: message,
+            displayName: profDN,
+            username: profUN
         });
-
-        //updates profiles collection
-        firestore.collection("Users").doc(profileId).collection("Requests").doc(uid).set({
-            dateRequested: d.toUTCString(),
-            from: uid,
-            message: message
-        });
-        
+        requested=true;
     }
+
     //removes the profile from each users collections.
     function removeFriend(){
         togglePU();
@@ -83,6 +105,7 @@
         }).catch(function(error) {
             console.error("Error removing document: ", error);
         });
+        added=false;
         
     }
     //puts the profile into the users blocked collection.
@@ -106,7 +129,7 @@
         else
           popup.style.display = 'none';
     }
-
+    //Adds the content to the overlay to remove a the uesr.
     function removeClick(){
         //Are you sure button
         overText = "<h2>Are you sure you want to remove " +{profile}+"</..h2><button id='modBtn' on:click='{removeFriend}'>REMOVE</button>";
@@ -122,14 +145,16 @@
         div.appendChild(button);
         togglePU();
     }
+    //adds the content to the overlay to add the user.
     function addClick(){
         //Send a message and send button
         var div = document.getElementById("inside");
         div.innerHTML = "";
         var h2 = document.createElement("h3");
         h2.textContent = "Send " + profile +" a message with your friend request!";
+        h2.style = "text-align: center;"
         var text = document.createElement("textarea");
-        text.style.cssText ="border: 2px solid orange; height: 50px;";
+        text.style.cssText ="border: 2px solid black; height: 50px;";
         text.placeholder = "Your message";
         text.id = "msg";
         var button = document.createElement("button");
@@ -141,13 +166,15 @@
         div.appendChild(button);
         togglePU();
     }
+
+    //Adds the conent of the overlay to block the user.
     function blockClick(){
         //confirm button
         // overText = "<h2>Are you sure you want to block " + profile +"</h2><button id='btn'>BLOCK</button>";
         var div = document.getElementById("inside");
         div.innerHTML = "";
         var h2 = document.createElement("h3");
-        h2.textContent = "Are your sure you want to block " + profile;
+        h2.textContent = "Are your sure you want to block " + profile + "?";
         var button = document.createElement("button");
         button.style.cssText= "background-color: #ff9e6d; border-radius: 25px;padding: 0.4em; margin: 0 0 0.5em 0; box-sizing: border-box; border: 2px solid black;"
         button.textContent = "BLOCK";
@@ -156,6 +183,7 @@
         div.appendChild(button);
         togglePU();
     }
+    //Adds the contents of the overlay for the report.
     function reportClick(){
         overText ="This is not implemented yet";
         var div = document.getElementById("inside");
@@ -168,18 +196,21 @@
 </script>
 <style>
     .flex{
+        justify-content: center;
         display:flex;
     }
     .dropbtn {
-        background-color:  #FFA85A;
+        /* background-color:  #c4c4c4; */
         border: none;
         cursor: pointer;
+        border: 2px solid black;
     }
 
     .dropdown {
         position: relative;
         display: inline-block;
         padding: 0;
+        margin-left: 10px;
     }
     .dropdown-content {
         display: none;
@@ -187,7 +218,7 @@
         background-color: #f9f9f9;
         min-width: 100%;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
+        z-index: 3;
         margin-top: 0;
     }
     .dropdown-content div {
@@ -195,25 +226,32 @@
         padding: 12px 16px;
         text-decoration: none;
         display: block;
+        z-index: 99;
+        cursor: pointer;
     }
 
-    .dropdown-content div:hover {background-color: #f1f1f1}
+    .dropdown-content div:hover {background-color: 	#FF6347}
 
     .dropdown:hover .dropdown-content {
         display: block;
     }
     .dropdown:hover .dropbtn {
-        background-color: #FFA85A;
+        background-color: #FFE66D;
     }
     .status{
-        width: 95%;
-        background-color: #FFE66D;
+        width: 50%;
+        /* background-color: #c4c4c4; */
         font-family: sans-serif;
-        font-size: 2rem;
+        font-size: 100%;
         height: 60px
     } 
+
+    .status:hover {
+        background-color: #FFE66D;
+    }
+    
     button {
-        background-color: #ff9e6d;
+        /* background-color: #ff9e6d; */
         border-radius: 25px;
         padding: 0.4em;
         margin: 0 0 0.5em 0;
@@ -267,14 +305,16 @@
 </style>
 <main>
     <div id="popup" style="display: none;">
-        <button id="close" on:click="{togglePU}">close <b>X</b></button>
+        <button id="close" on:click="{togglePU}">Close <b>X</b></button>
         <div id="inside"></div>
     </div>
     <div class="flex">
         {#if added}
-            <button class ="status" id="remove" on:click="{removeClick}">Remove as a friend</button>
+            <button class ="status" id="remove" on:click="{removeClick}">Remove Friend</button>
+        {:else if requested}
+            <button class ="status" id="request">Requested</button>
         {:else}
-            <button class="status" id="add" on:click="{addClick}">Add as a friend</button>
+            <button class="status" id="add" on:click="{addClick}">Add Friend</button>
         {/if}
         <div class="dropdown">
             <button class="dropbtn">

@@ -1,5 +1,8 @@
 <script>
+  /** Message object. */
   export let message = {};
+
+  /** uid of the currently logged in user. */
   export let uid;
 </script>
 
@@ -19,9 +22,13 @@
     border-radius: 4px;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     background-color: #c4c4c4;
-    width: 12.5vw;
+    width: 35vw;
+    min-height: 10vh;
     margin-top: 12px;
+    margin-left: 2vw;
+    margin-right: 2vw;
   }
 
   #message-container p {

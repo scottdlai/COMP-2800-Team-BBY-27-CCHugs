@@ -3,6 +3,7 @@
 	import FootLoose from "./../components/Footer.svelte";
 	import {auth} from "./../Firebase.js";
 	import {firestore} from "./../Firebase.js";
+	import Header from '../components/Header.svelte';
 
 let name;
 
@@ -20,10 +21,11 @@ let name;
 		location.href="/userprofile?user="+name}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName:'Send A Hug', handle: function () {
-		name = "Send A Hug"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+		location.href="/sendhugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
 		{buttonName: 'Check Hugs', handle: function () {
 		location.href="/checkhugs"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
+
 		{buttonName:'Friends List', handle: function () {
 		location.href="/friends"}, color: "background-image: linear-gradient(135deg, #6DFFE7, #ffffff)"},
 
@@ -39,14 +41,14 @@ let name;
 	console.log(button);
 </script>
 
+
 <main>
-<navbar>
-	<Navbar>
-</Navbar>
-</navbar>
+<nav>
+	<Navbar></Navbar>
+</nav>
 
 	<header>
-		<h1>Going to {name}!</h1>
+	<Header profileName={"Main Page"}></Header>
 	</header>
 
 	<section>
@@ -56,6 +58,11 @@ let name;
 		{/each}
 		</div>
 	</section>
+
+		<div class="twitterTweet">
+		<a class="twitter-timeline" data-width="100%" data-height="100%" data-theme="dark" href="https://twitter.com/CCHUGS2?ref_src=twsrc%5Etfw">Tweets by CCHugs</a> 
+		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		</div>
 
 <footer>
 <FootLoose></FootLoose>
@@ -68,12 +75,15 @@ let name;
 		height: 100%;
 		display: grid;
 		grid-template-areas:
+		"nav"
 		"header"
-		"section";
+		"section"
+		"footer";
 	}
 	
-	navbar{
-		grid-area: navbar;
+	nav {
+		margin-bottom: 110px;
+		grid-area: nav;
 	}
 
 	header {
@@ -91,13 +101,17 @@ let name;
 		grid-area: footer;
 	}
 
+	.twitterTweet{
+		grid-area: twitter;
+	}
+
 		@media (min-width: 1024px) {
 		main {
 			grid-template-columns: repeat(3, 1fr);
 			grid-template-areas:
-			"navbar navbar navbar"
+			"nav nav nav"
 			"header header header"
-			"section section section"
+			"section section twitter"
 			"footer footer footer";
 		}
 
@@ -105,9 +119,14 @@ let name;
 			font-size: 225%;
 			display:grid;
 			grid-gap: 50px 50px;
-			grid-template-columns:repeat(3, 1fr);
+			grid-template-columns:repeat(2, 1fr);
 			grid-template-areas:
-			"section section section";
+			"section twitter";
+		}
+
+		.twitterTweet {
+			border-radius: 25px;
+			margin: 0px 25px;
 		}
 
 	}
@@ -116,9 +135,10 @@ let name;
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"navbar navbar"
+			"nav nav"
 			"header header"
 			"section section"
+			"twitter twitter"
 			"footer footer";
 		}
 
@@ -130,15 +150,21 @@ let name;
 			grid-template-areas:
 			"section section";
 		}
+		.twitterTweet {
+			border-radius: 25px;
+			margin: 25px;
+			height: 350px;
+		}
 	}
 
 	@media (max-width: 520px) {
 		main {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
-			"navbar navbar"
+			"nav nav"
 			"header header"
 			"section section"
+			"twitter twitter"
 			"footer footer";
 		}
 		.buttonDisplay {
@@ -149,22 +175,22 @@ let name;
 			grid-template-areas:
 			"section section";
 		}
+
+			.twitterTweet {
+			border-radius: 25px;
+			margin: 25px;
+			height: 200px;
+		}
 	}
 
 		button {
+			font-family: 'Segoe UI';
 			font-size:100%;
 			width: 100%;
 			height: 150px;
 			border-radius: 25px;
 			border: 2px solid black;
-			font-weight: bold;
 		}
+
 		
-		h1 {
-			text-align: center;
-			color: black;
-			text-transform: capitalize;
-			font-size: 4em;
-			font-weight: 100;
-		}
 </style>
