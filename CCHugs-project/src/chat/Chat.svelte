@@ -16,6 +16,9 @@
   /** Index of the partner that this user is watching. */
   let partnerIndex;
 
+  /** username of conversation partner. */
+  let partnerName;
+
   /** Boolean value to show the chat page. */
   let show = false;
 
@@ -45,8 +48,10 @@
   /**
    * Goes to the active conversation. 
    */
-  function updateActive(event) {
-    partnerIndex = event.detail;
+  function updateActive({detail}) {
+    console.log(detail);
+    partnerIndex = detail.index;
+    partnerName = detail.username;
     show = true;
   }
 
@@ -75,7 +80,12 @@
     <!-- <Sidebar {userIDs} {partnerIndex} on:updateActive={updateActive}/>
     <Content {userIDs} {uid} bind:partnerIndex/> -->
     {#if show}
-      <Content {userIDs} {uid} bind:partnerIndex on:click={toggleShow}/>
+      <Content 
+        {userIDs} 
+        {uid} 
+        bind:partnerIndex
+        bind:partnerName
+        on:click={toggleShow}/>
     {:else}
       <Sidebar {userIDs} on:updateActive={updateActive}/>
     {/if}
@@ -115,7 +125,7 @@
   @media screen and (max-width: 994px) {
     main {
       position: relative;
-      top: 8vh;
+      top: 7vh;
     }
   }
 </style>

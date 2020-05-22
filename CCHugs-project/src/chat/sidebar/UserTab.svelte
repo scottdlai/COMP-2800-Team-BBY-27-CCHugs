@@ -1,8 +1,13 @@
 <script>
   import { firestore } from '../../Firebase.js';
+  import { createEventDispatcher } from 'svelte';
+
+  /** uid of the partner. */
   export let userID;
 
   let userPromise = getUser();
+
+  const dispatch = createEventDispatcher();
 
   /**
    * Gets information of conversation partner from the database and returns the
@@ -20,10 +25,16 @@
       id: userDoc.id
     };
   }
+
+  /** Dispatches event to Sidebar component. */
+  function updateActive(username) {
+    dispatch('updateActive', username);
+  }
+
 </script>
 
 {#await userPromise then user}
-  <div class="user-tab" on:click>
+  <div class="user-tab" on:click={() => updateActive(user.username)}>
     {user.username}
   </div>
 {/await}
